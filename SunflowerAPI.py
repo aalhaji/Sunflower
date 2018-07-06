@@ -48,9 +48,8 @@ class Access:
         Access.refresh_token = resp.json()["refresh_token"]
         Access.bearer = 'Bearer '+str(Access.access_token)
 
-        print(resp.json())
-
         print('Logged in. Access Token: {}'.format(Access.access_token))
+        print('================================')
 
 ############ REFRESH TOKEN ##################
 
@@ -98,11 +97,19 @@ class Access:
             body = {"Authorization":Access.bearer}
             resp = requests.get(api_url_base+'stores/simple', json=body, headers=body)
 
-            ## MAKE VARIABLE HERE TO STORE STORE ID'S AND NAMES
 
             if resp.status_code == 200:
-                print(resp.json())
-                print('==================================')
+
+                storedata = [] # initialize python dict
+                for i in range(len(resp.json())):
+                    storedata.append(dict(resp.json()[i])) # convert json to python dict
+
+
+
+
+               # print(resp.json())
+               # print('==================================')
+               # print(storedata)
                 break
 
             else:
@@ -190,7 +197,7 @@ class misc:
 #### testing zone ####
 
 Access.authenticate(username, password, client_id, client_secret, grant_type)
-#Access.getStores(Access.access_token)
+Access.getStores(Access.access_token)
 #Devices.PatchIP('raspberry', uuid, ip_address)
 #Devices.RegisterDev('raspberry', uuid, '57c0135b83c6e6030079f474')
 #Devices.GetDevice('raspberry', uuid)
