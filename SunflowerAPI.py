@@ -127,18 +127,18 @@ class Stores:
             print("{}) {}".format(i+1, Stores.storedata[i]['name']))
 
         # Then get user input
-        selected_store = int(input("Please select the store number you'd like this device registered to: ")) - 1
-        Stores.store_id = Stores.storedata[selected_store]['_id']
-        
-        is_confirmed = input("You selected store '{}'. Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
+        while True:
+            selected_store = int(input("Please select the store number you'd like this device registered to: ")) - 1
 
-        if (is_confirmed == ('y' or 'Y')):
-            print("Store selected.")
-        else:
-            Stores.store_id = 0
-            print("Store not selected. Please start over.")
+            is_confirmed = input("You selected store '{}'. Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
 
-
+            if (is_confirmed == ('y' or 'Y')):
+                print("Store '{}' selected.".format(Stores.storedata[selected_store]['name']))
+                Stores.store_id = Stores.storedata[selected_store]['_id']
+                break
+                
+            else:
+                print("Store not selected. Starting over...")
 
 ##################### DEVICES #####################
 
