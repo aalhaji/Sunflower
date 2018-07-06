@@ -96,7 +96,9 @@ class Access:
         while True:
 
             body = {"Authorization":Access.bearer}
-            resp = requests.get(api_url_base+'stores', json=body, headers=body)
+            resp = requests.get(api_url_base+'stores/simple', json=body, headers=body)
+
+            ## MAKE VARIABLE HERE TO STORE STORE ID'S AND NAMES
 
             if resp.status_code == 200:
                 print(resp.json())
@@ -105,6 +107,7 @@ class Access:
 
             else:
                 misc.Exception_Handler(resp.status_code)
+
 
 ############# END CLASS 'ACCESS' ##################
 
@@ -127,7 +130,6 @@ class Devices:
 
             else:
                 misc.Exception_Handler(resp.status_code)
-
 
 
 ############# GET SPECIFIC DEVICE ################
@@ -188,7 +190,7 @@ class misc:
 #### testing zone ####
 
 Access.authenticate(username, password, client_id, client_secret, grant_type)
-Access.getStores(Access.access_token)
+#Access.getStores(Access.access_token)
 #Devices.PatchIP('raspberry', uuid, ip_address)
 #Devices.RegisterDev('raspberry', uuid, '57c0135b83c6e6030079f474')
 #Devices.GetDevice('raspberry', uuid)
