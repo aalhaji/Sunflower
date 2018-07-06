@@ -87,6 +87,12 @@ class Access:
             else:
                 misc.Exception_Handler(resp.status_code)
 
+############# END CLASS 'ACCESS' ##################
+
+
+################ STORES ###########################
+
+class Stores:
 
 ################ GET STORES #######################
 
@@ -99,24 +105,33 @@ class Access:
 
 
             if resp.status_code == 200:
-
-                storedata = [] # initialize python dict
+                Stores.storedata = [] # initialize python dict
                 for i in range(len(resp.json())):
-                    storedata.append(dict(resp.json()[i])) # convert json to python dict
+                    Access.storedata.append(dict(resp.json()[i])) # cast json to python dict
 
-
-
-
-               # print(resp.json())
-               # print('==================================')
-               # print(storedata)
+                print(Stores.storedata)
+                print('==================================')
                 break
 
             else:
                 misc.Exception_Handler(resp.status_code)
 
+################## SELECT STORE ###################
 
-############# END CLASS 'ACCESS' ##################
+    def selectStore(access_token):
+
+        # first, get stores
+        getStores(access_token)
+
+        # Then display the stores in a numbered list
+        print("List of stores registered to this merchant:")
+        for i in range(len(Stores.storedata)):
+            print(i + ")" + Stores.storedata['name'][i])
+
+        # then get user input
+        #selected_store = input("Please ")
+
+
 
 ##################### DEVICES #####################
 
@@ -124,7 +139,7 @@ class Devices:
 
 ############## CREATE  DEVICE #####################
 
-    def CreateDevice(name, uuid, store):
+    def createDevice(name, uuid, store):
 
         while True:
             body = {"name":name, "uuid":uuid, "store":store}
@@ -141,7 +156,7 @@ class Devices:
 
 ############# GET SPECIFIC DEVICE ################
 
-    def GetDevice(name, uuid):
+    def getDevice(name, uuid):
 
         while True:
             body = {"name":name, "uuid":uuid},
@@ -158,7 +173,7 @@ class Devices:
 ############# SEND IP ADDRESS #####################
 
 
-    def PatchIP(name, uuid,  ip_address):
+    def patchIP(name, uuid,  ip_address):
 
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address}
@@ -197,7 +212,8 @@ class misc:
 #### testing zone ####
 
 Access.authenticate(username, password, client_id, client_secret, grant_type)
-Access.getStores(Access.access_token)
-#Devices.PatchIP('raspberry', uuid, ip_address)
-#Devices.RegisterDev('raspberry', uuid, '57c0135b83c6e6030079f474')
-#Devices.GetDevice('raspberry', uuid)
+Stores.selectStore(Access.access_token)
+#Stores.getStores(Access.access_token)
+#Devices.patchIP('raspberry', uuid, ip_address)
+#Devices.registerDev('raspberry', uuid, '57c0135b83c6e6030079f474')
+#Devices.getDevice('raspberry', uuid)
