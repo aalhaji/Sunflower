@@ -234,7 +234,12 @@ class Devices:
         ### 2) STORE SELECTION
 
         print("2) Please select your store:")
-        Stores.selectStore(Access.access_token)       
+        Stores.selectStore(Access.access_token)
+
+        ### 3) CREATE THE Device
+
+        print("Device being created...")
+        Devices.createDevice(Devices.DeviceName, fixed_uuid, Stores.store_id)   
 
 
 ########### END CLASS 'DEVICES' ####################
@@ -251,7 +256,7 @@ class misc:
             print("Need to refresh token.")
             Access.refresh('password', client_id, client_secret, Access.refresh_token)
             print("Token refreshed.")
-            
+
         print(resp.json())
 
         ## other errors
