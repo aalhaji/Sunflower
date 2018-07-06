@@ -136,7 +136,7 @@ class Stores:
                 print("Store '{}' selected.".format(Stores.storedata[selected_store]['name']))
                 Stores.store_id = Stores.storedata[selected_store]['_id']
                 break
-                
+
             else:
                 print("Store not selected. Starting over...")
 
@@ -222,5 +222,5 @@ Access.authenticate(username, password, client_id, client_secret, grant_type)
 Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
 #Devices.patchIP('raspberry', uuid, ip_address)
-#Devices.registerDev('raspberry', uuid, '57c0135b83c6e6030079f474')
+Devices.registerDev('RaspberryPiTest', uuid, Stores.store_id)
 #Devices.getDevice('raspberry', uuid)
