@@ -1,0 +1,631 @@
+      <style type="text/css">
+        #ca-watch , #ca-history,#ca-talk ,#ca-viewsource ,#p-tb{ display: none !important; }
+      </style> 
+          <style type="text/css">
+        #ca-watch , #ca-history,#ca-talk ,#t-print ,#t-permalink ,#t-info ,#t-recentchangeslinked ,#t-whatlinkshere{ display: none !important; }
+      </style><!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<meta charset="UTF-8" />
+<title>RPi Relay Board - Waveshare Wiki</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="generator" content="MediaWiki 1.23.5" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Waveshare Wiki (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="https://www.waveshare.com/w/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="Waveshare Wiki Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="https://www.waveshare.com/w/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.collapsible%2Ctabber%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.skinning.interface%7Cmediawiki.ui.button%7Cskins.vector.styles&amp;only=styles&amp;skin=vector&amp;*" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="https://www.waveshare.com/w/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" />
+<style>a:lang(ar),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}
+/* cache key: waveshareDB:resourceloader:filter:minify-css:7:ec17bd822a5c5068c0f79ac8f2cc2a79 */</style>
+<script src="https://www.waveshare.com/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"RPi_Relay_Board","wgTitle":"RPi Relay Board","wgCurRevisionId":13589,"wgRevisionId":13589,"wgArticleId":3638,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["RPi interface","Expansions","Raspberry Pi"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"RPi_Relay_Board","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgWikiEditorEnabledModules":{"toolbar":false,"dialogs":false,"hidesig":true,"preview":false,"previewDialog":false,"publish":false}});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($,jQuery){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"editfont":"default","editondblclick":0,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":1,"extendwatchlist":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nickname":"","norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"rcdays":7,"rclimit":50,"rows":25,"showhiddencats":0,"shownumberswatching":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":1,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,
+"useeditwarning":1,"prefershttps":1,"language":"en","variant-gan":"gan","variant-iu":"iu","variant-kk":"kk","variant-ku":"ku","variant-shi":"shi","variant-sr":"sr","variant-tg":"tg","variant-uz":"uz","variant-zh":"zh","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"gadget-edit0":1,"gadget-timer":1,"gadget-collapsible":1,"gadget-msp":1,"gadget-tabber":1,"variant":"en"});},{},{});mw.loader.implement("user.tokens",function($,jQuery){mw.user.tokens.set({"editToken":"+\\","patrolToken":false,"watchToken":false});},{},{});
+/* cache key: waveshareDB:resourceloader:filter:minify-js:7:267240b08c35deab46f5b445f79be47d */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax","skins.vector.js"]);
+}</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-RPi_Relay_Board skin-vector action-view vector-animateLayout">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<h1 id="firstHeading" class="firstHeading" lang="en"><span dir="auto">RPi Relay Board</span></h1>
+						<div id="bodyContent">
+								<div id="siteSub">From Waveshare Wiki</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-navigation">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><table class="a-r at-c roundy bgd-blue bl-white" style="margin-left: 5px; margin-bottom: 5px; width: 30%;">
+
+<tr>
+<td>
+<table class="at-c roundy" style="background: transparent;width:100%;">
+
+<tr>
+<td class="at-c textwhite"> <b>RPi Relay Board</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"> <a href="http://www.waveshare.com/rpi-relay-board.htm" target="_blank" rel="nofollow"><img alt="Rpi-relay-board-1.jpg" src="/w/thumb.php?f=Rpi-relay-board-1.jpg&amp;width=300" width="300" height="300" srcset="/w/thumb.php?f=Rpi-relay-board-1.jpg&amp;width=450 1.5x, /w/thumb.php?f=Rpi-relay-board-1.jpg&amp;width=600 2x" /></a><br /><br /><small>Raspberry Pi Expansion Board, Power Relay</small>
+</td></tr></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tr>
+<td class="at-c textwhite"> <b>{{{name2}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"> <br />
+</td></tr></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tr>
+<td class="at-c textwhite"> <b>{{{name3}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"> <br />
+</td></tr></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tr>
+<td class="at-c textwhite"> <b>{{{name4}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"> <br />
+</td></tr></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="roundy" style="background: transparent;width:100%;">
+
+<tr>
+<td class="at-c textwhite"> <b>{{{name5}}}</b>
+</td></tr>
+<tr>
+<td class="at-c bgwhite" style="margin:5px;"> <br />
+</td></tr></table>
+</td></tr>
+<tr>
+<td>
+<table class="roundy" style="background: transparent; border-collapse:collapse;width:100%;">
+<tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white"> Primary Attribute
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundytl roundytr bgwhite b-blue" style="border-width: 0 0 1px 0;"> <b>Category:</b> <a href="/wiki/Category:Expansions" title="Category:Expansions">Expansions</a>, <a href="/wiki/Category:Raspberry_Pi" title="Category:Raspberry Pi">Raspberry Pi</a>
+</td></tr>
+<tr style="display:none;">
+<th colspan="3" width="90px" class="at-r bgwhite b-blue" style="border-width: 0 0 1px 0;"> {{{userDefinedInfo}}}:
+</th>
+<td colspan="3" class="at-l b-blue bgwhite" style="border-width: 0 0 1px 0;"> {{{userdefinedvalue}}}
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundybl roundybr bgwhite"><b>Brand:</b> Waveshare
+</td></tr></table>
+</td></tr>
+<tr>
+<td>
+<table class="a-r roundy" style="background: transparent; border-collapse:collapse;width:100%;">
+<tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white"> Website
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundytl roundytr bgwhite b-blue" style="border-width: 0 0 1px 0;"> <b>English:</b> <a rel="nofollow" target="_blank" class="external text" href="http://www.waveshare.com/rpi-relay-board.htm">Waveshare website</a>
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-c roundybl roundybr bgwhite"> <b>Chinese:</b> <a rel="nofollow" target="_blank" class="external text" href="http://www.waveshare.net/shop/rpi-relay-board.htm">官方中文站点</a>
+</td></tr></table>
+</td></tr>
+<tr>
+<td>
+<table class="a-r roundy" style="background: transparent; border-collapse:collapse;width:100%;">
+<tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white"> Onboard Interfaces
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-l roundy bgwhite b-blue" style="border-width: 0 0 1px 0;">
+<table class="roundy bgwhite fulltable" style="text-align:center">
+
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;;"> <small><b><a href="/wiki/Category:RPi_interface" title="Category:RPi interface">RPi</a></b></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td></tr>
+<tr>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td>
+<td class="roundy bl-gray bw-1" style="width:25%;display:none;"> <small></small>
+</td></tr></table>
+</td></tr></table>
+</td></tr>
+<tr style="display:none;">
+<td>
+<table class="a-r roundy" style="background: transparent; border-collapse:collapse;width:100%;">
+<tr>
+<td style="width:2%;">
+</td>
+<td style="width:3%;">
+</td>
+<th colspan="2" width="90%" class="at-c roundytop bgl-white"> Related Products
+</th>
+<td style="width:3%;">
+</td>
+<td style="width:2%;">
+</td></tr>
+<tr>
+<td colspan="6" width="90px" class="at-l roundy bgwhite b-blue" style="border-width: 0 0 1px 0;">
+</td></tr></table>
+</td></tr></table>
+<div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Introduction"><span class="tocnumber">1</span> <span class="toctext">Introduction</span></a></li>
+<li class="toclevel-1"><a href="#Interface_description"><span class="tocnumber">2</span> <span class="toctext">Interface description</span></a></li>
+<li class="toclevel-1"><a href="#Sample_programs"><span class="tocnumber">3</span> <span class="toctext">Sample programs</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Development_environment"><span class="tocnumber">3.1</span> <span class="toctext">Development environment</span></a></li>
+<li class="toclevel-2"><a href="#Operations_and_results"><span class="tocnumber">3.2</span> <span class="toctext">Operations and results</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Shell_program"><span class="tocnumber">3.2.1</span> <span class="toctext">Shell program</span></a></li>
+<li class="toclevel-3"><a href="#Bcm2835_program"><span class="tocnumber">3.2.2</span> <span class="toctext">Bcm2835 program</span></a></li>
+<li class="toclevel-3"><a href="#wiringPi_program"><span class="tocnumber">3.2.3</span> <span class="toctext">wiringPi program</span></a></li>
+<li class="toclevel-3"><a href="#Python_program"><span class="tocnumber">3.2.4</span> <span class="toctext">Python program</span></a></li>
+<li class="toclevel-3"><a href="#Webiopi_program"><span class="tocnumber">3.2.5</span> <span class="toctext">Webiopi program</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-2"><a href="#Resources"><span class="tocnumber">4</span> <span class="toctext">Resources</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Support"><span class="tocnumber">5</span> <span class="toctext">Support</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Introduction">Introduction</span></h2>
+<p>Raspberry Pi Expansion Board, Power Relay
+</p>
+<table>
+
+<tr>
+<td><a rel="nofollow" target="_blank" class="external text" href="http://www.waveshare.com/rpi-relay-board.htm">More</a>
+</td></tr></table>
+<h2><span class="mw-headline" id="Interface_description">Interface description</span></h2>
+<ul>
+<li> Correspondence between relay channel and RPi Pin
+</li>
+</ul>
+<table class="wikitable">
+<tr>
+<th> Channel No. </th>
+<th> RPi Pin No. </th>
+<th> wiringPi </th>
+<th> BCM </th>
+<th> Descriptions
+</th></tr>
+<tr>
+<td> CH1 </td>
+<td> 37 </td>
+<td> P25 </td>
+<td> 26 </td>
+<td> Channel 1
+</td></tr>
+<tr>
+<td> CH2 </td>
+<td> 38 </td>
+<td> P28 </td>
+<td> 20 </td>
+<td> Channel 2
+</td></tr>
+<tr>
+<td> CH3 </td>
+<td> 40 </td>
+<td> P29 </td>
+<td> 21 </td>
+<td> Channel 3
+</td></tr></table>
+<p><b>Notices: The labels on the PCB are corresponding to the wiringPi code.</b>
+</p>
+<ul>
+<li> Relay_JMP (6P jumpeer) usage:
+</li>
+</ul>
+<p>Relay_JMP is the relay control pin selecting jumper. When this jumper is connected, the relay can be controlled by the Raspberry Pi. 
+</p>
+<ul>
+<li> Relay screw terminal description:
+</li>
+</ul>
+<p>This board integrates three screw terminals, and each has three pins for connecting external circuits.
+</p><p>All the terminals are low active. When the Raspberry Pi outputs Low Level from its IO, the LED related to the corresponding channel lights up. At the same time, the relay NO (normally open contacts) close and the NC (normally close contacts) open, so as to change the ON/OFF status of the external circuit.
+</p><p>(PS: Remember to connect the jumper Relay_JMP!)
+</p>
+<table class="wikitable">
+<tr>
+<td> Before the relay action:
+<p><a href="/wiki/File:Rpi-relay-board-manual-1.jpg" class="image"><img alt="Rpi-relay-board-manual-1.jpg" src="/w/upload/f/fa/Rpi-relay-board-manual-1.jpg" width="330" height="330" /></a>
+</p>
+</td>
+<td> After the relay action:
+<p><a href="/wiki/File:Rpi-relay-board-manual-2.jpg" class="image"><img alt="Rpi-relay-board-manual-2.jpg" src="/w/upload/4/4c/Rpi-relay-board-manual-2.jpg" width="330" height="330" /></a>
+</p>
+</td></tr></table>
+<h2><span class="mw-headline" id="Sample_programs">Sample programs</span></h2>
+<p>The sample programs of this board include Shell, bcm2835, WiringPi, python and Webiopi.
+</p>
+<h3><span class="mw-headline" id="Development_environment">Development environment</span></h3>
+<p>Before using this expansion board, you should install some libraries to Raspberry Pi, such as bcm2835, wiringPi and python. For more information about the installation and configuration of the RPi library functions, please refer to <b><a href="/wiki/Libraries_Installation_for_RPi" title="Libraries Installation for RPi">Libraries Installation for RPi</a></b>. 
+</p>
+When finished the configurations above, you need to download the sample programs, and then copy and extract them to the system. For example, input the line <pre>tar -zxvf RPi_Relay_Board.tar.gz ~</pre> to extract the downloaded program to the directory of <i>/home/pi</i>. Some of the sample programs can be implemented via different ways, such as the libraries of bcm2835, wiringPi, sysfs, python and so on. That means you can implement a same function by using different libraries. Therefore, the libraries of bcm2835, wiringPi, python and Webiopi should be installed to the RPi before used. 
+If the sample programs presented in the next section are unable to be performed after installing the libraries, you can try to apply the command <pre>chmod +x filename</pre> to grant the program the executable permission.
+<h3><span class="mw-headline" id="Operations_and_results">Operations and results</span></h3>
+<h4><span class="mw-headline" id="Shell_program">Shell program</span></h4>
+<p>Enter the Linux terminal, and input the following line:
+Execute the code:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99e9f0d9ebf8eae9fbfcebebe0e9f0">[email&#160;protected]</a> ~/RPi_Relay_Board/shell $ sudo ./Relay.sh CH1 ON
+</pre>
+<p>Expected result: The LED of relay channel 1 is ON, and you can hear the relay closes. The two parameters at the end of this line are configurable. For example, when you change these parameters to CH2 ON, the relay 2 will connect; and then to CH3 OFF, the relay 3 will disconnect.
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="017168417360727163647373787168">[email&#160;protected]</a> ~/RPi_Relay_Board/shell $ sudo ./Relay.sh CH2 ON
+</pre>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb9b82ab998a989b898e9999929b82">[email&#160;protected]</a> ~/RPi_Relay_Board/shell $ sudo ./Relay.sh CH3 OFF
+</pre>
+<h4><span class="mw-headline" id="Bcm2835_program">Bcm2835 program</span></h4>
+<p>Compile the program:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="582831182a392b283a3d2a2a212831">[email&#160;protected]</a> ~/RPi_Relay_Board/bcm2835 $ make
+</pre>
+<p>And execute the following line under the terminal:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d0d143d0f1c0e0d1f180f0f040d14">[email&#160;protected]</a> ~/RPi_Relay_Board/bcm2835 $ sudo ./Relay_Module
+</pre>
+<p>Expected result: Three LEDs light up by turns and the relays switch back and forth between the NC contacts and NO contacts by turns. In the meantime, the terminal will show the contacts that the current relay stays at.
+</p><p>Press the Keys <b>Ctrl + C</b> to end the program.
+</p>
+<h4><span class="mw-headline" id="wiringPi_program">wiringPi program</span></h4>
+<p>Compile the program:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aedec7eedccfdddecccbdcdcd7dec7">[email&#160;protected]</a> ~/RPi_Relay_Board/wiringPi $ make
+</pre>
+<p>And execute the following line under the terminal:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9eeef7deecffedeefcfbecece7eef7">[email&#160;protected]</a> ~/RPi_Relay_Board/wiringPi $ sudo ./Relay_Module
+</pre>
+<p>Expected result: Three LEDs light up by turns and the relays switch back and forth between the NC node and NO node. In the meantime, the terminal will show the node that the current relay stays at.
+</p><p>Press the keys <b>Ctrl + C</b> to end the program.
+</p>
+<h4><span class="mw-headline" id="Python_program">Python program</span></h4>
+<p>Execute the following line under the terminal:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a3a230a382b393a282f3838333a23">[email&#160;protected]</a> ~/RPi_Relay_Board/python $ sudo python Relay_Module.py
+</pre>
+<p>Expected result: Three LEDs light up by turns and the relays switch back and forth between the NC node and NO node. In the meantime, the terminal will show the node that the current relay stays at.
+</p><p>Press the keys <b>Ctrl + C</b> to end the program.
+</p>
+<h4><span class="mw-headline" id="Webiopi_program">Webiopi program</span></h4>
+<p>The webpage remote control in this sample program is based on the WebioPi software architecture to control the relay.
+</p>
+<ul>
+<li> <i>Environment installation:</i>
+</li>
+</ul>
+<p>Enter the directory of Webiopi, and then unzip and install the library file.
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="17677e5765766467757265656e677e">[email&#160;protected]</a> ~/RPi_Relay_Board/Webiopi $ tar -zxvf WebIOPi-0.7.1-raspi2.tar.gz
+</pre>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0d7d644d7f6c7e7d6f687f7f747d64">[email&#160;protected]</a> ~/RPi_Relay_Board/Webiopi $ cd WebIOPi-0.7.1-raspi2
+</pre>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e4e577e4c5f4d4e5c5b4c4c474e57">[email&#160;protected]</a> ~/RPi_Relay_Board/WebioPi/WebIOPi-0.7.1-raspi2 $ sudo ./setup
+</pre>
+Run the command <pre>webiopi -h</pre> under the terminal; if the library is installed successfully, the screen will display the information as the figure below shows.
+<p><a href="/wiki/File:Rpi-relay-board-manual-3.jpg" class="image"><img alt="Rpi-relay-board-manual-3.jpg" src="/w/thumb.php?f=Rpi-relay-board-manual-3.jpg&amp;width=600" width="600" height="358" srcset="/w/thumb.php?f=Rpi-relay-board-manual-3.jpg&amp;width=900 1.5x, /w/upload/d/d5/Rpi-relay-board-manual-3.jpg 2x" /></a>
+</p><p>Enter the terminal, and execute the code:
+</p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a3a230a382b393a282f3838333a23">[email&#160;protected]</a> ~ $ sudo webiopi -d -c /etc/webiopi/config
+</pre>
+<p>Then, open the browser on your PC or cell phone, and enter the IP address of RPi into the address bar and end with the port number: 8000. For example, input <a rel="nofollow" target="_blank" class="external free" href="http://192.168.1.16:8000">http://192.168.1.16:8000</a> (the address can be changeable according to your actual condition). To login the website, you should enter your account and password. The default account name is webiopi, and the original password is raspberry. When finished the steps above, if you can enter the webpage WebIOPi Main Menu, it means the environment is configured well.
+</p><p><a href="/wiki/File:Rpi-relay-board-manual-4.jpg" class="image"><img alt="Rpi-relay-board-manual-4.jpg" src="/w/upload/d/d3/Rpi-relay-board-manual-4.jpg" width="461" height="283" /></a>
+</p>
+<ul>
+<li> <i>Operations and results:</i>
+</li>
+</ul>
+<p>Return to the terminal, and press the keys <b>Ctrl + C</b> to end the program. And then, execute the code:
+</p>
+<pre>cd ~/RPi_Relay_Board/Webiopi
+</pre>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6f1f062f1d0e1c1f0d0a1d1d161f06">[email&#160;protected]</a> ~/RPi_Relay_Board/Webiopi $ sudo webiopi -d -c config
+</pre>
+<p>Then, open the browser on your PC or cell phone, and enter the IP address of RPi into the address bar and end with the port number: 8000. Or you can reload the webpage.
+</p><p><a href="/wiki/File:Rpi-relay-board-manual-5.jpg" class="image"><img alt="Rpi-relay-board-manual-5.jpg" src="/w/upload/2/27/Rpi-relay-board-manual-5.jpg" width="474" height="304" /></a>
+</p>
+If you still cannot enter this webpage, we recommend you to use the Chrome browser or the Firefox browser. Furthermore, please make sure the current directory of Raspberry Pi is <i>~/RPi_Relay_Board/Webiopi</i>, and there should be a file index.html under this directory. And then, input the code <pre>sudo webiopi -d -c config</pre> to enter the index.html. Or else, you will go to the WebIOPi Main Menu webpage.
+<p>After entering this webpage, you can control the relays by clicking the controls of different relay channels on the webpage.
+</p>
+<h2><span class="mw-headline" id="Resources">Resources</span></h2>
+<ul>
+<li> <a href="/wiki/File:RPi-Relay-Board-Schematic.pdf" title="File:RPi-Relay-Board-Schematic.pdf">Schematic</a>
+</li>
+<li> <a href="/wiki/File:RPi_Relay_Board.tar.gz" title="File:RPi Relay Board.tar.gz">Demo Code</a>
+</li>
+<li> <a href="/wiki/Libraries_Installation_for_RPi" title="Libraries Installation for RPi">Libraries Installation for RPi</a>
+</li>
+<li> <a href="/wiki/File:WebIOPi-0.7.1.tar.gz" title="File:WebIOPi-0.7.1.tar.gz">WebIOPi-0.7.1</a>
+</li>
+</ul>
+<h2><span class="mw-headline" id="Support">Support</span></h2>
+<table style="width:auto">
+<tr>
+<td>
+<table class="bd-yellow at-c" style="table-layout:fixed;border-radius:100px;width:100%;border:2px solid #&#123;&#123;&#123;bordercolor}}}">
+
+<tr>
+<td class="bg-yellow roundy-100" style="table-layout:fixed;border-radius:100px;padding:10px;width:100px;background:#&#123;&#123;&#123;background}}};"><a href="/wiki/File:Mail.png" class="image"><img alt="Mail.png" src="/w/thumb.php?f=Mail.png&amp;width=100" width="100" height="100" srcset="/w/upload/f/fe/Mail.png 1.5x, /w/upload/f/fe/Mail.png 2x" /></a>
+</td>
+<td class="bg-yellow" style="table-layout:fixed;border-radius:100px;background:#&#123;&#123;&#123;background}}};"> Contact your seller (fast response and most recommended)
+<p>or send emails to <b><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="74071106021d17113403150211071c1506115a171b19">[email&#160;protected]</a></b> (not fast enough but please be patient) for help.
+</p><p>Our working time: 09:00-18:00 (<b>UTC+8</b> Monday to Saturday)
+</p>
+</td></tr></table>
+</td></tr></table>
+
+<!-- 
+NewPP limit report
+CPU time usage: 0.148 seconds
+Real time usage: 0.217 seconds
+Preprocessor visited node count: 421/1000000
+Preprocessor generated node count: 3543/1000000
+Post‐expand include size: 14078/2097152 bytes
+Template argument size: 768/2097152 bytes
+Highest expansion depth: 4/40
+Expensive parser function count: 0/100
+-->
+</div>								<div class="printfooter">
+				Retrieved from "<a href="https://www.waveshare.com/w/index.php?title=RPi_Relay_Board&amp;oldid=13589">https://www.waveshare.com/w/index.php?title=RPi_Relay_Board&amp;oldid=13589</a>"				</div>
+												<div id='catlinks' class='catlinks'><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:Expansions" title="Category:Expansions">Expansions</a></li><li><a href="/wiki/Category:Raspberry_Pi" title="Category:Raspberry Pi">Raspberry Pi</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden category: <ul><li><a href="/wiki/Category:RPi_interface" title="Category:RPi interface">RPi interface</a></li></ul></div></div>												<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+				<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+	<h3 id="p-personal-label">Personal tools</h3>
+	<ul>
+<li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=RPi+Relay+Board" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>	</ul>
+</div>
+				<div id="left-navigation">
+					<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+	<h3 id="p-namespaces-label">Namespaces</h3>
+	<ul>
+					<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/RPi_Relay_Board"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+					<li  id="ca-talk" class="new"><span><a href="/w/index.php?title=Talk:RPi_Relay_Board&amp;action=edit&amp;redlink=1"  title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+	<h3 id="mw-vector-current-variant">
+		</h3>
+	<h3 id="p-variants-label"><span>Variants</span><a href="#"></a></h3>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+				</div>
+				<div id="right-navigation">
+					<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+	<h3 id="p-views-label">Views</h3>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="/wiki/RPi_Relay_Board" >Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="/w/index.php?title=RPi_Relay_Board&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=RPi_Relay_Board&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+	<h3 id="p-cactions-label"><span>Actions</span><a href="#"></a></h3>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+<div id="p-search" role="search">
+	<h3><label for="searchInput">Search</label></h3>
+	<form action="/w/index.php" id="searchform">
+					<div id="simpleSearch">
+					<input type="search" name="search" placeholder="Search" title="Search Waveshare Wiki [f]" accesskey="f" id="searchInput" /><input type="hidden" value="Special:Search" name="title" /><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" /><input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchButton" class="searchButton" />		</div>
+	</form>
+</div>
+				</div>
+			</div>
+			<div id="mw-panel">
+					<div id="p-logo" role="banner"><a style="background-image: url(/w/upload/logo/waveshare-logo.png);" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+				<div class="portal" role="navigation" id='p-navigation' aria-labelledby='p-navigation-label'>
+	<h3 id='p-navigation-label'>Navigation</h3>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-mini_PC' aria-labelledby='p-mini_PC-label'>
+	<h3 id='p-mini_PC-label'>mini PC</h3>
+	<div class="body">
+		<ul>
+			<li id="n-Raspberry-Pi"><a href="/wiki/Main_Page#Raspberry_Pi">Raspberry Pi</a></li>
+			<li id="n-BeagleBone"><a href="/wiki/Main_Page#BeagleBone">BeagleBone</a></li>
+			<li id="n-Cubie-Series"><a href="/wiki/Main_Page#Cubie_Series">Cubie Series</a></li>
+			<li id="n-Misc"><a href="/wiki/Main_Page#Misc">Misc</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-MCU_Tools' aria-labelledby='p-MCU_Tools-label'>
+	<h3 id='p-MCU_Tools-label'>MCU Tools</h3>
+	<div class="body">
+		<ul>
+			<li id="n-STM32"><a href="/wiki/Main_Page#STM32">STM32</a></li>
+			<li id="n-STM8"><a href="/wiki/Main_Page#STM8">STM8</a></li>
+			<li id="n-LPC"><a href="/wiki/Main_Page#LPC">LPC</a></li>
+			<li id="n-AVR"><a href="/wiki/Main_Page#AVR">AVR</a></li>
+			<li id="n-PIC-.2F-C8051F"><a href="/wiki/Main_Page#PIC_.2F_C8051F">PIC / C8051F</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-FPGA_Tools' aria-labelledby='p-FPGA_Tools-label'>
+	<h3 id='p-FPGA_Tools-label'>FPGA Tools</h3>
+	<div class="body">
+		<ul>
+			<li id="n-ALTERA"><a href="/wiki/Main_Page#ALTERA">ALTERA</a></li>
+			<li id="n-XILINX"><a href="/wiki/Main_Page#XILINX">XILINX</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-Arduino_Compatible' aria-labelledby='p-Arduino_Compatible-label'>
+	<h3 id='p-Arduino_Compatible-label'>Arduino Compatible</h3>
+	<div class="body">
+		<ul>
+			<li id="n-Main-Board"><a href="/wiki/Main_Page#Main_Board">Main Board</a></li>
+			<li id="n-Shields-.2F-Adapters"><a href="/wiki/Main_Page#Shields_.2F_Adapters">Shields / Adapters</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-Modules' aria-labelledby='p-Modules-label'>
+	<h3 id='p-Modules-label'>Modules</h3>
+	<div class="body">
+		<ul>
+			<li id="n-OLEDs-.2F-LCDs"><a href="/wiki/Main_Page#OLEDs_.2F_LCDs">OLEDs / LCDs</a></li>
+			<li id="n-Wireless-Communication"><a href="/wiki/Main_Page#Wireless_Communication">Wireless Communication</a></li>
+			<li id="n-Wired-Communication"><a href="/wiki/Main_Page#Wired_Communication">Wired Communication</a></li>
+			<li id="n-Cameras"><a href="/wiki/Main_Page#Cameras">Cameras</a></li>
+			<li id="n-Sensors"><a href="/wiki/Main_Page#Sensors">Sensors</a></li>
+			<li id="n-Storage"><a href="/wiki/Main_Page#Storage">Storage</a></li>
+			<li id="n-Others"><a href="/wiki/Main_Page#Others">others</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-Support' aria-labelledby='p-Support-label'>
+	<h3 id='p-Support-label'>Support</h3>
+	<div class="body">
+		<ul>
+			<li id="n-Waveshare"><a href="http://www.waveshare.com" rel="nofollow" target="_blank">Waveshare</a></li>
+		</ul>
+	</div>
+</div>
+<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+	<h3 id='p-tb-label'>Tools</h3>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/RPi_Relay_Board" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/RPi_Relay_Board" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li id="t-print"><a href="/w/index.php?title=RPi_Relay_Board&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li>
+			<li id="t-permalink"><a href="/w/index.php?title=RPi_Relay_Board&amp;oldid=13589" title="Permanent link to this revision of the page">Permanent link</a></li>
+			<li id="t-info"><a href="/w/index.php?title=RPi_Relay_Board&amp;action=info">Page information</a></li>
+		</ul>
+	</div>
+</div>
+			</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 28 September 2017, at 06:30.</li>
+											<li id="footer-info-viewcount">This page has been accessed 28,560 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="/wiki/Waveshare_Wiki:Privacy_policy" title="Waveshare Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/Waveshare_Wiki:About" title="Waveshare Wiki:About">About Waveshare Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Waveshare_Wiki:General_disclaimer" title="Waveshare Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="//www.mediawiki.org/"><img src="/w/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script data-cfasync="false" src="/cdn-cgi/scripts/f2bf09f8/cloudflare-static/email-decode.min.js"></script><script>/*<![CDATA[*/window.jQuery && jQuery.ready();/*]]>*/</script><script>if(window.mw){
+mw.loader.state({"site":"loading","user":"ready","user.groups":"ready"});
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.action.view.postEdit","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","ext.gadget.edit0","ext.gadget.timer","ext.gadget.collapsible","ext.gadget.msp","ext.gadget.tabber","ext.FancyBoxThumbs","skins.vector.collapsibleNav"],null,true);
+}</script>
+<script>
+var fbtFancyBoxOptions = {"openEffect":"elastic","closeEffect":"elastic","helpers":{"title":{"type":"inside"}}};
+</script>
+<script src="https://www.waveshare.com/w/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgBackendResponseTime":435});
+}</script>
+	</body>
+</html>
