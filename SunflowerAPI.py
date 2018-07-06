@@ -30,6 +30,26 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 ip_address = s.getsockname()[0]
 
+############## LOGIN INFORMATION ###########
+
+class Login:
+
+    def credentials():
+
+        Login.username = input("Please enter your username (usually an e-mail): ")
+        Login.password = input("Please enter your password: ")
+        Login.client_id = input("Please enter your client ID (carefully): ")
+        Login.client_secret = input("Please enter your client secret (carefully): ")
+
+        Login.uuid = str(uuid.uuid1())
+
+        print("Username:", Login.username)
+        print("Password:", Login.password)
+        print("Client ID:", Login.client_id)
+        print("Client Secret:", Login.client_secret)
+        print("UUID:", Login.uuid)
+
+
 ################### ACCESS  ################
 
 class Access:
@@ -225,7 +245,8 @@ class misc:
 
 #### testing zone ####
 
-Access.authenticate(username, password, client_id, client_secret, grant_type)
+#Access.authenticate(username, password, client_id, client_secret, grant_type)
+Login.credentials()
 #Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
 #Devices.patchIP('raspberry', uuid, ip_address)
