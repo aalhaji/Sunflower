@@ -85,7 +85,8 @@ class Access:
                 break
 
             else:
-                misc.Exception_Handler(resp.status_code)
+                misc.Exception_Handler(resp)
+                break
 
 ############# END CLASS 'ACCESS' ##################
 
@@ -104,14 +105,15 @@ class Stores:
             resp = requests.get(api_url_base+'stores/simple', json=body, headers=body)
 
 
-            if resp.status_code == 200:
+            if resp.status_code == (201 or 200):
                 Stores.storedata = [] # initialize python dict
                 for i in range(len(resp.json())):
                     Stores.storedata.append(dict(resp.json()[i])) # cast json to python dict
                 break
 
             else:
-                misc.Exception_Handler(resp.status_code)
+                misc.Exception_Handler(resp)
+                break
 
 ################## SELECT STORE ###################
 
@@ -134,7 +136,7 @@ class Stores:
 
             if (is_confirmed == ('y' or 'Y')):
                 print("Store '{}' selected.".format(Stores.storedata[selected_store]['name']))
-                Stores.store_id = Stores.storedata[selected_store]['_id']
+                Stores.store_id = str(Stores.storedata[selected_store]['_id'])
                 break
 
             else:
@@ -158,7 +160,8 @@ class Devices:
                 break
 
             else:
-                misc.Exception_Handler(resp.status_code)
+                misc.Exception_Handler(resp)
+                break
 
 
 ############# GET SPECIFIC DEVICE ################
@@ -175,7 +178,8 @@ class Devices:
                 break
 
             else:
-                misc.Exception_Handler(resp.status_code)
+                misc.Exception_Handler(resp)
+                break
 
 ############# SEND IP ADDRESS #####################
 
@@ -192,7 +196,8 @@ class Devices:
                 break
 
             else:
-                misc.Exception_Handler(resp.status_code)
+                misc.Exception_Handler(resp)
+                break
 
 ########### END CLASS 'DEVICES' ####################
 
@@ -200,14 +205,16 @@ class Devices:
 
 class misc:
 
-    def Exception_Handler(status_code):
+    def Exception_Handler(resp):
 
-        print("Exception. Status code: ", status_code)
+        print("Exception. Status code: ", resp.status_code)
 
-        if status_code == 401:
+        if resp.status_code == 401:
             print("Need to refresh token.")
             Access.refresh('password', client_id, client_secret, Access.refresh_token)
             print("Token refreshed.")
+
+        print(resp.json())
 
         ## other errors
 
@@ -219,8 +226,8 @@ class misc:
 #### testing zone ####
 
 Access.authenticate(username, password, client_id, client_secret, grant_type)
-Stores.selectStore(Access.access_token)
+#Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
 #Devices.patchIP('raspberry', uuid, ip_address)
-Devices.registerDev('RaspberryPiTest', uuid, Stores.store_id)
+#Devices.createDevice('RaspberryPiTest', uuid, Stores.store_id)
 #Devices.getDevice('raspberry', uuid)
