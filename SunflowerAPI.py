@@ -155,13 +155,13 @@ class Devices:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address}
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
-	    if resp.status_code == 200:
-            print(resp.json())
-            print('==================================')
-            break
+            if resp.status_code == 200:
+                print(resp.json())
+                print('==================================')
+                break
 
-        else:
-            misc.Exception_Handler(resp.status_code)
+            else:
+                misc.Exception_Handler(resp.status_code)
 
 ########### END CLASS 'DEVICES' ####################
 
