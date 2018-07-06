@@ -24,7 +24,7 @@ client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
 
 grant_type = 'password'
 
-uuid = 'ac04be98-7ec1-11e8-9bda-b827eb98dcda' # was generated from str(uuid.uuid1())
+fixed_uuid = 'ac04be98-7ec1-11e8-9bda-b827eb98dcda' # was generated from str(uuid.uuid1())
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
@@ -42,13 +42,6 @@ class Login:
         Login.client_secret = input("Please enter your client secret (carefully): ")
 
         Login.uuid = str(uuid.uuid1())
-
-        print("Username:", Login.username)
-        print("Password:", Login.password)
-        print("Client ID:", Login.client_id)
-        print("Client Secret:", Login.client_secret)
-        print("UUID:", Login.uuid)
-
 
 ################### ACCESS  ################
 
@@ -125,7 +118,7 @@ class Stores:
             resp = requests.get(api_url_base+'stores/simple', json=body, headers=body)
 
 
-            if resp.status_code == (201 or 200):
+            if resp.status_code == 200 or 201:
                 Stores.storedata = [] # initialize python dict
                 for i in range(len(resp.json())):
                     Stores.storedata.append(dict(resp.json()[i])) # cast json to python dict
@@ -219,6 +212,31 @@ class Devices:
                 misc.Exception_Handler(resp)
                 break
 
+########## DEVICE REGISTRATION PROMPT #############
+
+    def registerDevice():
+
+        print("Device Registration Starting.")
+
+        ### 1) NAME
+
+        while True:
+            Devices.DeviceName = input("1) Please enter your desired device name:")
+            is_confirmed = input("Name '{}' selected. Confirm [y/n]?".format(Devices.DeviceName))
+
+            if (is_confirmed == ('y' or 'Y')):
+                print("Name '{}' confirmed.".format(Devices.DeviceName))
+                break
+            else:
+                print("Starting over...")
+
+
+        ### 2) STORE SELECTION
+
+        print("2) Please select your store:")
+        Stores.selectStore(Access.access_token)       
+
+
 ########### END CLASS 'DEVICES' ####################
 
 ########### MISCELLANEOUS FUNCTIONS ################
@@ -233,7 +251,7 @@ class misc:
             print("Need to refresh token.")
             Access.refresh('password', client_id, client_secret, Access.refresh_token)
             print("Token refreshed.")
-
+            
         print(resp.json())
 
         ## other errors
@@ -245,10 +263,11 @@ class misc:
 
 #### testing zone ####
 
-#Access.authenticate(username, password, client_id, client_secret, grant_type)
-Login.credentials()
+Access.authenticate(username, password, client_id, client_secret, grant_type)
+Devices.registerDevice()
+#Login.credentials()
 #Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
-#Devices.patchIP('raspberry', uuid, ip_address)
-#Devices.createDevice('RaspberryPiTest', uuid, Stores.store_id)
-#Devices.getDevice('raspberry', uuid)
+#Devices.patchIP('raspberry', fixed_uuid, ip_address)
+#Devices.createDevice('RaspberryPiTest', fixed_uuid, Stores.store_id)
+#Devices.getDevice('raspberry', fixed_uuid)
