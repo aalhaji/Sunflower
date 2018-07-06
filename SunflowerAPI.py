@@ -107,10 +107,7 @@ class Stores:
             if resp.status_code == 200:
                 Stores.storedata = [] # initialize python dict
                 for i in range(len(resp.json())):
-                    Access.storedata.append(dict(resp.json()[i])) # cast json to python dict
-
-                print(Stores.storedata)
-                print('==================================')
+                    Stores.storedata.append(dict(resp.json()[i])) # cast json to python dict
                 break
 
             else:
@@ -120,16 +117,26 @@ class Stores:
 
     def selectStore(access_token):
 
-        # first, get stores
-        getStores(access_token)
+        # First, get stores
+        Stores.getStores(access_token)
 
         # Then display the stores in a numbered list
-        print("List of stores registered to this merchant:")
-        for i in range(len(Stores.storedata)):
-            print(i + ")" + Stores.storedata['name'][i])
 
-        # then get user input
-        #selected_store = input("Please ")
+        print("List of stores registered to this user:")
+        for i in range(len(Stores.storedata)):
+            print("{}) {}".format(i+1, Stores.storedata[i]['name']))
+
+        # Then get user input
+        selected_store = int(input("Please select the store number you'd like this device registered to: ")) - 1
+        Stores.store_id = Stores.storedata[selected_store]['_id']
+        
+        is_confirmed = input("You selected store '{}'. Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
+
+        if (is_confirmed == ('y' or 'Y')):
+            print("Store selected.")
+        else:
+            Stores.store_id = 0
+            print("Store not selected. Please start over.")
 
 
 
