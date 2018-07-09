@@ -6,9 +6,7 @@
 # e.g.  "SunflowerAPI.Access.authorize()" rather than "authorize()"
 
 
-## add get stores
-## make if status code its own fucntion then reference it in the functions
-## find a cyclical way to refresh token
+## Add choice for user between staging and production
 
 import requests
 import json
@@ -16,6 +14,7 @@ import uuid
 import socket
 
 api_url_base = 'https://api-test.countr.rest/v2/' #'http://192.168.43.154:3030/v2/'
+#api_url_base_production = 'https://api.countr.rest/v2/'
 
 username = 'demo@countrhq.com'
 password = 'Demo12345'
@@ -34,6 +33,7 @@ ip_address = s.getsockname()[0]
 
 class Login:
 
+    # Credential collection
     def credentials():
 
         Login.username = input("Please enter your username (usually an e-mail): ")
@@ -42,6 +42,32 @@ class Login:
         Login.client_secret = input("Please enter your client secret (carefully): ")
 
         Login.uuid = str(uuid.uuid1())
+
+    # Choice of staging or production API
+    def selectAPI():
+
+        API_DICT = {'name': {'Staging API', 'Production API'},
+                    'url_base': {'https://api-test.countr.rest/v2/', 'https://api.countr.rest/v2/'}
+                    }
+
+        print("List of available API's:")
+
+        for i in range(len(API_DICT)):
+            print("{} ) {}.".format(i+1, API_DICT[i]['name']))
+
+        while True:
+            selected_api = int(input("Please enter the number of the API you'd like to connect to:")) - 1
+            is_confirmed = input("You selected '{}', confirm [y/n]?".format(API_DICT[selected_api]['name']))
+
+            if (is_confirmed == ('y' or 'Y')):
+                print("'{}' selected.".format(selected_api))
+                break
+            else:
+                print('API not selected. Starting over...')
+
+        Login.API_URL_BASE = API_DICT[selected_api]['url_base']
+        print(Login.API_URL_BASE)
+
 
 ################### ACCESS  ################
 
@@ -242,7 +268,7 @@ class Devices:
         Devices.createDevice(Devices.DeviceName, fixed_uuid, Stores.store_id)
 
         ### 4) PATCH IP ADDRESS
-        
+
         print("Sending IP Address to Countr Database...")
         Devices.patchIP(Devices.DeviceName, fixed_uuid, ip_address)
 
