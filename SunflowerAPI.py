@@ -46,27 +46,37 @@ class Login:
     # Choice of staging or production API
     def selectAPI():
 
-        API_DICT = {'name': {'Staging API', 'Production API'},
-                    'url_base': {'https://api-test.countr.rest/v2/', 'https://api.countr.rest/v2/'}
-                    }
+        API_DICT = {'staging': {'name':'Staging API', 'url_base':'https://api-test.countr.rest/v2/'},
+                'production': {'name':'Production API', 'url_base':'https://api.countr.rest/v2/'}
+                }
+      
+        print("List of available API's:")     
 
-        print("List of available API's:")
+        # this is hardcoded because Python dictionaries are unordered, and this isn't a function
+        # that will change over time (i.e. list of API's is likely going to stay the same)
+        # a for-loop implementation of the following list is doable with an ordered dictionary from
+        # the library "odict" if desired
 
-        for i in range(len(API_DICT)):
-            print("{} ) {}.".format(i+1, API_DICT[i]['name']))
+        print("1 ) {}".format(API_DICT['staging']['name']))
+        print("2 ) {}".format(API_DICT['production']['name']))
 
         while True:
-            selected_api = int(input("Please enter the number of the API you'd like to connect to:")) - 1
-            is_confirmed = input("You selected '{}', confirm [y/n]?".format(API_DICT[selected_api]['name']))
+            api_index = int(input("Please enter the number of the API you'd like to connect to: "))
+
+            if api_index == 2:
+                selected_api = 'production'
+            else:
+                selected_api = 'staging'
+
+            is_confirmed = input("You selected '{}', confirm [y/n]? ".format(API_DICT[selected_api]['name']))
 
             if (is_confirmed == ('y' or 'Y')):
-                print("'{}' selected.".format(selected_api))
+                print("'{}' selected.".format(API_DICT[selected_api]['name']))
                 break
             else:
                 print('API not selected. Starting over...')
 
         Login.API_URL_BASE = API_DICT[selected_api]['url_base']
-        print(Login.API_URL_BASE)
 
 
 ################### ACCESS  ################
@@ -300,7 +310,9 @@ class misc:
 #### testing zone ####
 
 Access.authenticate(username, password, client_id, client_secret, grant_type)
-Devices.registerDevice()
+#Access.getuserinfo(Access.access_token)
+#Devices.registerDevice()
+Login.selectAPI()
 #Login.credentials()
 #Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
