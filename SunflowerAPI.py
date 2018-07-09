@@ -5,16 +5,10 @@
 # You might need to refer to the library and class first
 # e.g.  "SunflowerAPI.Access.authorize()" rather than "authorize()"
 
-
-## Add choice for user between staging and production
-
 import requests
 import json
 import uuid
 import socket
-
-api_url_base = 'https://api-test.countr.rest/v2/' #'http://192.168.43.154:3030/v2/'
-#api_url_base_production = 'https://api.countr.rest/v2/'
 
 username = 'demo@countrhq.com'
 password = 'Demo12345'
@@ -49,8 +43,8 @@ class Login:
         API_DICT = {'staging': {'name':'Staging API', 'url_base':'https://api-test.countr.rest/v2/'},
                 'production': {'name':'Production API', 'url_base':'https://api.countr.rest/v2/'}
                 }
-      
-        print("List of available API's:")     
+
+        print("List of available API's:")
 
         # this is hardcoded because Python dictionaries are unordered, and this isn't a function
         # that will change over time (i.e. list of API's is likely going to stay the same)
@@ -70,7 +64,7 @@ class Login:
 
             is_confirmed = input("You selected '{}', confirm [y/n]? ".format(API_DICT[selected_api]['name']))
 
-            if (is_confirmed == ('y' or 'Y')):
+            if (is_confirmed == ('y' or 'Y' or 'yes' or 'Yes')):
                 print("'{}' selected.".format(API_DICT[selected_api]['name']))
                 break
             else:
@@ -88,7 +82,7 @@ class Access:
     def authenticate(username, password, client_id, client_secret, grant_type):
 
         body ={"username":username,"password":password, "client_id":client_id, "client_secret":client_secret, "grant_type":grant_type}
-        resp = requests.post(api_url_base+'oauth/token', data=body)
+        resp = requests.post(Login.API_URL_BASE+'oauth/token', data=body)
 
         if resp.status_code != 201:
             print("Authorization error. Error code: ", resp.status_code)
@@ -105,7 +99,7 @@ class Access:
     def refresh(grant_type, client_id, client_secret, refresh_token):
 
         body ={"grant_type":grant_type, "client_id":client_id, "client_secret":client_secret, "refresh_token":refresh_token}
-        resp = requests.post(api_url_base+'oauth/refresh', data=body)
+        resp = requests.post(Login.API_URL_BASE+'oauth/refresh', data=body)
 
         if resp.status_code != 200:
             print("Refresh token error. Error code: ", resp.status_code)
@@ -126,7 +120,7 @@ class Access:
 
         while True:
             body = {"Authorization":Access.bearer}
-            resp = requests.get(api_url_base+'me', json=body, headers=body)
+            resp = requests.get(Login.API_URL_BASE+'me', json=body, headers=body)
 
             if resp.status_code == 200:
                 print(resp.json())
@@ -151,7 +145,7 @@ class Stores:
         while True:
 
             body = {"Authorization":Access.bearer}
-            resp = requests.get(api_url_base+'stores/simple', json=body, headers=body)
+            resp = requests.get(Login.API_URL_BASE+'stores/simple', json=body, headers=body)
 
 
             if resp.status_code == 200 or 201:
@@ -201,7 +195,7 @@ class Devices:
 
         while True:
             body = {"name":name, "uuid":uuid, "store":store}
-            resp = requests.post(api_url_base+'devices', data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
+            resp = requests.post(Login.API_URL_BASE+'devices', data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
 
             if resp.status_code == 200 or 201:
                 print("Device has been created.")
@@ -219,7 +213,7 @@ class Devices:
 
         while True:
             body = {"name":name, "uuid":uuid},
-            resp = requests.get(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
+            resp = requests.get(Login.API_URL_BASE+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
 
             if resp.status_code == 200:
                 print(resp.json())
@@ -237,7 +231,7 @@ class Devices:
 
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address}
-            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
+            resp = requests.patch(Login.API_URL_BASE+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
             if resp.status_code == 200:
                 print("IP has been sent.")
@@ -312,7 +306,7 @@ class misc:
 Access.authenticate(username, password, client_id, client_secret, grant_type)
 #Access.getuserinfo(Access.access_token)
 #Devices.registerDevice()
-Login.selectAPI()
+#Login.selectAPI()
 #Login.credentials()
 #Stores.selectStore(Access.access_token)
 #Stores.getStores(Access.access_token)
