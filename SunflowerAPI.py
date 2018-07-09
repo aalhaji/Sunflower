@@ -68,6 +68,7 @@ class Login:
 
             if (is_confirmed == ('y' or 'Y' or 'yes' or 'Yes')):
                 print("'{}' selected.".format(API_DICT[selected_api]['name']))
+                print("==================================")
                 break
             else:
                 print('API not selected. Starting over...')
@@ -169,7 +170,7 @@ class Stores:
 
         # Then display the stores in a numbered list
 
-        print("List of stores registered to this user:")
+        print("List of stores registered to this user: ")
         for i in range(len(Stores.storedata)):
             print("{}) {}".format(i+1, Stores.storedata[i]['name']))
 
@@ -180,8 +181,9 @@ class Stores:
             is_confirmed = input("You selected store '{}'. Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
 
             if (is_confirmed == ('y' or 'Y')):
-                print("Store '{}' selected.".format(Stores.storedata[selected_store]['name']))
+                print("Store '{}' confirmed.".format(Stores.storedata[selected_store]['name']))
                 Stores.store_id = str(Stores.storedata[selected_store]['_id'])
+                print("===================================")
                 break
 
             else:
@@ -258,6 +260,7 @@ class Devices:
 
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
+                print("================================")
                 break
             else:
                 print("Starting over...")

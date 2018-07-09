@@ -6,6 +6,8 @@
 
 import SunflowerAPI as sF
 
+print("Welcome to Sunflower device registration. This will register your device at Countr. Start by selecting your preferred API.")
+
 # 1) API selection
 
 sF.Login.selectAPI()
@@ -21,4 +23,4 @@ sF.Devices.registerDevice()
 
 # 4) Device confirmation
 
-sF.Devices.getDevice(Devices.DeviceName, Login.uuid)
+sF.Devices.getDevice(sF.Devices.DeviceName, sF.Login.uuid)
