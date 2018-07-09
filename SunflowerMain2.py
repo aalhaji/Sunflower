@@ -1,30 +1,82 @@
-# We'll start with the just the i/o, then incorporate the Flask stuff
-
-# code logic for now
-# 1) Read analog input
-# 2) Make analog output using relay
-
+# I/O libraries
 import time
 import automationhat
 time.sleep(0.1)
 
-# Read an input on port "one"
-# This should stay generic in the app
+# IP library
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+ip_address = s.getsockname()[0]
 
-# Function output
+# API library (Countr-specific)
+import SunflowerAPI as sF
 
+# Microframework for web application
+from flask import Flask
+app = Flask(__name__)
 
+global bool bedstatus
 
-
-
-# Function input
+# START APP
 while True:
-    
-    one = automationhat.analog.one.read()
-    print(one)
+
+    # PATCH IP ADDRESS HERE
+
+    # 1) authenticate
+    username = open(username, "r")
+    password = open(password, "r")
+    client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
+    client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
+    grant_type = 'password'
+
+    devname = open(devicename, "r")
+    uuid = open(uuid, "r")
+
+    sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
+    sF.Devices.patchIP(devname, uuid, ip_address)
+
+    # READ BED STATUS HERE
+
+    input_voltage = automationhat.analog.one.read()
+    print("The input voltage is {}.".format(input_voltage))
     time.sleep(0.25)
 
+    if (input_voltage < 1):
+        bedstatus = False # bed OFF
+        print("The bed is off.")
+    elif (input_voltage > 1 and input_voltage < 3):
+        bedstatus = False # UNDEFINED
+        print("Error. Undefined state.")
+    elif (input_voltage > 3 and input_voltage < 24):
+        bedstatus = True # bed ON
+        print("The bed is on.")
+    else:
+        bedstatus = False # UNDEFINED
+        print("Error. Input voltage is too high.")
+
+    # CONFIGURE WEB APP HERE
+
+    @app.route('/'):
+
+    def home_page():
+
+        if (bedstatus = True): bed = 'on'
+        else: bed = "off"
+
+        output = "Welcome to Sunflower. The bed is currently "+bed+". "+"MY IP address is " +ip+"."
+
+        return output
 
 
 
 
+
+
+    # OUTPUT
+    # For relay, use NO side
+    # Connect 5V power supply to NO
+    # Connect COM to LOAD (BED)
+    # GROUND THE LOAD ON THE OTHER SIDE
+
+    automationhat.relay.one.on()

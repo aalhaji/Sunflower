@@ -32,12 +32,20 @@ class Login:
     def credentials():
 
         Login.username = input("Please enter your username (usually an e-mail): ")
+        un_open = open(username, "w")
+        un_open.write(Login.username)
+
         Login.password = input("Please enter your password: ")
+        ps_open = open(password, "w")
+        ps_open.write(Login.password)
+
         Login.client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
         Login.client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
         Login.grant_type = 'password'
 
         Login.uuid = str(uuid.uuid1())
+        uuid_open = open(uuid, "w")
+        uuid_open.write(Login.uuid)
 
     # Choice of staging or production API
     def selectAPI():
@@ -261,6 +269,8 @@ class Devices:
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
                 print("================================")
+                dev_open = fopen(devicename, "w")
+                dev_open.write(Devices.DeviceName)
                 break
             else:
                 print("Starting over...")
