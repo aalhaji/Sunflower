@@ -10,6 +10,7 @@ import json
 import uuid
 import socket
 
+# for testing
 username = 'demo@countrhq.com'
 password = 'Demo12345'
 client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
@@ -32,8 +33,9 @@ class Login:
 
         Login.username = input("Please enter your username (usually an e-mail): ")
         Login.password = input("Please enter your password: ")
-        Login.client_id = input("Please enter your client ID (carefully): ")
-        Login.client_secret = input("Please enter your client secret (carefully): ")
+        Login.client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
+        Login.client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
+        Login.grant_type = 'password'
 
         Login.uuid = str(uuid.uuid1())
 
@@ -269,12 +271,12 @@ class Devices:
         ### 3) CREATE DEVICE
 
         print("Device being created...")
-        Devices.createDevice(Devices.DeviceName, fixed_uuid, Stores.store_id)
+        Devices.createDevice(Devices.DeviceName, Login.uuid, Stores.store_id)
 
         ### 4) PATCH IP ADDRESS
 
         print("Sending IP Address to Countr Database...")
-        Devices.patchIP(Devices.DeviceName, fixed_uuid, ip_address)
+        Devices.patchIP(Devices.DeviceName, Login.uuid, ip_address)
 
 
 ########### END CLASS 'DEVICES' ####################
@@ -303,7 +305,7 @@ class misc:
 
 #### testing zone ####
 
-Access.authenticate(username, password, client_id, client_secret, grant_type)
+#Access.authenticate(username, password, client_id, client_secret, grant_type)
 #Access.getuserinfo(Access.access_token)
 #Devices.registerDevice()
 #Login.selectAPI()
