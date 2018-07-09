@@ -167,8 +167,8 @@ class Devices:
             body = {"name":name, "uuid":uuid, "store":store}
             resp = requests.post(api_url_base+'devices', data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
 
-            if resp.status_code == 200:
-                print(resp.json())
+            if resp.status_code == 200 or 201:
+                print("Device has been created.")
                 print('==================================')
                 break
 
@@ -204,7 +204,7 @@ class Devices:
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
             if resp.status_code == 200:
-                print(resp.json())
+                print("IP has been sent.")
                 print('==================================')
                 break
 
@@ -236,10 +236,15 @@ class Devices:
         print("2) Please select your store:")
         Stores.selectStore(Access.access_token)
 
-        ### 3) CREATE THE Device
+        ### 3) CREATE DEVICE
 
         print("Device being created...")
-        Devices.createDevice(Devices.DeviceName, fixed_uuid, Stores.store_id)   
+        Devices.createDevice(Devices.DeviceName, fixed_uuid, Stores.store_id)
+
+        ### 4) PATCH IP ADDRESS
+        
+        print("Sending IP Address to Countr Database...")
+        Devices.patchIP(Devices.DeviceName, fixed_uuid, ip_address)
 
 
 ########### END CLASS 'DEVICES' ####################
