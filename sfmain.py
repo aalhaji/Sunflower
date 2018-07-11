@@ -36,72 +36,59 @@ import SunflowerAPI as sF
 
 # START APP
 
-bedstatus = automationhat.input.one.read()
-
 from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
 
 def home_page():
-    print(bedstatus)
-    return "Welcome to the Sun!"
+
+    if (bedstatus == 1):
+
+        bed = 'on'
+
+    else:
+
+        bed = 'off'
+
+    output = "Welcome to the Sun! The bed is currently "+bed+"."
+
+    return output
 
 @app.route('/bedon')
 
 def bedon():
-    print(bedstatus)
-    automationhat.relay.one.on()
 
-    return "Bed on."
+    bedstatus = automationhat.input.one.read()
+
+    while True:
+
+        if (bedstatus == 1):
+            return 'The bed is already on.'
+
+        else:
+            automationhat.relay.one.on()
+            return 'The bed is now on.'
 
 @app.route('/bedoff')
 
 def bedoff():
-    print(bedstatus)
-    automationhat.relay.one.off()
-    return "Bed off."
+
+    bedstatus = automationhat.input.one.read()
+
+    while True:
+
+        if (bedstatus == 0):
+            return 'The bed is already off.'
+
+        else:
+            automationhat.relay.one.off()
+            return 'The bed is now off.'
 
 
 if __name__ == "__main__":
 
     app.run(host='0.0.0.0')
-
-    # READ BED STATUS HERE
-
-#input_voltage = automationhat.analog.one.read()
-#    print("The input voltage is {}.".format(input_voltage))
-#    time.sleep(0.25)
-
-#    if (input_voltage < 1):
-#        bedstatus = False # bed OFF
-#        print("The bed is off.")
-#    elif (input_voltage > 1 and input_voltage < 3):
-#        bedstatus = False # UNDEFINED
-##        print("Error. Undefined state.")
-    #elif (input_voltage > 3 and input_voltage < 24):
-#        bedstatus = True # bed ON
-    #    print("The bed is on.")
-#    else:
-#        bedstatus = False # UNDEFINED
-    #    print("Error. Input voltage is too high.")
-
-    # CONFIGURE WEB APP HERE
-
-#    @app.route('/'):
-
-    #def home_page():
-
-    #    if (bedstatus = True): bed = 'on'
-    #    else: bed = "off"
-
-    #    output = "Welcome to Sunflower. The bed is currently "+bed+". "+"MY IP address is " +ip+"."
-
-    #    return output
-
-
-
-
 
 
     # OUTPUT
