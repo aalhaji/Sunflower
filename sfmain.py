@@ -1,6 +1,6 @@
 # I/O libraries
 import time
-import automationhat
+import automationhat as shield
 time.sleep(0.1)
 
 # IP library
@@ -32,8 +32,6 @@ import SunflowerAPI as sF
 
 # END PATCH IP ADDRESS
 
-bedstatus = automationhat.input.one.read()
-
 # START APP
 
 from flask import Flask
@@ -43,44 +41,25 @@ app = Flask(__name__)
 
 def home_page():
 
-    while True:
-        bedstatus = automationhat.input.one.read()
-
-        if (bedstatus == 1):
-            bed = 'on'
-        else:
-            bed = 'off'
-
-    output = "Welcome to Sunflower! The bed is currently "+bed+"."
+    output = "Welcome to Sunflower!"
     return output
 
 @app.route('/bedon')
 
 def bedon():
 
-    while True:
-        bedstatus = automationhat.input.one.read()
-
-        if (bedstatus == 1):
-            return 'The bed is already on.'
-
-        else:
-            automationhat.relay.one.on()
-            return 'The bed is now on.'
+    bedstatus = shield.input.one.read()
+    
+    print(bedstatus)
+    shield.relay.one.on()
+    return "The bed is now on."
 
 @app.route('/bedoff')
 
 def bedoff():
 
-    while True:
-        bedstatus = automationhat.input.one.read()
-
-        if (bedstatus == 0):
-            return 'The bed is already off.'
-
-        else:
-            automationhat.relay.one.off()
-            return 'The bed is now off.'
+    shield.relay.one.off()
+    return 'The bed is now off.'
 
 
 if __name__ == "__main__":
