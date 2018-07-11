@@ -44,7 +44,7 @@ class Login:
         Login.grant_type = 'password'
 
         Login.uuid = str(uuid.uuid1())
-        uuid_open = open(uuid, "w")
+        uuid_open = open(uuid_sf, "w")
         uuid_open.write(Login.uuid)
 
     # Choice of staging or production API
