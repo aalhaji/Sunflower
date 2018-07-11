@@ -55,6 +55,9 @@ while True:
         automationhat.relay.one.off()
 
 
+    if __name__ == "__main__":
+
+        app.run(host='0.0.0.0')
 
     # READ BED STATUS HERE
 
