@@ -4,10 +4,10 @@ import automationhat
 time.sleep(0.1)
 
 # IP library
-#import socket
-#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#s.connect(("8.8.8.8", 80))
-#ip_address = s.getsockname()[0]
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+ip_address = s.getsockname()[0]
 
 # API library
 import SunflowerAPI as sF
@@ -36,18 +36,21 @@ import SunflowerAPI as sF
 
 # START APP
 
+bedstatus = automationhat.input.one.read()
+
 from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
 
 def home_page():
+    print(bedstatus)
     return "Welcome to the Sun!"
 
 @app.route('/bedon')
 
 def bedon():
-
+    print(bedstatus)
     automationhat.relay.one.on()
 
     return "Bed on."
@@ -55,6 +58,7 @@ def bedon():
 @app.route('/bedoff')
 
 def bedoff():
+    print(bedstatus)
     automationhat.relay.one.off()
     return "Bed off."
 
