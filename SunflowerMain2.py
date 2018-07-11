@@ -36,6 +36,7 @@ devname = dev_lines[0]
 
 dev_open.close()
 
+
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 sF.Devices.patchIP(devname, uuid, ip_address)
 

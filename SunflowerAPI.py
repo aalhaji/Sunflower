@@ -86,7 +86,9 @@ class Login:
                 print('API not selected. Starting over...')
 
         Login.API_URL_BASE = API_DICT[selected_api]['url_base']
-
+        api_file = open("api_url.txt", "w")
+        api_file.write(Login.API_URL_BASE)
+        api_file.close()
 
 ################### ACCESS  ################
 
@@ -96,8 +98,13 @@ class Access:
 
     def authenticate(username, password, client_id, client_secret, grant_type):
 
+        api_file = open("api_url.txt", "r")
+        api_lines = api_file.readlines()
+        api_url_base = api_lines[0]
+        api_file.close()
+
         body ={"username":username,"password":password, "client_id":client_id, "client_secret":client_secret, "grant_type":grant_type}
-        resp = requests.post(Login.API_URL_BASE+'oauth/token', data=body)
+        resp = requests.post(api_url_base+'oauth/token', data=body)
 
         if resp.status_code != 201:
             print("Authorization error. Error code: ", resp.status_code)
@@ -113,8 +120,13 @@ class Access:
 
     def refresh(grant_type, client_id, client_secret, refresh_token):
 
+        api_file = open("api_url.txt", "r")
+        api_lines = api_file.readlines()
+        api_url_base = api_lines[0]
+        api_file.close()
+
         body ={"grant_type":grant_type, "client_id":client_id, "client_secret":client_secret, "refresh_token":refresh_token}
-        resp = requests.post(Login.API_URL_BASE+'oauth/refresh', data=body)
+        resp = requests.post(api_url_base+'oauth/refresh', data=body)
 
         if resp.status_code != 200:
             print("Refresh token error. Error code: ", resp.status_code)
