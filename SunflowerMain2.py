@@ -4,17 +4,13 @@ import automationhat
 time.sleep(0.1)
 
 # IP library
-import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-ip_address = s.getsockname()[0]
+#import socket
+#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#s.connect(("8.8.8.8", 80))
+#ip_address = s.getsockname()[0]
 
 # API library
 import SunflowerAPI as sF
-
-# Microframework for web application
-from flask import Flask
-app = Flask(__name__)
 
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
@@ -39,25 +35,33 @@ app = Flask(__name__)
 #global bool bedstatus
 
 # START APP
-while True:
 
-    app.route('/bedon')
+from flask import Flask
+app = Flask(__name__)
 
-    def bedon():
+@app.route('/')
 
-        automationhat.relay.one.on()
+def home_page():
+    return "Welcome to the Sun!"
+
+@app.route('/bedon')
+
+def bedon():
+
+    automationhat.relay.one.on()
+
+    return "Bed on."
+
+@app.route('/bedoff')
+
+def bedoff():
+    automationhat.relay.one.off()
+    return "Bed off."
 
 
-    app.route('/bedoff')
+if __name__ == "__main__":
 
-    def bedoff():
-
-        automationhat.relay.one.off()
-
-
-    if __name__ == "__main__":
-
-        app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0')
 
     # READ BED STATUS HERE
 
