@@ -16,7 +16,7 @@ import SunflowerAPI as sF
 from flask import Flask
 app = Flask(__name__)
 
-global bool bedstatus
+#global bool bedstatus
 
 # START APP
 while True:
@@ -24,19 +24,27 @@ while True:
     # PATCH IP ADDRESS HERE
 
     # 1) authenticate
-    cred_file = open("credentials.txt, "r")
-    username = cred_file.readline(1)
+    cred_file = open("credentials.txt", "r")
+    lines = cred_file.readlines()
+
+    username = lines[0]
     print("username is {}".format(username))
-    password = cred_file.readline(2
+
+    password = lines[1]
     print("password is {}".format(password))
 
     client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
     client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
     grant_type = 'password'
 
-    dev_open = open("devicename.txt", "r")
-    uuid = dev_open.readline(1)
+    uuid = lines[2]
     print("uuid is {}".format(uuid))
+
+    dev_open = open("devicename.txt", "r")
+    dev_lines = dev_open.readlines()
+
+    devname = dev_lines[0]
+    print("Device name is {}".format(devname))
 
 #    sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 #    sF.Devices.patchIP(devname, uuid, ip_address)
