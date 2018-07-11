@@ -17,24 +17,18 @@ from flask import Flask
 app = Flask(__name__)
 
 # FIRST, PATCH IP ADDRESS
-cred_file = open("credentials.txt", "r")
-lines = cred_file.readlines()
+cred_file = open("credentials.txt", "r").read().splitlines()
 
-username = lines[0]
-password = lines[1]
+username = cred_file[0]
+password = cred_file[1]
 client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
 client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
 grant_type = 'password'
-uuid = lines[2]
+uuid = cred_file[2]
 
-cred_file.close()
+dev_open = open("devicename.txt", "r").read().splitlines()
+devname = dev_open[0]
 
-dev_open = open("devicename.txt", "r")
-dev_lines = dev_open.readlines()
-
-devname = dev_lines[0]
-
-dev_open.close()
 
 
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
@@ -43,7 +37,7 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 #global bool bedstatus
 
 # START APP
-while True:
+#while True:
 
     # PATCH IP ADDRESS HERE
 

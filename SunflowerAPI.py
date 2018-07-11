@@ -98,10 +98,8 @@ class Access:
 
     def authenticate(username, password, client_id, client_secret, grant_type):
 
-        api_file = open("api_url.txt", "r")
-        api_lines = api_file.readlines()
-        api_url_base = api_lines[0]
-        api_file.close()
+        api_file = open("api_url.txt", "r").read().splitlines()
+        api_url_base = api_file[0]
 
         body ={"username":username,"password":password, "client_id":client_id, "client_secret":client_secret, "grant_type":grant_type}
         resp = requests.post(api_url_base+'oauth/token', data=body)
@@ -120,10 +118,8 @@ class Access:
 
     def refresh(grant_type, client_id, client_secret, refresh_token):
 
-        api_file = open("api_url.txt", "r")
-        api_lines = api_file.readlines()
-        api_url_base = api_lines[0]
-        api_file.close()
+        api_file = open("api_url.txt", "r").read().splitlines()
+        api_url_base = api_file[0]
 
         body ={"grant_type":grant_type, "client_id":client_id, "client_secret":client_secret, "refresh_token":refresh_token}
         resp = requests.post(api_url_base+'oauth/refresh', data=body)
@@ -257,9 +253,12 @@ class Devices:
 
     def patchIP(name, uuid,  ip_address):
 
+        api_file = open("api_url.txt", "r").read().splitlines()
+        api_url_base = api_file[0]
+
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address}
-            resp = requests.patch(Login.API_URL_BASE+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
+            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
             if resp.status_code == 200:
                 print("IP has been sent.")
