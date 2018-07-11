@@ -32,7 +32,7 @@ import SunflowerAPI as sF
 
 # END PATCH IP ADDRESS
 
-#global bool bedstatus
+bedstatus = automationhat.input.one.read()
 
 # START APP
 
@@ -43,27 +43,23 @@ app = Flask(__name__)
 
 def home_page():
 
-    bedstatus = automationhat.input.one.read()
+    while True:
+        bedstatus = automationhat.input.one.read()
 
-    if (bedstatus == 1):
-
-        bed = 'on'
-
-    else:
-
-        bed = 'off'
+        if (bedstatus == 1):
+            bed = 'on'
+        else:
+            bed = 'off'
 
     output = "Welcome to Sunflower! The bed is currently "+bed+"."
-
     return output
 
 @app.route('/bedon')
 
 def bedon():
 
-    bedstatus = automationhat.input.one.read()
-
     while True:
+        bedstatus = automationhat.input.one.read()
 
         if (bedstatus == 1):
             return 'The bed is already on.'
@@ -76,9 +72,8 @@ def bedon():
 
 def bedoff():
 
-    bedstatus = automationhat.input.one.read()
-
     while True:
+        bedstatus = automationhat.input.one.read()
 
         if (bedstatus == 0):
             return 'The bed is already off.'
@@ -89,7 +84,6 @@ def bedoff():
 
 
 if __name__ == "__main__":
-
     app.run(host='0.0.0.0')
 
 
