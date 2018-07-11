@@ -45,7 +45,7 @@ class Login:
         Login.client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
         Login.grant_type = 'password'
 
-        Login.uuid = fixed_uuid # temp for testing, otherwise str(uuid.uuid1())
+        Login.uuid = str(uuid.uuid1())
 
         cred_file.write(Login.uuid)
         cred_file.write("\n")
@@ -86,6 +86,7 @@ class Login:
                 print('API not selected. Starting over...')
 
         Login.API_URL_BASE = API_DICT[selected_api]['url_base']
+
         api_file = open("api_url.txt", "w")
         api_file.write(Login.API_URL_BASE)
         api_file.close()
@@ -329,19 +330,3 @@ class misc:
         ## other errors
 
 ################### END CLASS 'MISC' ###############
-
-
-
-
-#### testing zone ####
-
-#Access.authenticate(username, password, client_id, client_secret, grant_type)
-#Access.getuserinfo(Access.access_token)
-#Devices.registerDevice()
-#Login.selectAPI()
-#Login.credentials()
-#Stores.selectStore(Access.access_token)
-#Stores.getStores(Access.access_token)
-#Devices.patchIP('raspberry', fixed_uuid, ip_address)
-#Devices.createDevice('RaspberryPiTest', fixed_uuid, Stores.store_id)
-#Devices.getDevice('raspberry', fixed_uuid)
