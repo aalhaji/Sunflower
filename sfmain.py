@@ -43,6 +43,8 @@ app = Flask(__name__)
 
 def home_page():
 
+    bedstatus = automationhat.input.one.read()
+
     if (bedstatus == 1):
 
         bed = 'on'
@@ -51,7 +53,7 @@ def home_page():
 
         bed = 'off'
 
-    output = "Welcome to the Sun! The bed is currently "+bed+"."
+    output = "Welcome to Sunflower! The bed is currently "+bed+"."
 
     return output
 
