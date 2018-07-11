@@ -41,10 +41,18 @@ app = Flask(__name__)
 # START APP
 while True:
 
-    automationhat.relay.one.on()
-    time.sleep(0.25)
-    automationhat.relay.one.off()
-    time.sleep(0.25)
+    app.route('/bedon')
+
+    def bedon():
+
+        automationhat.relay.one.on()
+
+
+    app.route('/bedoff')
+
+    def bedoff():
+
+        automationhat.relay.one.off()
 
 
 
