@@ -32,24 +32,23 @@ class Login:
     def credentials():
 
         Login.username = input("Please enter your username (usually an e-mail): ")
-        username = str(Login.username)
 
         cred_file = open("credentials.txt", "w")
-        cred_file.write(username)
+        cred_file.write(Login.username)
+        cred_file.write("\n")
 
         Login.password = input("Please enter your password: ")
-        password = str(Login.password)
-
-        cred_file.write(password)
+        cred_file.write(Login.password)
+        cred_file.write("\n")
 
         Login.client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
         Login.client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
         Login.grant_type = 'password'
 
-        Login.uuid = str(uuid.uuid1())
-        uuid = str(Login.uuid)
+        Login.uuid = fixed_uuid # temp for testing, otherwise str(uuid.uuid1())
 
-        cred_file.write(uuid)
+        cred_file.write(Login.uuid)
+        cred_file.write("\n")
         cred_file.close()
 
     # Choice of staging or production API
@@ -274,8 +273,10 @@ class Devices:
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
                 print("================================")
-                dev_open = fopen(devicename, "w")
+                dev_open = open("devicename.txt", "w")
                 dev_open.write(Devices.DeviceName)
+                dev_open.write("\n")
+                dev_open.close()
                 break
             else:
                 print("Starting over...")
