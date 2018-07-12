@@ -49,8 +49,8 @@ def home_page():
 def bedon():
 
     bedstatus = shield.input.one.read()
-    
     print(bedstatus)
+    
     shield.relay.one.on()
     return "The bed is now on."
 
