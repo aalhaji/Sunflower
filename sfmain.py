@@ -15,7 +15,7 @@ import SunflowerAPI as sF
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
 
-cred_file = open("credentials.txt", "r").read().splitlines() # Read file into Python dictionary
+cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
 
 username = cred_file[0]
 password = cred_file[1]
@@ -24,7 +24,7 @@ client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
 grant_type = 'password'
 uuid = cred_file[2]
 
-dev_open = open("devicename.txt", "r").read().splitlines()
+dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)

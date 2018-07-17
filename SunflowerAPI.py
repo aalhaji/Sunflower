@@ -9,6 +9,7 @@ import requests
 import json
 import uuid
 import socket
+import getpass
 
 # for testing
 username = 'demo@countrhq.com'
@@ -33,11 +34,11 @@ class Login:
 
         Login.username = input("Please enter your username (usually an e-mail): ")
 
-        cred_file = open("credentials.txt", "w")
+        cred_file = open("/home/pi/sunflower/credentials.txt", "w")
         cred_file.write(Login.username)
         cred_file.write("\n")
 
-        Login.password = input("Please enter your password: ")
+        Login.password = getpass.getpass(prompt='Please enter your password:', stream=None)  #input("Please enter your password: ")
         cred_file.write(Login.password)
         cred_file.write("\n")
 
@@ -99,7 +100,7 @@ class Access:
 
     def authenticate(username, password, client_id, client_secret, grant_type):
 
-        api_file = open("api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
         body ={"username":username,"password":password, "client_id":client_id, "client_secret":client_secret, "grant_type":grant_type}
@@ -119,7 +120,7 @@ class Access:
 
     def refresh(grant_type, client_id, client_secret, refresh_token):
 
-        api_file = open("api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
         body ={"grant_type":grant_type, "client_id":client_id, "client_secret":client_secret, "refresh_token":refresh_token}
@@ -254,7 +255,7 @@ class Devices:
 
     def patchIP(name, uuid,  ip_address):
 
-        api_file = open("api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
         while True:
@@ -263,7 +264,7 @@ class Devices:
 
             if resp.status_code == 200:
                 print("IP has been sent.")
-                print('==================================')
+                print('================================')
                 break
 
             else:
