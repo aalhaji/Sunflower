@@ -9,7 +9,6 @@ class routes:
     def bedon():
 
         bedstatus = shield.input.one.read()
-        print(bedstatus)
 
         if (bedstatus == 1):
             shield.relay.one.on()
@@ -21,7 +20,6 @@ class routes:
     def bedoff():
 
         bedstatus = shield.input.one.read()
-        print(bedstatus)
 
         if(bedstatus == 0):
             shield.relay.one.off()
