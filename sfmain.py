@@ -13,7 +13,7 @@ ip_address = s.getsockname()[0]
 import SunflowerAPI as sF
 
 # App routes library
-import approutes as routes
+import approutes
 
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
@@ -56,27 +56,27 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    routes.routes.homepage()
+    approutes.routes.homepage()
 
 @app.route('/bedon')
 def onapp():
-    routes.routes.bedon()
+    approutes.routes.bedon()
 
 @app.route('/bedoff')
 def offapp():
-    routes.routes.bedoff()
+    approutes.routes.bedoff()
 
 
 if __name__ == "__main__":
     
     while True:
         if shield.input.one.is_off():
-            routes.routes.bedoff()
+            approutes.routes.bedoff()
             break
         if shield.input.one.is_on():
-            routes.routes.bedon()
+            approutes.routes.bedon()
             break
-    
+
     app.run(host='0.0.0.0')
 
     # OUTPUT

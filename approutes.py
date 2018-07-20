@@ -1,6 +1,7 @@
 import automationhat as shield
 
 class routes:
+    
     def home_page():
 
         output = "Welcome to Sunflower!"
