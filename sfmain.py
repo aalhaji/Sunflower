@@ -56,18 +56,18 @@ app = Flask(__name__)
 
 while True:
     if shield.input.one.is_on():
-        routes.bedon()
+        routes.routes.bedon()
     if shield.input.one.is_off():
-        routes.bedoff()
+        routes.routes.bedoff()
 
 @app.route('/')
-routes.homepage()
+routes.routes.homepage()
 
 @app.route('/bedon')
-routes.bedon()
+routes.routes.bedon()
 
 @app.route('/bedoff')
-routes.bedoff()
+routes.routes.bedoff()
 
 
 if __name__ == "__main__":
