@@ -54,12 +54,6 @@ except RuntimeError:
 from flask import Flask
 app = Flask(__name__)
 
-while True:
-    if shield.input.one.is_on():
-        routes.routes.bedon()
-    if shield.input.one.is_off():
-        routes.routes.bedoff()
-
 @app.route('/')
 def home():
     routes.routes.homepage()
@@ -75,6 +69,12 @@ def offapp():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+    while True:
+        if shield.input.one.is_on():
+            routes.routes.bedon()
+        if shield.input.one.is_off():
+            routes.routes.bedoff()
+
 
 
     # OUTPUT
