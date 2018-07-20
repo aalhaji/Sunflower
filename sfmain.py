@@ -12,6 +12,9 @@ ip_address = s.getsockname()[0]
 # API library
 import SunflowerAPI as sF
 
+# App routes library
+import approutes as routes
+
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
 
@@ -46,14 +49,6 @@ except RuntimeError:
 
 # END INITIALIZATION
 
-# Check if bed has been turned on/off from inside
-
-while True:
-    if shield.input.one.is_on():
-    shield.relay.one.on()
-    if shield.input.one.is_off():
-    shield.relay.one.off()
-
 # START APP
 
 from flask import Flask
@@ -61,42 +56,19 @@ app = Flask(__name__)
 
 while True:
     if shield.input.one.is_on():
-
+        routes.bedon()
+    if shield.input.one.is_off():
+        routes.bedoff()
 
 @app.route('/')
-
-def home_page():
-
-    output = "Welcome to Sunflower!"
-    return output
+routes.homepage()
 
 @app.route('/bedon')
-
-def bedon():
-
-    bedstatus = shield.input.one.read()
-    print(bedstatus)
-
-    if (bedstatus == 1):
-        shield.relay.one.on()
-        return "The bed is already on."
-    else:
-        shield.relay.one.on()
-        return "The bed is now on."
+routes.bedon()
 
 @app.route('/bedoff')
+routes.bedoff()
 
-def bedoff():
-
-    bedstatus = shield.input.one.read()
-    print(bedstatus)
-
-    if(bedstatus == 0):
-        shield.relay.one.off()
-        return "The bed is already off."
-    else:
-        shield.relay.one.off()
-        return "The bed is now off."
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
