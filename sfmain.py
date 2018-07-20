@@ -68,15 +68,16 @@ def offapp():
 
 
 if __name__ == "__main__":
+    
     while True:
-        if shield.input.one.is_on():
-            routes.routes.bedon()
-            app.run(host='0.0.0.0')
         if shield.input.one.is_off():
             routes.routes.bedoff()
-            app.run(host='0.0.0.0')
-
-
+            break
+        if shield.input.one.is_on():
+            routes.routes.bedon()
+            break
+    
+    app.run(host='0.0.0.0')
 
     # OUTPUT
     # For relay, use NO side

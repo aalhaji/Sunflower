@@ -1,3 +1,7 @@
+# Before the switch to Automation pHAT
+# This code relies on the RPi extension board
+# Which does not accept analog inputs
+
 # control libraries
 import RPi.GPIO as GPIO # initializing GPIO
 import time
@@ -6,7 +10,6 @@ import time
 import socket
 
 #API library (don't uncomment until it's ready)
-
 #import SunflowerAPI
 
 # NOTE: THIS RELAY USES INVERSE LOGIC. GPIO.LOW TURNS IT ON, GPIO.HIGH TURNS IT OFF.
