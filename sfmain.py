@@ -48,15 +48,20 @@ except RuntimeError:
 
 # Check if bed has been turned on/off from inside
 
-if shield.input.one.is_on():
+while True:
+    if shield.input.one.is_on():
     shield.relay.one.on()
-if shield.input.one.is_off():
+    if shield.input.one.is_off():
     shield.relay.one.off()
 
 # START APP
 
 from flask import Flask
 app = Flask(__name__)
+
+while True:
+    if shield.input.one.is_on():
+
 
 @app.route('/')
 
