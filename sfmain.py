@@ -57,14 +57,17 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     approutes.routes.homepage()
+    return "Welcome to Sunflower!"
 
 @app.route('/bedon')
 def onapp():
     approutes.routes.bedon()
+    return "Bed on."
 
 @app.route('/bedoff')
 def offapp():
     approutes.routes.bedoff()
+    return "Bed off."
 
 
 if __name__ == "__main__":
