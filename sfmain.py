@@ -32,8 +32,9 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 
 # END PATCH IP ADDRESS
 
-# Shield initialization
-# Automation pHAT has a habit of raising a runtime error on
+# SHIELD INITIALIZATION
+# Automation pHAT needs to run "setup" after the first command
+# so it will raise a runtime error on
 # the first command
 # So this is to ignore the first runtime error
 
@@ -43,7 +44,8 @@ try:
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
 
-    
+# END INITIALIZATION
+
 # Check if bed has been turned on/off from inside
 
 if shield.input.one.is_on():
@@ -66,10 +68,10 @@ def home_page():
 @app.route('/bedon')
 
 def bedon():
-    
+
     bedstatus = shield.input.one.read()
     print(bedstatus)
-    
+
     if (bedstatus == 1):
         shield.relay.one.on()
         return "The bed is already on."
