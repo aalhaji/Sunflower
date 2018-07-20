@@ -61,13 +61,16 @@ while True:
         routes.routes.bedoff()
 
 @app.route('/')
-routes.routes.homepage()
+def home():
+    routes.routes.homepage()
 
 @app.route('/bedon')
-routes.routes.bedon()
+def onapp():
+    routes.routes.bedon()
 
 @app.route('/bedoff')
-routes.routes.bedoff()
+def offapp():
+    routes.routes.bedoff()
 
 
 if __name__ == "__main__":
