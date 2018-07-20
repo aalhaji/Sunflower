@@ -32,13 +32,24 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 
 # END PATCH IP ADDRESS
 
-while True:
-    if shield.input.one.is_on():
-        shield.relay.one.on()
-        print("Bed has been turned on from inside.")
-    if shield.input.one.is_off():
-        shield.relay.one.off()
-        print("Bed has been turned off from inside.")
+# Shield initialization
+# Automation pHAT has a habit of raising a runtime error on
+# the first command
+# So this is to ignore the first runtime error
+
+print("Initializing Automation pHAT")
+try:
+    shield.relay.one.read()
+except RuntimeError:
+    shield.relay.one.off() # Ensure that relay is off
+
+    
+# Check if bed has been turned on/off from inside
+
+if shield.input.one.is_on():
+    shield.relay.one.on()
+if shield.input.one.is_off():
+    shield.relay.one.off()
 
 # START APP
 
@@ -55,15 +66,13 @@ def home_page():
 @app.route('/bedon')
 
 def bedon():
-
+    
     bedstatus = shield.input.one.read()
-    print(bedstatus) # for testing
-
+    print(bedstatus)
+    
     if (bedstatus == 1):
-        shield.relay.one.off()
-        time.sleep(0.1)
         shield.relay.one.on()
-        return "The bed is now on."
+        return "The bed is already on."
     else:
         shield.relay.one.on()
         return "The bed is now on."
@@ -72,8 +81,15 @@ def bedon():
 
 def bedoff():
 
-    shield.relay.one.off()
-    return 'The bed is now off.'
+    bedstatus = shield.input.one.read()
+    print(bedstatus)
+
+    if(bedstatus == 0):
+        shield.relay.one.off()
+        return "The bed is already off."
+    else:
+        shield.relay.one.off()
+        return "The bed is now off."
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
