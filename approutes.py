@@ -2,20 +2,15 @@ import automationhat as shield
 
 class routes:
     
-    def homepage():
-
-        output = "Welcome to Sunflower!"
-        return output
-
     def bedon():
 
         while True:
             bedstatus = shield.input.one.read()
-            
+
             if (bedstatus == 1):
                 shield.relay.one.on()
                 return "The bed is already on."
-            
+
             else:
                 shield.relay.one.on()
                 return "The bed is now on."
@@ -24,7 +19,7 @@ class routes:
 
         while True:
             bedstatus = shield.input.one.read()
-            
+
             if(bedstatus == 0):
                 shield.relay.one.off()
                 return "The bed is already off."

@@ -59,7 +59,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     approutes.routes.homepage()
-    return "Welcome to Sunflower!"
+    return("Welcome to Sunflower! Current relay status: {}".format(shield.relay.one.read()))
 
 @app.route('/bedon')
 def onapp():
@@ -70,11 +70,6 @@ def onapp():
 def offapp():
     approutes.routes.bedoff()
     return "Bed off."
-
-@app.route('/status')
-
-def state():
-    return("Relay status: {}".format(shield.relay.one.read()))
 
 
 if __name__ == "__main__":
