@@ -30,8 +30,8 @@ uuid = cred_file[2]
 dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
-print("Establisihing Database Connection...")
-print("=================================")
+print("Establishing Database Connection...")
+print("================================")
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 sF.Devices.patchIP(devname, uuid, ip_address)
 
