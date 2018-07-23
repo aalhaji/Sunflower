@@ -114,7 +114,7 @@ class Access:
         Access.bearer = 'Bearer '+str(Access.access_token)
 
         print('Logged in. Access Token: {}'.format(Access.access_token))
-        print('================================')
+        print('==================================')
 
 ############ REFRESH TOKEN ##################
 
@@ -200,12 +200,12 @@ class Stores:
         while True:
             selected_store = int(input("Please select the store number you'd like this device registered to: ")) - 1
 
-            is_confirmed = input("You selected store '{}'. Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
+            is_confirmed = input("You selected store '{}', Confirm [y/n]? ".format(Stores.storedata[selected_store]['name']))
 
             if (is_confirmed == ('y' or 'Y')):
                 print("Store '{}' confirmed.".format(Stores.storedata[selected_store]['name']))
                 Stores.store_id = str(Stores.storedata[selected_store]['_id'])
-                print("===================================")
+                print("==================================")
                 break
 
             else:
@@ -264,7 +264,7 @@ class Devices:
 
             if resp.status_code == 200:
                 print("IP has been sent.")
-                print('================================')
+                print('==================================')
                 break
 
             else:
@@ -275,17 +275,17 @@ class Devices:
 
     def registerDevice():
 
-        print("Device Registration Starting.")
+        print("Starting Device Registration...")
 
         ### 1) NAME
 
         while True:
             Devices.DeviceName = input("1) Please enter your desired device name:")
-            is_confirmed = input("Name '{}' selected. Confirm [y/n]?".format(Devices.DeviceName))
+            is_confirmed = input("You selected name '{}', Confirm [y/n]?".format(Devices.DeviceName))
 
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
-                print("================================")
+                print("==================================")
                 dev_open = open("devicename.txt", "w")
                 dev_open.write(Devices.DeviceName)
                 dev_open.write("\n")
@@ -302,7 +302,7 @@ class Devices:
 
         ### 3) CREATE DEVICE
 
-        print("Device being created...")
+        print("Creating Device...")
         Devices.createDevice(Devices.DeviceName, Login.uuid, Stores.store_id)
 
         ### 4) PATCH IP ADDRESS

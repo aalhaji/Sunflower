@@ -31,7 +31,7 @@ dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
 print("Establishing Database Connection...")
-print("================================")
+print("==================================")
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 sF.Devices.patchIP(devname, uuid, ip_address)
 
@@ -48,7 +48,7 @@ try:
     shield.relay.one.read()
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
-print("================================")
+print("==================================")
 # END INITIALIZATION
 
 # START APP
@@ -58,7 +58,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    approutes.routes.homepage()
     return("Welcome to Sunflower! Current relay status: {}".format(shield.relay.one.read()))
 
 @app.route('/bedon')
