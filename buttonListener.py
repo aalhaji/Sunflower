@@ -11,15 +11,22 @@ except RuntimeError:
     shield.relay.one.read()
 # End initialization
 
-def buttonlisten():
-    while True:
-        if shield.input.one.is_on():
-           # shield.relay.one.toggle()
-            print("Button pressed.")
-            break
+# The variable "is_pressed" is meant to indicate the last stete of the button
+# call it condittionally in the app, and reset it to 0 once
+# the last has been fulfilled
+
+class Listen():
+
+    def buttonlisten():
+        while True:
+            if shield.input.one.is_on():
+                print("Button pressed.")
+                Listen.is_pressed = 1
+                break
+
 
 while True:
-    buttonlisten()
+    Listen.buttonlisten()
     time.sleep(wait)
-    buttonlisten()
+    Listen.buttonlisten()
     time.sleep(wait)
