@@ -69,6 +69,16 @@ def offapp():
     approutes.routes.bedoff()
     return "Bed off."
 
+@app.route('/currentstate')
+def state():
+    status = shield.relay.one.read()
+    if status == 1:
+        state = "on"
+    elif status == 0:
+        state == "off"
+
+    return("The bed is currently {}.".format(state))
+
 
 if __name__ == "__main__":
 
