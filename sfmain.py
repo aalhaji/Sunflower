@@ -30,6 +30,8 @@ uuid = cred_file[2]
 dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
+print("Establisihing Database Connection...")
+print("=================================")
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 sF.Devices.patchIP(devname, uuid, ip_address)
 
@@ -46,7 +48,7 @@ try:
     shield.relay.one.read()
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
-print("============================")
+print("================================")
 # END INITIALIZATION
 
 # START APP
@@ -69,27 +71,15 @@ def offapp():
     approutes.routes.bedoff()
     return "Bed off."
 
-@app.route('/currentstate')
-def state():
-    status = shield.relay.one.read()
-    if status == 1:
-        state = "on"
-    elif status == 0:
-        state == "off"
+@app.route('/status')
 
-    return("The bed is currently {}.".format(state))
+def state():
+    return("Relay status: {}".format(shield.relay.one.read()))
 
 
 if __name__ == "__main__":
 
     app.run(host='0.0.0.0')
-
-   # while True:
-   #     if shield.input.one.is_off():
-   #         approutes.routes.bedoff()
-   #     if shield.input.one.is_on():
-   #         approutes.routes.bedon()
-
 
 
     # OUTPUT
