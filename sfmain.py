@@ -74,11 +74,11 @@ if __name__ == "__main__":
 
     app.run(host='0.0.0.0')
 
-    while True:
-        if shield.input.one.is_off():
-            approutes.routes.bedoff()
-        if shield.input.one.is_on():
-            approutes.routes.bedon()
+   # while True:
+   #     if shield.input.one.is_off():
+   #         approutes.routes.bedoff()
+   #     if shield.input.one.is_on():
+   #         approutes.routes.bedon()
 
 
 
