@@ -42,6 +42,7 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 # So this is to ignore the first runtime error
 
 print("Initializing Automation pHAT")
+print("==============================")
 try:
     shield.relay.one.read()
 except RuntimeError:
