@@ -10,6 +10,7 @@ except RuntimeError:
 # End initialization
 
 while True:
+    while True:
     if shield.input.one.is_on():
         if shield.relay.one.is_on():
             print("Relay is already on.")
