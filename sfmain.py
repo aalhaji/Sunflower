@@ -42,12 +42,11 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 # So this is to ignore the first runtime error
 
 print("Initializing Automation pHAT")
-print("==============================")
 try:
     shield.relay.one.read()
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
-
+print("============================")
 # END INITIALIZATION
 
 # START APP
@@ -72,7 +71,7 @@ def offapp():
 
 
 if __name__ == "__main__":
-    
+
     while True:
         if shield.input.one.is_off():
             approutes.routes.bedoff()
