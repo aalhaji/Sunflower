@@ -27,7 +27,8 @@ sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 #######################################################################
 
 time_now = time.time()
-sleep_time = 5 # 5 seconds for testing, but 15 minutes for real stuff
+bedon_time = 5 # 5 seconds for testing, 15 minutes of "bed_started"
+cooling_time = 5 # 5 seconds for testing, 3 minutes for real
 
 states={0:"AVAILABLE_NOT_STARTED",
         1: "AVAILABLE",
@@ -44,24 +45,42 @@ while True:
     if (value > 1):
 
         if ((time.time()-time_now) > 0.3):
-            print(value)
-            print("Button pressed.")
+            #print(value)
+
+            # BUTTON TO START BED
+
+            print("Button pressed to start bed.")
+            shield.relay.one.on()
 
             currentState = states[2]
             state_open = open("currentState.txt", "w")
             state_open.write(currentState)
             state_open.close()
-
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
-        
+
             startTime = time.ctime()
-            print("Start time is: {}".format(startTime))
+            print("Bed started at: {}".format(startTime))
             time.sleep(sleep_time)
             endTime = time.ctime()
-            print("End time is: {}".format(endTime))
+            print("Bed turned off at: {}".format(endTime))
 
+            # COOLING STATE
 
+            print("Bed cooldown started at: {}".format(endTime))
+
+            currentState = states[3]
+            state_open = open("currentState.txt", "w")
+            state_open.write(currentState)
+            state_open.close()
+            sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+            time.sleep(cooling_time)
+
+            cooldown_endtime = time.ctime()
+
+            print("Bed cooldown ended at: {}".format(cooldown_endtime))
+            
 
 
         time_now = time.time()
