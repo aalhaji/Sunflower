@@ -61,7 +61,10 @@ while True:
 
             startTime = time.ctime()
             print("Bed started at: {}".format(startTime))
-            time.sleep(sleep_time)
+            time.sleep(bedon_time)
+
+            shield.relay.one.off()
+
             endTime = time.ctime()
             print("Bed turned off at: {}".format(endTime))
 

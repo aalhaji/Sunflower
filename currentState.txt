@@ -1,1 +1,1 @@
-off
+BED_COOLING_DOWN
