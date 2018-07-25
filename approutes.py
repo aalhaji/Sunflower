@@ -5,9 +5,19 @@ global lastState
 
 # STATE 1 : READY
 # STATE 2 : ON
-# STATE 3 : CLEANING
+# STATE 3 : OFF
 
 class routes:
+
+    def bedready():
+
+        currentState = 1
+        state_open = open("currentState.txt", "w")
+        state_open.write(currentState)
+        state_open.close()
+
+
+        return "The bed is now ready."
 
     def bedon():
 
@@ -21,9 +31,9 @@ class routes:
 #            else:
         shield.relay.one.on()
 
-        lastState = 1
-        state_open = open("lastState.txt", "w")
-        state_open.write(str(lastState))
+        currentState = 2
+        state_open = open("currentState.txt", "w")
+        state_open.write(currentState)
         state_open.close()
 
         return "The bed is now on."
@@ -39,19 +49,9 @@ class routes:
         #    else:
         shield.relay.one.off()
 
-        lastState = 2
-        state_open = open("lastState.txt", "w")
-        state_open.write(str(lastState))
+        currentState = 3
+        state_open = open("currentState.txt", "w")
+        state_open.write(str(currentState))
         state_open.close()
 
         return "The bed is now off."
-
-    def bedready():
-
-        lastState = 3
-        state_open = open("lastState.txt", "w")
-        state_open.write(str(lastState))
-        state_open.close()
-
-
-        return "The bed is now ready."

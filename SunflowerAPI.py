@@ -271,6 +271,31 @@ class Devices:
                 misc.Exception_Handler(resp)
                 break
 
+############# SEND CURRENT STATE #####################
+
+
+    def patchCurrentState(name, uuid):
+
+        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
+        api_url_base = api_file[0]
+
+        currentStateFile = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
+        currentState = int(currentStateFile[0])
+
+        while True:
+            body = {"name":name, "uuid":uuid, "info.currentState":currentState}
+            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
+
+            if resp.status_code == 200:
+                print("Current state has been sent.")
+                print('==================================')
+                break
+
+            else:
+                misc.Exception_Handler(resp)
+                break
+
+
 ########## DEVICE REGISTRATION PROMPT #############
 
     def registerDevice():
