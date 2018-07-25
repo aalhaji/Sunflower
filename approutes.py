@@ -44,7 +44,7 @@ class routes:
 
     def bedready():
 
-        currentState = states[1]
+        currentState = 1 # states[1]
         state_open = open("currentState.txt", "w")
         state_open.write(currentState)
         state_open.close()
@@ -57,7 +57,7 @@ class routes:
 
         shield.relay.one.on()
 
-        currentState = states[2]
+        currentState = 2 # states[2]
         state_open = open("currentState.txt", "w")
         state_open.write(currentState)
         state_open.close()

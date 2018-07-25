@@ -52,7 +52,7 @@ while True:
             print("Button pressed to start bed.")
             shield.relay.one.on()
 
-            currentState = states[2]
+            currentState = 2 #states[2]
             state_open = open("currentState.txt", "w")
             state_open.write(currentState)
             state_open.close()
@@ -72,7 +72,7 @@ while True:
 
             print("Bed cooldown started at: {}".format(endTime))
 
-            currentState = states[3]
+            currentState = 3 #states[3]
             state_open = open("currentState.txt", "w")
             state_open.write(currentState)
             state_open.close()
@@ -83,7 +83,31 @@ while True:
             cooldown_endtime = time.ctime()
 
             print("Bed cooldown ended at: {}".format(cooldown_endtime))
-            
 
+            # NEEDS CLEANING STATE
+
+            print("Bed needs cleaning starting at: {}".format(cooldown_endtime))
+
+            currentState = 4
+            state_open = open("currentState.txt", "w")
+            state_open.write(currentState)
+            state_open.close()
+            sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+            # Read button press again
+
+            newvalue = shield.analog.one.read()
+
+            if (newvalue > 1):
+
+                if ((time.time()-time_now) > 0.3):
+
+                    print("Bed available. Not started. time: {}".format(time.ctime()))
+
+                    currentState = 0
+                    state_open = open("currentState.txt", "w")
+                    state_open.write(currentState)
+                    state_open.close()
+                    sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         time_now = time.time()

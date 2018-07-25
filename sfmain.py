@@ -63,12 +63,12 @@ def home():
 @app.route('/bedready')
 def readyapp():
     approutes.routes.bedready()
-    return "Bed ready."
+    return "Bed state: 'AVAILABLE'."
 
-@app.route('/bedon')
-def onapp():
-    approutes.routes.bedon()
-    return "Bed on."
+#@app.route('/bedon')
+#def onapp():
+#    approutes.routes.bedon()
+#    return "Bed on."
 
 @app.route('/bedoff')
 def offapp():
