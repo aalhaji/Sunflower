@@ -280,7 +280,7 @@ class Devices:
         api_url_base = api_file[0]
 
         currentStateFile = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
-        currentState = int(currentStateFile[0])
+        currentState = currentStateFile[0]
 
         while True:
             body = {"name":name, "uuid":uuid, "info.currentState":currentState, "info.ip_address":ip_address}

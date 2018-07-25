@@ -33,9 +33,9 @@ class routes:
 
     def bedready():
 
-        currentState = 1
+        currentState = "ready"
         state_open = open("currentState.txt", "w")
-        state_open.write(str(currentState))
+        state_open.write(currentState)
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
@@ -55,9 +55,9 @@ class routes:
 #            else:
         shield.relay.one.on()
 
-        currentState = 2
+        currentState = "on"
         state_open = open("currentState.txt", "w")
-        state_open.write(str(currentState))
+        state_open.write(currentState)
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
@@ -75,9 +75,9 @@ class routes:
         #    else:
         shield.relay.one.off()
 
-        currentState = 3
+        currentState = "off"
         state_open = open("currentState.txt", "w")
-        state_open.write(str(currentState))
+        state_open.write(currentState)
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
