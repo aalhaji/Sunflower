@@ -45,7 +45,7 @@ while True:
 
         if ((time.time()-time_now) > 0.3):
             print(value)
-            print("button pressed.")
+            print("Button pressed.")
 
             currentState = states[2]
             state_open = open("currentState.txt", "w")
@@ -55,10 +55,10 @@ while True:
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         
-            startTime = time.time()
+            startTime = time.ctime()
             print("Start time is: {}".format(startTime))
             time.sleep(sleep_time)
-            endTime = time.time()
+            endTime = time.ctime()
             print("End time is: {}".format(endTime))
 
 
