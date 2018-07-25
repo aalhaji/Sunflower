@@ -287,8 +287,8 @@ class Devices:
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
             if resp.status_code == 200:
-                print("Current state and IP address have been sent.")
-                print('==================================')
+                print("State change patched to Countr server.")
+               # print('==================================')
                 break
 
             else:
