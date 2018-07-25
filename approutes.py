@@ -46,7 +46,7 @@ class routes:
 
         currentState = 1 # states[1]
         state_open = open("currentState.txt", "w")
-        state_open.write(currentState)
+        state_open.write(str(currentState))
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
@@ -59,7 +59,7 @@ class routes:
 
         currentState = 2 # states[2]
         state_open = open("currentState.txt", "w")
-        state_open.write(currentState)
+        state_open.write(str(currentState))
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
@@ -79,7 +79,7 @@ class routes:
 
         currentState = states[1]
         state_open = open("currentState.txt", "w")
-        state_open.write(currentState)
+        state_open.write(str(currentState))
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)

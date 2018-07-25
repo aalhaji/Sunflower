@@ -38,6 +38,27 @@ states={0:"AVAILABLE_NOT_STARTED",
         5: "NOT_AVAILABLE_ERROR"
         }
 
+def bedAvailable():
+
+    time_now = time.time()
+
+    val = shield.analog.one.read()
+
+    if (val > 1):
+
+        if((time.time()-time_now) > 0.3):
+
+            print("Bed Available. Not started.")
+
+            currentState = 0
+            state_open = open("currentState.txt", "w")
+            state_open.write(str(currentState))
+            state_open.close()
+            sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+##########################################################################
+
+
 while True:
 
     value = shield.analog.one.read()
@@ -54,7 +75,7 @@ while True:
 
             currentState = 2 #states[2]
             state_open = open("currentState.txt", "w")
-            state_open.write(currentState)
+            state_open.write(str(currentState))
             state_open.close()
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
@@ -74,7 +95,7 @@ while True:
 
             currentState = 3 #states[3]
             state_open = open("currentState.txt", "w")
-            state_open.write(currentState)
+            state_open.write(str(currentState))
             state_open.close()
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
@@ -90,24 +111,12 @@ while True:
 
             currentState = 4
             state_open = open("currentState.txt", "w")
-            state_open.write(currentState)
+            state_open.write(str(currentState))
             state_open.close()
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
-            # Read button press again
+            bedAvailable()
 
-            newvalue = shield.analog.one.read()
-
-            if (newvalue > 1):
-
-                if ((time.time()-time_now) > 0.3):
-
-                    print("Bed available. Not started. time: {}".format(time.ctime()))
-
-                    currentState = 0
-                    state_open = open("currentState.txt", "w")
-                    state_open.write(currentState)
-                    state_open.close()
-                    sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         time_now = time.time()
+
