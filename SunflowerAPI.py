@@ -274,7 +274,7 @@ class Devices:
 ############# SEND CURRENT STATE #####################
 
 
-    def patchCurrentState(name, uuid):
+    def patchCurrentState(name, uuid, ip_address):
 
         api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
@@ -283,11 +283,11 @@ class Devices:
         currentState = int(currentStateFile[0])
 
         while True:
-            body = {"name":name, "uuid":uuid, "info.currentState":currentState}
+            body = {"name":name, "uuid":uuid, "info.currentState":currentState, "info.ip_address":ip_address}
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
 
             if resp.status_code == 200:
-                print("Current state has been sent.")
+                print("Current state and IP address have been sent.")
                 print('==================================')
                 break
 
