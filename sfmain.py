@@ -70,9 +70,9 @@ def status():
 
     state_open = open("currentState.txt", "r").read().splitlines()
     currentState = int(state_open[0])
-    str_state = states[currentState]
+    #str_state = states[currentState]
 
-    return "The current state is {}".format(str_state)
+    return "The current state is {}".format(currentState)
 
 
 if __name__ == "__main__":

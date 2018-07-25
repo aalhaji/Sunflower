@@ -47,42 +47,17 @@ class routes:
         currentState = 1 # states[1]
         state_open = open("currentState.txt", "w")
         state_open.write(str(currentState))
-        state_open.close()
+        #state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         return "The bed is now ready."
-
-    def bedon():
-
-        shield.relay.one.on()
-
-        currentState = 2 # states[2]
-        state_open = open("currentState.txt", "w")
-        state_open.write(str(currentState())
-        state_open.close()
-
-        sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-        return "The bed is now on."
-
-    def bedoff():
-
-        shield.relay.one.off()
-
-        currentState = 1 #states[1]
-        state_open = open("currentState.txt", "w")
-        state_open.write(str(currentState))
-        state_open.close()
-
-        sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-        return "The bed is now off."
 
     def bedstatus():
 
         state_open = open("currentState.txt", "r").read().splitlines()
         currentState = int(state_open[0])
         str_state = states[currentState]
+       # state_open.close()
 
         return "The current state is {}".format(str_state)
