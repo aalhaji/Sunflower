@@ -60,6 +60,11 @@ app = Flask(__name__)
 def home():
     return("Welcome to Sunflower! Current relay status: {}".format(shield.relay.one.read()))
 
+@app.route('/bedready')
+def readyapp():
+    approutes.routes.bedready()
+    return "Bed ready."
+
 @app.route('/bedon')
 def onapp():
     approutes.routes.bedon()

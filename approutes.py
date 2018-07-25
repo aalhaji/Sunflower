@@ -23,7 +23,7 @@ class routes:
 
         lastState = 1
         state_open = open("lastState.txt", "w")
-        state_open.write(lastState)
+        state_open.write(str(lastState))
         state_open.close()
 
         return "The bed is now on."
@@ -41,7 +41,7 @@ class routes:
 
         lastState = 2
         state_open = open("lastState.txt", "w")
-        state_open.write(lastState)
+        state_open.write(str(lastState))
         state_open.close()
 
         return "The bed is now off."
@@ -50,7 +50,7 @@ class routes:
 
         lastState = 3
         state_open = open("lastState.txt", "w")
-        state_open.write(lastState)
+        state_open.write(str(lastState))
         state_open.close()
 
 
