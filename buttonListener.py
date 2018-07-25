@@ -61,62 +61,80 @@ def bedAvailable():
 
 while True:
 
-    value = shield.analog.one.read()
+    while True:
 
-    if (value > 1):
+        value = shield.analog.one.read()
 
-        if ((time.time()-time_now) > 0.3):
-            #print(value)
+        if (value > 1):
 
-            # BUTTON TO START BED
+            if ((time.time()-time_now) > 0.3):
+                #print(value)
 
-            print("Button pressed to start bed.")
-            shield.relay.one.on()
+                # BUTTON TO START BED
 
-            currentState = 2 #states[2]
-            state_open = open("currentState.txt", "w")
-            state_open.write(str(currentState))
-            state_open.close()
-            sF.Devices.patchCurrentState(devname, uuid, ip_address)
+                print("Button pressed to start bed.")
+                shield.relay.one.on()
 
-
-            startTime = time.ctime()
-            print("Bed started at: {}".format(startTime))
-            time.sleep(bedon_time)
-
-            shield.relay.one.off()
-
-            endTime = time.ctime()
-            print("Bed turned off at: {}".format(endTime))
-
-            # COOLING STATE
-
-            print("Bed cooldown started at: {}".format(endTime))
-
-            currentState = 3 #states[3]
-            state_open = open("currentState.txt", "w")
-            state_open.write(str(currentState))
-            state_open.close()
-            sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-            time.sleep(cooling_time)
-
-            cooldown_endtime = time.ctime()
-
-            print("Bed cooldown ended at: {}".format(cooldown_endtime))
-
-            # NEEDS CLEANING STATE
-
-            print("Bed needs cleaning starting at: {}".format(cooldown_endtime))
-
-            currentState = 4
-            state_open = open("currentState.txt", "w")
-            state_open.write(str(currentState))
-            state_open.close()
-            sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-            bedAvailable()
+                currentState = 2 #states[2]
+                state_open = open("currentState.txt", "w")
+                state_open.write(str(currentState))
+                state_open.close()
+                sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
 
-        time_now = time.time()
+                startTime = time.ctime()
+                print("Bed started at: {}".format(startTime))
+                time.sleep(bedon_time)
 
+
+                shield.relay.one.off()
+
+                endTime = time.ctime()
+                print("Bed turned off at: {}".format(endTime))
+
+                # COOLING STATE
+
+                print("Bed cooldown started at: {}".format(endTime))
+
+                currentState = 3 #states[3]
+                state_open = open("currentState.txt", "w")
+                state_open.write(str(currentState))
+                state_open.close()
+                sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+                time.sleep(cooling_time)
+
+                cooldown_endtime = time.ctime()
+
+                print("Bed cooldown ended at: {}".format(cooldown_endtime))
+
+                # NEEDS CLEANING STATE
+
+                print("Bed needs cleaning starting at: {}".format(cooldown_endtime))
+
+                currentState = 4
+                state_open = open("currentState.txt", "w")
+                state_open.write(str(currentState))
+                state_open.close()
+                sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+                time_now = time.time()
+                break
+
+    while True:
+
+        value = shield.analog.one.read()
+
+        if (value > 1):
+
+            if ((time.time()-time_now) > 0.3):
+
+                print("Bed cleaned. Time: {}".format(time.ctime()))
+
+                currentState = 0
+                state_open = open("currentState.txt", "w")
+                state_open.write(str(currentState))
+                state_open.close()
+                sF.Devices.patchCurrentState(devname, uuid, ip_address)
+                time_now = time.time()
+                break
