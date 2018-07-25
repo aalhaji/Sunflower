@@ -22,7 +22,7 @@ dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
-sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
 # STATES
 
 # STATE 1 : READY
@@ -35,8 +35,10 @@ class routes:
 
         currentState = 1
         state_open = open("currentState.txt", "w")
-        state_open.write(currentState)
+        state_open.write(str(currentState))
         state_open.close()
+
+        sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
 
         return "The bed is now ready."
@@ -55,8 +57,10 @@ class routes:
 
         currentState = 2
         state_open = open("currentState.txt", "w")
-        state_open.write(currentState)
+        state_open.write(str(currentState))
         state_open.close()
+
+        sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         return "The bed is now on."
 
@@ -75,5 +79,7 @@ class routes:
         state_open = open("currentState.txt", "w")
         state_open.write(str(currentState))
         state_open.close()
+
+        sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
         return "The bed is now off."
