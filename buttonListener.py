@@ -57,7 +57,13 @@ def bedAvailable():
             sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
 ##########################################################################
+# initial state of 0
 
+currentState = 0
+state_open = open("currentState.txt", "w")
+state_open.write(str(currentState))
+state_open.close()
+sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
 while True:
 

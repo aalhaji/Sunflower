@@ -51,6 +51,16 @@ except RuntimeError:
 print("==================================")
 # END INITIALIZATION
 
+# STATES
+
+states={0:"AVAILABLE_NOT_STARTED",
+        1: "AVAILABLE",
+        2: "BED_STARTED",
+        3: "BED_COOLING_DOWN",
+        4: "NEEDS_CLEANING",
+        5: "NOT_AVAILABLE_ERROR"
+        }
+
 # START APP
 
 from flask import Flask
@@ -70,9 +80,9 @@ def status():
 
     state_open = open("currentState.txt", "r").read().splitlines()
     currentState = int(state_open[0])
-    #str_state = states[currentState]
+    str_state = states[currentState]
 
-    return "The current state is {}".format(currentState)
+    return "The current state is {}".format(str_state)
 
 
 if __name__ == "__main__":
