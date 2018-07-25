@@ -65,15 +65,14 @@ def readyapp():
     approutes.routes.bedready()
     return "Bed state: 'AVAILABLE'."
 
-#@app.route('/bedon')
-#def onapp():
-#    approutes.routes.bedon()
-#    return "Bed on."
+@app.route('/bedstatus')
+def status():
 
-@app.route('/bedoff')
-def offapp():
-    approutes.routes.bedoff()
-    return "Bed off."
+    state_open = open("currentState.txt", "r").read().splitlines()
+    currentState = int(state_open[0])
+    str_state = states[currentState]
+
+    return "The current state is {}".format(str_state)
 
 
 if __name__ == "__main__":
