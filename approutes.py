@@ -23,39 +23,41 @@ devname = dev_open[0]
 
 sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 
-# STATES
+#States:
 
-# STATE 1 : READY
-# STATE 2 : ON
-# STATE 3 : OFF
+#0: AVAILABLE_NOT_STARTED
+#1: AVAILABLE
+#2: BED_STARTED
+#3: BED_COOLING_DOWN
+#4: NEEDS_CLEANING
+#5: NOT_AVAILABLE_ERROR
+
+states={0:"AVAILABLE_NOT_STARTED",
+        1: "AVAILABLE",
+        2: "BED_STARTED",
+        3: "BED_COOLING_DOWN",
+        4: "NEEDS_CLEANING",
+        5: "NOT_AVAILABLE_ERROR"
+        }
 
 class routes:
 
     def bedready():
 
-        currentState = "ready"
+        currentState = states[1]
         state_open = open("currentState.txt", "w")
         state_open.write(currentState)
         state_open.close()
 
         sF.Devices.patchCurrentState(devname, uuid, ip_address)
 
-
         return "The bed is now ready."
 
     def bedon():
 
-        #while True:
-            #bedstatus = shield.input.one.read()
-
-#            if (bedstatus == 1):
-#                shield.relay.one.on()
-#                return "The bed is already on."
-
-#            else:
         shield.relay.one.on()
 
-        currentState = "on"
+        currentState = states[2]
         state_open = open("currentState.txt", "w")
         state_open.write(currentState)
         state_open.close()
@@ -75,7 +77,7 @@ class routes:
         #    else:
         shield.relay.one.off()
 
-        currentState = "off"
+        currentState = states[1]
         state_open = open("currentState.txt", "w")
         state_open.write(currentState)
         state_open.close()
