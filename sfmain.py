@@ -109,13 +109,13 @@ def bedon():
         #state ON for 15 minutes
 
         print("BED IS ON")
-        on_timer = threading.Timer(TREATMENT_DURATION, relayOff())
+        on_timer = threading.Timer(TREATMENT_DURATION, relayOff)
         on_timer.start()
 
         print("BED IS COOLING DOWN")
 
         states.stateCooldown()
-        cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning())
+        cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning)
         cooldown_timer.start()
         print("BED IS READY FOR CLEANING")
 
