@@ -61,7 +61,7 @@ print("==================================")
 
 # STATES
 
-states_dict={0:"AVAILABLE",
+states_dict={0:"AVAILABLE(OFF)",
         1: "BED_ON",
         2: "COOLDOWN",
         3: "CLEANING",
@@ -115,25 +115,6 @@ def bedon():
     return "Bed turned on."
 
 
-        # state COOLDOWN for 3 minutes
-
-        #shield.relay.one.off()
-        #currentState = 2
-        #str_state = states_dict[currentState]
-        #states.updateLocalState(currentState)
-
-        #time.sleep(COOLDOWN_DURATION)
-
-        #print("now cleaning")
-
-        # state CLEANING indefinitely
-
-        #currentState = 3
-        #str_state = states_dict[currentState]
-        #states.updateLocalState(currentState)
-
-
-
 @app.route('/bedoff')
 def bedoff():
 
@@ -143,6 +124,7 @@ def bedoff():
 
     if  relayState == 1:
         shield.relay.one.off()
+        print("Bed turned off.")
         currentState = 0
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
@@ -153,6 +135,15 @@ def bedoff():
         str_state = states_dict[currentState]
 
         return "The current state is {}".format(str_state)
+
+@app.route('/bedcleaned')
+def bedcleaned():
+
+    currentState = 0
+    str_state = states_dict[currentState]
+    states.updateLocalState(currentState)
+
+    return "The bed is now in state: {}".format(str_state)
 
 
 if __name__ == "__main__":
