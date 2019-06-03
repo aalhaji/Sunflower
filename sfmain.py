@@ -68,6 +68,12 @@ states_dict={0:"AVAILABLE",
         4: "NOT_AVAILABLE_ERROR"
         }
 
+def relayOff():
+    shield.relay.one.off()
+
+def relayOn():
+    shield.relay.one.on()
+
 # START APP
 
 from flask import Flask
@@ -103,14 +109,14 @@ def bedon():
         #state ON for 15 minutes
 
         print("BED IS ON")
-        on_timer = threading.Timer(TREATMENT_DURATION, shield.relay.one.off())
-        on_timer()
+        on_timer = threading.Timer(TREATMENT_DURATION, relayOff)
+        on_timer.start()
 
         print("BED IS COOLING DOWN")
 
         states.stateCooldown()
         cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning())
-        cooldown_timer()
+        cooldown_timer.start()
         print("BED IS READY FOR CLEANING")
 
 
