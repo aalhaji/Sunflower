@@ -128,10 +128,11 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    currentState = states.checkLocalState()
-    str_state = states_dict[currentState]
+    #currentState = states.checkLocalState()
+    #str_state = states_dict[currentState]
+    relayState = shield.relay.one.read()
 
-    if  currentState == 1:
+    if  relayState == 1:
         shield.relay.one.off()
         currentState = 0
         str_state = states_dict[currentState]
@@ -139,7 +140,10 @@ def bedoff():
         return "The bed is now in state: {}".format(str_state)
 
     else:
-        status()
+        currentState = states.checkLocalState()
+        str_state = states_dict[currentState]
+
+        return "The current state is {}".format(str_state)
 
 
 if __name__ == "__main__":
