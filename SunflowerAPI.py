@@ -49,17 +49,6 @@ class Login:
         cred_file.close()
 
 
-    # ONE-TIME UUID generation
-
-    def generateUUID():
-
-        Login.uuid = str(uuid.uuid1())
-
-        uuid_file = open("/home/pi/sunflower/uuid.txt", "w")
-        uuid_file.write(Login.uuid)
-        uuid_file.write("\n")
-        uuid_file.close()
-
     # Choice of staging or production API
     def selectAPI():
 
@@ -240,6 +229,18 @@ class Devices:
                 misc.Exception_Handler(resp)
                 break
 
+    ########### ONE-TIME UUID GENERATION ################
+
+    def generateUUID():
+
+            print("Generating UUID...")
+
+            Devices.uuid = str(uuid.uuid1())
+
+            uuid_file = open("/home/pi/sunflower/uuid.txt", "w")
+            uuid_file.write(Devices.uuid)
+            uuid_file.write("\n")
+            uuid_file.close()
 
 ############# GET SPECIFIC DEVICE ################
 
@@ -336,12 +337,12 @@ class Devices:
         ### 3) CREATE DEVICE
 
         print("Creating Device...")
-        Devices.createDevice(Devices.DeviceName, Login.uuid, Stores.store_id)
+        Devices.createDevice(Devices.DeviceName, Devices.uuid, Stores.store_id)
 
         ### 4) PATCH IP ADDRESS
 
         print("Sending IP Address to Countr Database...")
-        Devices.patchIP(Devices.DeviceName, Login.uuid, ip_address)
+        Devices.patchIP(Devices.DeviceName, Devices.uuid, ip_address)
 
 
 ########### END CLASS 'DEVICES' ####################

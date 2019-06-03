@@ -15,11 +15,11 @@ sF.Login.selectAPI()
 # 2) Database Login
 
 sF.Login.credentials()
-sF.Login.generateUUID()
 sF.Access.authenticate(sF.Login.username, sF.Login.password, sF.Login.client_id, sF.Login.client_secret, sF.Login.grant_type)
 
 # 3) Device creation
 
+sF.Devices.generateUUID()
 sF.Devices.registerDevice()
 
 # 4) Device confirmation
