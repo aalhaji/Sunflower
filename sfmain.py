@@ -13,7 +13,7 @@ ip_address = s.getsockname()[0]
 import SunflowerAPI as sF
 
 # states library
-import states
+from states import states
 
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
