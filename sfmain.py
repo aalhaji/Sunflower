@@ -70,8 +70,8 @@ states_dict={0:"AVAILABLE",
 
 def afterTreatment():
     shield.relay.one.off()
-    time.sleep(COOLDOWN_DURATION)
     states.stateCooldown()
+    time.sleep(COOLDOWN_DURATION)
 
 # START APP
 
