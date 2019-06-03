@@ -96,6 +96,22 @@ def bedon():
         states.updateLocalState(currentState)
         return "The bed is now in state: {}".format(str_state)
 
+@app.route('/bedoff')
+def bedoff():
+
+    currentState = states.checkLocalState()
+    str_state = states_dict[currentState]
+
+    if  currentState == 1:
+        shield.relay.one.off()
+        currentState = 0
+        str_state = states_dict[currentState]
+        states.updateLocalState(currentState)
+        return "The bed is now in state: {}".format(str_state)
+
+    else:
+        status()
+
 
 if __name__ == "__main__":
 
