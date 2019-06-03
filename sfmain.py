@@ -12,9 +12,6 @@ ip_address = s.getsockname()[0]
 # API library
 import SunflowerAPI as sF
 
-# App routes library
-import approutes
-
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
 
@@ -70,11 +67,6 @@ app = Flask(__name__)
 def home():
     return("Welcome to Sunflower! Current relay status: {}".format(shield.relay.one.read()))
 
-@app.route('/bedready')
-def readyapp():
-    approutes.routes.bedready()
-    return "Bed state: 'AVAILABLE'."
-
 @app.route('/bedstatus')
 def status():
 
@@ -86,7 +78,20 @@ def status():
 
 @app.route('/bedon')
 def bedon():
-    approutes.routes.bedon()
+    state_open = open("currentState.txt", "r").read().splitlines()
+    currentState = int(state_open[0])
+    str_state = states[currentState]
+
+    if currentState == (1 or 2 or 3 or 4):
+        return "Error. The bed is currently in state: {}".format(str_state)
+
+    else:
+        shield.relay.one.on()
+        currentState = 1 # states[1]
+        str_state = states[currentState]
+        state_write = open("currentState.txt", "w")
+        state_write.write(str(currentState))
+        state_write.close()
 
 
 if __name__ == "__main__":

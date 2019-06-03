@@ -1,4 +1,6 @@
-import automationhat as shield
+# KILLING THIS CODE OUT
+
+""" import automationhat as shield
 
 # IP library
 import socket
@@ -79,3 +81,5 @@ class routes:
             state_write.close()
 
             return "The bed is now in state: {}".format(str_state)
+
+"""
