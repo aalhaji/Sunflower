@@ -1,6 +1,6 @@
 # I/O libraries
-# Hello from Raspberry Pi
 import automationhat as shield
+import time
 time.sleep(0.1)
 
 # IP library
@@ -19,13 +19,14 @@ import approutes
 # this part has been debugged, just uncomment it when ready
 
 cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
+uuid_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
 
 username = cred_file[0]
 password = cred_file[1]
 client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
 client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
 grant_type = 'password'
-uuid = cred_file[2]
+uuid = uuid_file[0]
 
 dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
@@ -53,12 +54,11 @@ print("==================================")
 
 # STATES
 
-states={0:"AVAILABLE_NOT_STARTED",
-        1: "AVAILABLE",
-        2: "BED_STARTED",
-        3: "BED_COOLING_DOWN",
-        4: "NEEDS_CLEANING",
-        5: "NOT_AVAILABLE_ERROR"
+states={0:"AVAILABLE",
+        1: "BED_ON",
+        2: "COOLDOWN",
+        3: "CLEANING",
+        4: "NOT_AVAILABLE_ERROR"
         }
 
 # START APP
@@ -83,6 +83,10 @@ def status():
     str_state = states[currentState]
 
     return "The current state is {}".format(str_state)
+
+@app.route('/bedon')
+def bedon():
+    approutes.routes.bedon()
 
 
 if __name__ == "__main__":
