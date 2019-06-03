@@ -12,6 +12,19 @@ ip_address = s.getsockname()[0]
 # API library
 import SunflowerAPI as sF
 
+# consider moving this chunk to a new file
+class states:
+
+    def updateLocalState(newStatus):
+        open_state_file = open("/home/pi/sunflower/currentState.txt", "w")
+        open_state_file.write(str(newStatus))
+        open_state_file.close()
+
+    def checkLocalState():
+        open_state_file = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
+        currentState = int(open_state_file[0])
+        return currentState
+
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
 
@@ -42,6 +55,8 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 # So this is to ignore the first runtime error
 
 print("Initializing Automation pHAT")
+shield.relay.one.off()
+states.updateLocalState()
 try:
     shield.relay.one.read()
 except RuntimeError:
@@ -70,16 +85,15 @@ def home():
 @app.route('/bedstatus')
 def status():
 
-    state_open = open("currentState.txt", "r").read().splitlines()
-    currentState = int(state_open[0])
+    currentState = states.checkLocalState()
     str_state = states[currentState]
 
     return "The current state is {}".format(str_state)
 
 @app.route('/bedon')
 def bedon():
-    state_open = open("currentState.txt", "r").read().splitlines()
-    currentState = int(state_open[0])
+
+    currentState = states.checkLocalState()
     str_state = states[currentState]
 
     if currentState == (1 or 2 or 3 or 4):
@@ -89,9 +103,8 @@ def bedon():
         shield.relay.one.on()
         currentState = 1 # states[1]
         str_state = states[currentState]
-        state_write = open("currentState.txt", "w")
-        state_write.write(str(currentState))
-        state_write.close()
+        states.updateLocalState(currentState)
+        return "The bed is now in state: {}".format(str_state)
 
 
 if __name__ == "__main__":
