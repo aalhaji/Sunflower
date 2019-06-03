@@ -70,6 +70,7 @@ states_dict={0:"AVAILABLE",
 
 def afterTreatment():
     shield.relay.one.off()
+    time.sleep(COOLDOWN_DURATION)
     states.stateCooldown()
 
 # START APP
@@ -110,12 +111,7 @@ def bedon():
         on_timer = threading.Timer(TREATMENT_DURATION, afterTreatment)
         on_timer.start()
 
-
-        cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning)
-        cooldown_timer.start()
-
-
-    return "The treatment has been done."
+    return "Bed turned on."
 
 
         # state COOLDOWN for 3 minutes
