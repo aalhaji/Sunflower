@@ -30,6 +30,7 @@ ip_address = s.getsockname()[0]
 class Login:
 
     # Credential collection
+
     def credentials():
 
         Login.username = input("Please enter your username (usually an e-mail): ")
@@ -46,8 +47,7 @@ class Login:
         Login.client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
         Login.grant_type = 'password'
 
-    #  ONE-TIME uuid generation
-
+   #  ONE-TIME uuid generation
    def generateUUID():
 
         Login.uuid = str(uuid.uuid1())
