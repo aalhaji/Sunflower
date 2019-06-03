@@ -24,4 +24,4 @@ sF.Devices.registerDevice()
 
 # 4) Device confirmation
 
-sF.Devices.getDevice(sF.Devices.DeviceName, sF.Login.uuid)
+sF.Devices.getDevice(sF.Devices.DeviceName, sF.Devices.uuid)

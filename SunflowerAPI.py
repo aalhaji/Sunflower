@@ -233,8 +233,6 @@ class Devices:
 
     def generateUUID():
 
-            print("Generating UUID...")
-
             Devices.uuid = str(uuid.uuid1())
 
             uuid_file = open("/home/pi/sunflower/uuid.txt", "w")
@@ -336,6 +334,7 @@ class Devices:
 
         ### 3) CREATE DEVICE
 
+        print("Generating UUID...")
         print("Creating Device...")
         Devices.createDevice(Devices.DeviceName, Devices.uuid, Stores.store_id)
 
