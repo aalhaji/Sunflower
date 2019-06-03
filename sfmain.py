@@ -5,6 +5,7 @@ COOLDOWN_DURATION = 3 # 3*60 to get 3 minutes
 import automationhat as shield
 import time
 time.sleep(0.1)
+import threading # library for timers
 
 
 # IP library
@@ -100,9 +101,22 @@ def bedon():
         states.updateLocalState(currentState)
 
         #state ON for 15 minutes
-        print("hello")
-        time.sleep(TREATMENT_DURATION)
-        print("now cooldown")
+
+        print("BED IS ON")
+        on_timer = threading.Timer(TREATMENT_DURATION, shield.relay.one.off())
+        on_timer()
+
+        print("BED IS COOLING DOWN")
+
+        states.stateCooldown()
+        cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning())
+        cooldown_timer()
+        print("BED IS READY FOR CLEANING")
+
+
+    return "The treatment has been done."
+
+
 
 
 
@@ -123,7 +137,7 @@ def bedon():
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
 
-        return "The bed is now in state: {}".format(str_state)
+
 
 @app.route('/bedoff')
 def bedoff():

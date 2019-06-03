@@ -9,3 +9,9 @@ class states:
     def checkLocalState():
         currentState = int(open("/home/pi/sunflower/currentState.txt", "r").readline())
         return currentState
+
+    def stateCooldown():
+        states.updateLocalState(2)
+
+    def stateCleaning():
+        states.updateLocalState(3)
