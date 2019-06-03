@@ -1,6 +1,5 @@
 # I/O libraries
-# Hello
-import time
+# Hello from Raspberry Pi
 import automationhat as shield
 time.sleep(0.1)
 
