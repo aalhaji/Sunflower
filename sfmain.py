@@ -1,7 +1,11 @@
+TREATMENT_DURATION = 5 # 15*60 to get 15 minutes
+COOLDOWN_DURATION = 3 # 3*60 to get 3 minutes
+
 # I/O libraries
 import automationhat as shield
 import time
 time.sleep(0.1)
+
 
 # IP library
 import socket
@@ -94,6 +98,27 @@ def bedon():
         currentState = 1 # states[1]
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
+
+        #state ON for 15 minutes
+
+        time.sleep(TREATMENT_DURATION)
+
+
+        # state COOLDOWN for 3 minutes
+
+        shield.relay.one.off()
+        currentState = 2
+        str_state = states_dict[currentState]
+        states.updateLocalState(currentState)
+
+        time.sleep(COOLDOWN_DURATION)
+
+        # state CLEANING indefinitely
+
+        currentState = 3
+        str_state = states_dict[currentState]
+        states.updateLocalState(currentState)
+
         return "The bed is now in state: {}".format(str_state)
 
 @app.route('/bedoff')
