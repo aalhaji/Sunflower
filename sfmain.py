@@ -12,17 +12,8 @@ ip_address = s.getsockname()[0]
 # API library
 import SunflowerAPI as sF
 
-# consider moving this chunk to a new file
-class states:
-
-    def updateLocalState(newStatus):
-        open_state_file = open("/home/pi/sunflower/currentState.txt", "w")
-        open_state_file.write(str(newStatus))
-        open_state_file.close()
-
-    def checkLocalState():
-        currentState = open("/home/pi/sunflower/currentState.txt", "r").readline()
-        return currentState
+# states library
+from states import states
 
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
