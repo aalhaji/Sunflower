@@ -100,8 +100,10 @@ def bedon():
         states.updateLocalState(currentState)
 
         #state ON for 15 minutes
-
+        print("hello")
         time.sleep(TREATMENT_DURATION)
+        print("now cooldown")
+
 
 
         # state COOLDOWN for 3 minutes
@@ -112,6 +114,8 @@ def bedon():
         states.updateLocalState(currentState)
 
         time.sleep(COOLDOWN_DURATION)
+
+        print("now cleaning")
 
         # state CLEANING indefinitely
 
