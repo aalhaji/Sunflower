@@ -56,7 +56,7 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 
 print("Initializing Automation pHAT")
 shield.relay.one.off()
-states.updateLocalState()
+states.updateLocalState(shield.relay.one.read())
 try:
     shield.relay.one.read()
 except RuntimeError:
