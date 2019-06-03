@@ -1,5 +1,5 @@
-TREATMENT_DURATION = 5 # 15*60 to get 15 minutes
-COOLDOWN_DURATION = 3 # 3*60 to get 3 minutes
+TREATMENT_DURATION = 10 # 15*60 to get 15 minutes
+COOLDOWN_DURATION = 10 # 3*60 to get 3 minutes
 
 # I/O libraries
 import automationhat as shield
@@ -68,11 +68,9 @@ states_dict={0:"AVAILABLE",
         4: "NOT_AVAILABLE_ERROR"
         }
 
-def relayOff():
+def afterTreatment():
     shield.relay.one.off()
-
-def relayOn():
-    shield.relay.one.on()
+    states.stateCooldown()
 
 # START APP
 
@@ -109,15 +107,12 @@ def bedon():
         #state ON for 15 minutes
 
         print("BED IS ON")
-        on_timer = threading.Timer(TREATMENT_DURATION, relayOff)
+        on_timer = threading.Timer(TREATMENT_DURATION, afterTreatment)
         on_timer.start()
 
-        print("BED IS COOLING DOWN")
 
-        states.stateCooldown()
         cooldown_timer = threading.Timer(COOLDOWN_DURATION, states.stateCleaning)
         cooldown_timer.start()
-        print("BED IS READY FOR CLEANING")
 
 
     return "The treatment has been done."
