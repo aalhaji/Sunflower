@@ -117,25 +117,22 @@ def bedon():
     return "The treatment has been done."
 
 
-
-
-
         # state COOLDOWN for 3 minutes
 
-        shield.relay.one.off()
-        currentState = 2
-        str_state = states_dict[currentState]
-        states.updateLocalState(currentState)
+        #shield.relay.one.off()
+        #currentState = 2
+        #str_state = states_dict[currentState]
+        #states.updateLocalState(currentState)
 
-        time.sleep(COOLDOWN_DURATION)
+        #time.sleep(COOLDOWN_DURATION)
 
-        print("now cleaning")
+        #print("now cleaning")
 
         # state CLEANING indefinitely
 
-        currentState = 3
-        str_state = states_dict[currentState]
-        states.updateLocalState(currentState)
+        #currentState = 3
+        #str_state = states_dict[currentState]
+        #states.updateLocalState(currentState)
 
 
 
