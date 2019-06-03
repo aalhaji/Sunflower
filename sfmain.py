@@ -72,6 +72,7 @@ def afterTreatment():
     shield.relay.one.off()
     states.stateCooldown()
     time.sleep(COOLDOWN_DURATION)
+    states.stateCleaning()
 
 # START APP
 
