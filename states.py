@@ -7,5 +7,5 @@ class states:
         open_state_file.close()
 
     def checkLocalState():
-        currentState = open("/home/pi/sunflower/currentState.txt", "r").readline()
+        currentState = int(open("/home/pi/sunflower/currentState.txt", "r").readline())
         return currentState
