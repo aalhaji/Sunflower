@@ -55,10 +55,10 @@ class Login:
 
         Login.uuid = str(uuid.uuid1())
 
-        cred_file = open("/home/pi/sunflower/credentials.txt", "w")
-        cred_file.write(Login.uuid)
-        cred_file.write("\n")
-        cred_file.close()
+        uuid_file = open("/home/pi/sunflower/uuid.txt", "w")
+        uuid_file.write(Login.uuid)
+        uuid_file.write("\n")
+        uuid_file.close()
 
     # Choice of staging or production API
     def selectAPI():
