@@ -13,7 +13,7 @@ ip_address = s.getsockname()[0]
 import SunflowerAPI as sF
 
 # states library
-from states import states
+import states
 
 # PATCH IP ADDRESS
 # this part has been debugged, just uncomment it when ready
@@ -46,7 +46,7 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 
 print("Initializing Automation pHAT")
 shield.relay.one.off()
-states.updateLocalState(shield.relay.one.read())
+states.updateLocalState(0)
 try:
     shield.relay.one.read()
 except RuntimeError:
@@ -56,7 +56,7 @@ print("==================================")
 
 # STATES
 
-states={0:"AVAILABLE",
+states_dict={0:"AVAILABLE",
         1: "BED_ON",
         2: "COOLDOWN",
         3: "CLEANING",
@@ -76,7 +76,7 @@ def home():
 def status():
 
     currentState = states.checkLocalState()
-    str_state = states[currentState]
+    str_state = states_dict[currentState]
 
     return "The current state is {}".format(str_state)
 
@@ -84,7 +84,7 @@ def status():
 def bedon():
 
     currentState = states.checkLocalState()
-    str_state = states[currentState]
+    str_state = states_dict[currentState]
 
     if currentState == (1 or 2 or 3 or 4):
         return "Error. The bed is currently in state: {}".format(str_state)
@@ -92,7 +92,7 @@ def bedon():
     else:
         shield.relay.one.on()
         currentState = 1 # states[1]
-        str_state = states[currentState]
+        str_state = states_dict[currentState]
         states.updateLocalState(currentState)
         return "The bed is now in state: {}".format(str_state)
 
