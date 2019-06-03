@@ -21,8 +21,7 @@ class states:
         open_state_file.close()
 
     def checkLocalState():
-        open_state_file = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
-        currentState = int(open_state_file[0])
+        currentState = open("/home/pi/sunflower/currentState.txt", "r").readline()
         return currentState
 
 # PATCH IP ADDRESS
