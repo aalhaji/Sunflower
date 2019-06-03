@@ -142,6 +142,6 @@ while True:
                 state_open.write(str(currentState))
                 state_open.close()
                 sF.Devices.patchCurrentState(devname, uuid, ip_address)
-                time.sleep(30) # debouncing
+                time.sleep(5) # debouncing
                 time_now = time.time()
                 break
