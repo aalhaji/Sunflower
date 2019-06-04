@@ -1,3 +1,7 @@
+import SunflowerAPI as sF
+import socket
+
+
 def automatedLogin():
 
     cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
@@ -13,10 +17,13 @@ def automatedLogin():
     dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
     devname = dev_open[0]
 
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
+
     print("Establishing Database Connection...")
     print("==================================")
     sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
     sF.Devices.patchIP(devname, uuid, ip_address)
 
-
-# new commit attempt
+    return (devname, uuid, ip_address)
