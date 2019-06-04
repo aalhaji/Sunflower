@@ -21,7 +21,6 @@ import SunflowerAPI as sF
 from states import states
 
 # PATCH IP ADDRESS
-# this part has been debugged, just uncomment it when ready
 
 cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
 uuid_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
@@ -52,11 +51,14 @@ sF.Devices.patchIP(devname, uuid, ip_address)
 print("Initializing Automation pHAT")
 shield.relay.one.off()
 states.updateLocalState(0)
+states.updateServerState()
+
 try:
     shield.relay.one.read()
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
 print("==================================")
+
 # END INITIALIZATION
 
 # STATES
