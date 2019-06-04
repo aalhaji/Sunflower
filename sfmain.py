@@ -7,6 +7,9 @@ import time
 time.sleep(0.1)
 import threading # library for timers
 
+TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
+COOLDOWN DURATION = time.time() + 10 # + 60*3 to get 3 mins
+
 
 # IP library
 import socket
@@ -82,7 +85,9 @@ def afterTreatment():
     #cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCooldown)
     #cooldown_timer.start()
 
-    while True:
+    startTime = time.time()
+
+    while time.time() < (startTime + COOLDOWN_DURATION): # change to "while time is less than cooldown duration
 
         currentState = states.checkLocalState()
 
@@ -91,11 +96,9 @@ def afterTreatment():
             states.updateServerState()
             break
 
-        else: # go to cleaning
-            time.sleep(COOLDOWN_DURATION)
-            states.stateCleaning()
-            states.updateServerState()
-            break
+         # go to cleaning
+        states.stateCleaning()
+        states.updateServerState()
 
 
 # START APP
