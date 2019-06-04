@@ -100,52 +100,67 @@ def bedon():
     str_state = states_dict[currentState]
 
     if currentState == (1 or 2 or 3 or 4):
-        return "Error. The bed is currently in state: {}".format(str_state)
+        return "ERROR. The bed is currently in state: {}".format(str_state)
 
     else:
         shield.relay.one.on()
         currentState = 1 # states[1]
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
+        states.updateServerState()
 
         #state ON for 15 minutes
 
-        print("BED IS ON")
         on_timer = threading.Timer(TREATMENT_DURATION, afterTreatment)
         on_timer.start()
 
-    return "Bed turned on."
+    return "Bed turned ON."
 
 
 @app.route('/bedoff')
 def bedoff():
 
-    #currentState = states.checkLocalState()
-    #str_state = states_dict[currentState]
+    currentState = states.checkLocalState()
+    str_state = states_dict[currentState]
     relayState = shield.relay.one.read()
 
-    if  relayState == 1:
+    if currentState == 0: # already off
+        return "The bed is already in state: {}".format(str_state)
+
+    elif  currentState == 1: # on
         shield.relay.one.off()
-        print("Bed turned off.")
+        currentState = 3 # cleaning
+        str_state = states_dict[currentState]
+        states.updateLocalState(currentState)
+        states.updateServerState()
+        return "The bed has been turned off. is now in state: {}".format(str_state)
+
+    elif currentState == 2: # cooldown
+        currentState = 3
+        str_state = states_dict[currentState]
+        states.updateLocalState(currentState)
+        states.updateServerState()
+        return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
+
+    elif currentState == 3: # Cleaning
         currentState = 0
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
-        return "The bed is now in state: {}".format(str_state)
+        states.updateServerState()
+        return "Cleaning done. Bed is now in state: {}".format(str_state)
 
     else:
-        currentState = states.checkLocalState()
-        str_state = states_dict[currentState]
+        return "Bed off."
 
-        return "The current state is {}".format(str_state)
 
-@app.route('/bedcleaned')
-def bedcleaned():
+#@app.route('/bedcleaned')
+#def bedcleaned():
 
-    currentState = 0
-    str_state = states_dict[currentState]
-    states.updateLocalState(currentState)
+#    currentState = 0
+#    str_state = states_dict[currentState]
+#    states.updateLocalState(currentState)
 
-    return "The bed is now in state: {}".format(str_state)
+#    return "The bed is now in state: {}".format(str_state)
 
 
 if __name__ == "__main__":
