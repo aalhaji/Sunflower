@@ -11,7 +11,10 @@ class states:
         open_state_file.close()
 
     def checkLocalState():
-        currentState = int(open("/home/pi/sunflower/currentState.txt", "r").readline())
+        currentState_file = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
+        currentState = currentState_file[0]
+        currentState = int(currentState)
+        
         return currentState
 
     def updateServerState():
