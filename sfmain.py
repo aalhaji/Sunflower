@@ -73,8 +73,10 @@ states_dict={0:"AVAILABLE(OFF)",
 def afterTreatment():
     shield.relay.one.off()
     states.stateCooldown()
+    states.updateServerState()
     time.sleep(COOLDOWN_DURATION)
     states.stateCleaning()
+    states.updateServerState()
 
 # START APP
 
