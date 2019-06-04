@@ -132,14 +132,14 @@ def bedoff():
 
     elif  currentState == 1: # on
         shield.relay.one.off()
-        currentState = 3 # cleaning
+        currentState = 2 # cooldown
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
         states.updateServerState()
-        return "The bed has been turned off. is now in state: {}".format(str_state)
+        return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
     elif currentState == 2: # cooldown
-        currentState = 3
+        currentState = 3 # cleaning
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
         states.updateServerState()
