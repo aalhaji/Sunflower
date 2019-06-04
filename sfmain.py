@@ -103,8 +103,6 @@ def afterOn():
             states.updateServerState()
             break
 
-
-
 # START APP
 
 from flask import Flask
@@ -157,11 +155,14 @@ def bedoff():
         return "The bed is already in state: {}".format(str_state)
 
     elif  currentState == 1: # on
-        shield.relay.one.off()
-        currentState = 2 # cooldown
+
+        afterOn()
+        #shield.relay.one.off()
+        #currentState = 2 # cooldown
+        currentState = state.checkLocalState()
         str_state = states_dict[currentState]
-        states.updateLocalState(currentState)
-        states.updateServerState()
+        #states.updateLocalState(currentState)
+        #states.updateServerState()
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
     elif currentState == 2: # cooldown
@@ -182,16 +183,6 @@ def bedoff():
 
     else:
         return "Bed off."
-
-
-#@app.route('/bedcleaned')
-#def bedcleaned():
-
-#    currentState = 0
-#    str_state = states_dict[currentState]
-#    states.updateLocalState(currentState)
-
-#    return "The bed is now in state: {}".format(str_state)
 
 
 if __name__ == "__main__":
