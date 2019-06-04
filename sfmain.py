@@ -85,18 +85,24 @@ def afterOn():
 
     startTime = time.time()
 
-    while time.time() < (startTime + COOLDOWN_DURATION): # change to "while time is less than cooldown duration
+    while True:
+        # if time is less than cooldown time
 
-        currentState = states.checkLocalState()
+        if time.time() < (startTime + COOLDOWN_DURATION):
 
-        if currentState != 2: # cooldown
-            states.updateLocalState(currentState)
+            # keep checking for state
+            currentState = states.checkLocalState()
+
+            if currentState != 2: # has been changed
+                states.stateCleaning()
+                states.updateServerState()
+                break
+
+        else:
+            states.stateCleaning()
             states.updateServerState()
             break
 
-         # go to cleaning
-        states.stateCleaning()
-        states.updateServerState()
 
 
 # START APP
@@ -134,23 +140,8 @@ def bedon():
 
         #state ON for 15 minutes
 
-        startTime = time.time()
-
-        while time.time() < (startTime + TREATMENT_DURATION):
-
-            currentState = states.checkLocalState()
-
-            if currentState != 1: # ON
-                states.updateLocalState(currentState)
-                states.updateServerState()
-                break
-
-            # otherwise just stay the same
-
-
-
-        #on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
-        #on_timer.start()
+        on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
+        on_timer.start()
 
     return "Bed turned ON."
 
