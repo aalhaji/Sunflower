@@ -19,7 +19,8 @@ class states:
         dev_file = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
         devname = dev_file[0]
 
-        uuid = open("/home/pi/sunflower/uuid.txt").readline()
+        uuid_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
+        uuid = uuid_file[0]
 
         sF.Devices.patchState(devname, uuid)
 
