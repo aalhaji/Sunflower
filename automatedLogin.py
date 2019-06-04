@@ -1,5 +1,5 @@
 def automatedLogin():
-    
+
     cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
     uuid_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
 
@@ -17,3 +17,6 @@ def automatedLogin():
     print("==================================")
     sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
     sF.Devices.patchIP(devname, uuid, ip_address)
+
+
+# new commit attempt
