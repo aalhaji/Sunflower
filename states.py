@@ -16,7 +16,7 @@ class states:
 
     def updateServerState():
 
-        dev_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
+        dev_file = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
         devname = dev_file[0]
 
         uuid = open("/home/pi/sunflower/uuid.txt").readline()
