@@ -72,7 +72,7 @@ states_dict={0:"AVAILABLE(OFF)",
         4: "NOT_AVAILABLE_ERROR"
         }
 
-def afterTreatment():
+def afterOn():
 
     shield.relay.one.off()
     states.stateCooldown()
@@ -134,7 +134,7 @@ def bedon():
 
         #state ON for 15 minutes
 
-        on_timer = threading.Timer(TREATMENT_DURATION, afterTreatment)
+        on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
         on_timer.start()
 
     return "Bed turned ON."
@@ -159,10 +159,12 @@ def bedoff():
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
     elif currentState == 2: # cooldown
-        currentState = 3 # cleaning
+        afterOn()
+        #currentState = 3 # cleaning
+        currentState = states.checkLocalState()
         str_state = states_dict[currentState]
-        states.updateLocalState(currentState)
-        states.updateServerState()
+        #states.updateLocalState(currentState)
+        #states.updateServerState()
         return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
 
     elif currentState == 3: # Cleaning
