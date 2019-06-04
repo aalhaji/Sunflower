@@ -1,5 +1,3 @@
-TREATMENT_DURATION = 10 # 15*60 to get 15 minutes
-COOLDOWN_DURATION = 10 # 3*60 to get 3 minutes
 
 # I/O libraries
 import automationhat as shield
@@ -8,7 +6,7 @@ time.sleep(0.1)
 import threading # library for timers
 
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
-COOLDOWN DURATION = time.time() + 10 # + 60*3 to get 3 mins
+COOLDOWN_DURATION = time.time() + 10 # + 60*3 to get 3 mins
 
 
 # IP library
