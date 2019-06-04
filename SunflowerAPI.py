@@ -111,7 +111,7 @@ class Access:
         Access.bearer = 'Bearer '+str(Access.access_token)
 
         token_file = open("/home/pi/sunflower/access_token.txt", "w")
-        token_file.write(Acess.bearer)
+        token_file.write(Access.bearer)
         token_file.close()
 
         print('Logged in. Access Token: {}'.format(Access.access_token))
