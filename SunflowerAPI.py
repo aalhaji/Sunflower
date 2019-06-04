@@ -281,7 +281,7 @@ class Devices:
 ############# SEND CURRENT STATE #####################
 
 
-    def patchCurrentState(name, uuid, ip_address):
+    def patchState(name, uuid, ip_address):
 
         api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
@@ -295,7 +295,7 @@ class Devices:
 
             if resp.status_code == 200:
                 print("State change patched to Countr server.")
-               # print('==================================')
+                print('==================================')
                 break
 
             else:

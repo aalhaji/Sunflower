@@ -1,4 +1,5 @@
-# consider moving this chunk to a new file
+# updating and checking the states, locally
+
 class states:
 
     def updateLocalState(newStatus):
