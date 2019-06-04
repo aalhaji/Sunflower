@@ -288,7 +288,7 @@ class Devices:
 ############# SEND CURRENT STATE #####################
 
 
-    def patchState(name, uuid, ip_address):
+    def patchState(name, uuid):
 
         api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]

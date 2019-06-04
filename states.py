@@ -21,11 +21,7 @@ class states:
 
         uuid = open("/home/pi/sunflower/uuid.txt").readline()
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip_address = s.getsockname()[0]
-
-        sF.Devices.patchState(devname, uuid, ip_address)
+        sF.Devices.patchState(devname, uuid)
 
     # def checkServerState():
 
