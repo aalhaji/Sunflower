@@ -110,6 +110,10 @@ class Access:
         Access.refresh_token = resp.json()["refresh_token"]
         Access.bearer = 'Bearer '+str(Access.access_token)
 
+        token_file = open("/home/pi/sunflower/access_token.txt", "w")
+        token_file.write(Acess.bearer)
+        token_file.close()
+
         print('Logged in. Access Token: {}'.format(Access.access_token))
         print('==================================')
 
@@ -265,9 +269,12 @@ class Devices:
         api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
+        token_file = open("/home/pi/sunflower/access_token.txt", "r").read().splitlines()
+        auth = token_file[0]
+
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address}
-            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
+            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":auth})
 
             if resp.status_code == 200:
                 print("IP has been sent.")
@@ -286,12 +293,15 @@ class Devices:
         api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
+        token_file = open("/home/pi/sunflower/access_token.txt", "r").read().splitlines()
+        auth = token_file[0]
+
         currentStateFile = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
         currentState = currentStateFile[0]
 
         while True:
             body = {"name":name, "uuid":uuid, "info.last_state":currentState, "info.ip_address":ip_address}
-            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":Access.bearer})
+            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":auth})
 
             if resp.status_code == 200:
                 print("State change patched to Countr server.")

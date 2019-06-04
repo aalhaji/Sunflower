@@ -1,4 +1,4 @@
-# updating and checking the states, both locally and on the server 
+# updating and checking the states, both locally and on the server
 import SunflowerAPI as sF
 import automatedLogin as aL
 
@@ -15,7 +15,6 @@ class states:
         return currentState
 
     def updateServerState():
-        (devname, uuid, ip_address) = aL.automatedLogin()
         sF.Devices.patchState(devname, uuid, ip_address)
 
     # def checkServerState():
