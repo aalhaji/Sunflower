@@ -71,20 +71,31 @@ states_dict={0:"AVAILABLE(OFF)",
         4: "NOT_AVAILABLE_ERROR"
         }
 
-def afterCooldown():
-
-    states.stateCleaning()
-    states.updateServerState()
-
 def afterTreatment():
+
     shield.relay.one.off()
     states.stateCooldown()
     states.updateServerState()
 
     #time.sleep(COOLDOWN_DURATION)
 
-    cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCooldown)
-    cooldown_timer.start()
+    #cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCooldown)
+    #cooldown_timer.start()
+
+    while True:
+
+        currentState = states.checkLocalState()
+
+        if currentState != 2: # cooldown
+            states.updateLocalState(currentState)
+            states.updateServerState()
+            break
+
+        else: # go to cleaning
+            time.sleep(COOLDOWN_DURATION)
+            states.stateCleaning()
+            states.updateServerState()
+            break
 
 
 # START APP
