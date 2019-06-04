@@ -300,7 +300,7 @@ class Devices:
         currentState = currentStateFile[0]
 
         while True:
-            body = {"name":name, "uuid":uuid, "info.last_state":currentState, "info.ip_address":ip_address}
+            body = {"name":name, "uuid":uuid, "info.last_state":currentState}
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":auth})
 
             if resp.status_code == 200:
