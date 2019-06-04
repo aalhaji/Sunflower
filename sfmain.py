@@ -134,8 +134,23 @@ def bedon():
 
         #state ON for 15 minutes
 
-        on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
-        on_timer.start()
+        startTime = time.time()
+
+        while time.time() < (startTime + TREATMENT_DURATION):
+
+            currentState = states.checkLocalState()
+
+            if currentState != 1: # ON
+                states.updateLocalState(currentState)
+                states.updateServerState()
+                break
+
+            # otherwise just stay the same
+
+
+
+        #on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
+        #on_timer.start()
 
     return "Bed turned ON."
 
