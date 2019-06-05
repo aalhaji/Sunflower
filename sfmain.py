@@ -72,58 +72,15 @@ states_dict={0:"AVAILABLE(OFF)",
         4: "NOT_AVAILABLE_ERROR"
         }
 
-## COOLDOWN TIMER FUNCTION ##
-
-#def checkTime():
-
-#    startTime = time.time()
-    #print("startTime = ")
-    #print(startTime)
-#    coolingTime = startTime + COOLDOWN_DURATION
-    #print("coolingTime =")
-    #print(coolingTime)
-
-#    test = 1
-
-#    while test == 1 and (time.time() < coolingTime):
-
-#        whileStartTime = time.time()
-
-#        print("ENTERED WHILE LOOP")
-    #    print("whileTime =")
-    #    print(whileStartTime)
-
-        # check status_code
-
-#        currentState = states.checkLocalState()
-
-#        print("CHECKING LOCAL STATE...")
-
-#        if currentState == 2:
-#            print("STILL IN COUNTDOWN")
-#            coolingTime = coolingTime - 1
-
-#        else:
-#            print("INTERRUPTED")
-#            test = 0
-#            break
-
-
-#    print("COOLDOWN")
-
-#    states.stateCleaning()
-#    states.updateServerState()
-
-
-#    print("SUCCESSFUL COUNTDOWN")
-
-## END COOLDOWN TIMER FUNCTION ##
+## AFTER COOLDOWN FUNCTION ##
 
 def afterCool():
 
     states.stateCleaning()
-    print("AFTER COOL CLEANING")
+    print("COOLDOWN FINISHED. NOW CLEANING.")
     states.updateServerState()
+
+## END AFTER COOLDOWN FUNCTION ##
 
 
 ## AFTER ON FUNCTION ##
@@ -139,10 +96,8 @@ def afterOn():
     cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCool)
     cooldown_timer.start()
 
-
-    #checkTime()
-
 ## END AFTER ON FUNCTION ##
+
 # START APP
 
 from flask import Flask
@@ -198,28 +153,27 @@ def bedoff():
     elif  currentState == 1: # on
 
         afterOn()
-        #shield.relay.one.off()
-        #currentState = 2 # cooldown
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
-        #states.updateLocalState(currentState)
-        #states.updateServerState()
+
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
     elif currentState == 2: # cooldown
+
         currentState = 3
         states.updateLocalState(currentState)
         states.updateServerState()
         str_state = states_dict[currentState]
-        #states.updateLocalState(currentState)
-        #states.updateServerState()
+
         return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
 
     elif currentState == 3: # Cleaning
+
         currentState = 0
         str_state = states_dict[currentState]
         states.updateLocalState(currentState)
         states.updateServerState()
+
         return "Cleaning done. Bed is now in state: {}".format(str_state)
 
     else:
