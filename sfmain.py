@@ -87,6 +87,8 @@ def checkTime():
 
     while test == 1 and (time.time() < coolingTime):
 
+        time.sleep(1)
+
         whileStartTime = time.time()
 
         print("ENTERED WHILE LOOP")
@@ -102,7 +104,6 @@ def checkTime():
         if currentState == 2:
             print("STILL IN COUNTDOWN")
             coolingTime = coolingTime - 1
-            wait(1)
 
         else:
             print("INTERRUPTED")
