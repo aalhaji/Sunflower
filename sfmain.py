@@ -88,6 +88,8 @@ def afterOn():
 
     while time.time() < (startTime + COOLDOWN_DURATION):
 
+        #sleep(2)
+
         print("ENTERED WHILE LOOP")
 
         # check status_code
@@ -97,6 +99,7 @@ def afterOn():
 
         if currentState == 2:
             print("STILL IN COUNTDOWN")
+            break
         else:
             print("INTERRUPTED")
             break
