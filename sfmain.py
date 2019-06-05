@@ -98,12 +98,12 @@ def afterOn():
             print("STATE NOT COOL.")
             break
 
-        else:
-            print("STATE REACHED THE ELSE.")
-            states.stateCleaning()
-            states.updateServerState()
-            print("CHANGED TO CLEANING")
-            break
+        #else:
+        print("STATE REACHED THE ELSE.")
+        states.stateCleaning()
+        states.updateServerState()
+        print("CHANGED TO CLEANING")
+        #break
 
 # START APP
 
