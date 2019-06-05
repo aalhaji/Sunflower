@@ -7,7 +7,7 @@ class states:
 
     def updateLocalState(newState):
         open_state_file = open("/home/pi/sunflower/currentState.txt", "w")
-        open_state_file.write(int(newState))
+        open_state_file.write(str(newState))
         open_state_file.close()
 
     def checkLocalState():

@@ -297,7 +297,7 @@ class Devices:
         auth = token_file[0]
 
         currentStateFile = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
-        currentState = currentStateFile[0]
+        currentState = int(currentStateFile[0])
 
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address, "info.last_state":currentState}
