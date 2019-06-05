@@ -103,7 +103,7 @@ def checkTime():
             coolingTime = coolingTime - 1
             time.sleep(1)
 
-        else if currentState == 3:
+        elif currentState == 3:
             print("CLEANING ALREADY STARTED.")
             test = 0
             break
