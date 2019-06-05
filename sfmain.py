@@ -125,8 +125,6 @@ def checkTime():
 ## AFTER ON FUNCTION ##
 def afterOn():
 
-    shield.relay.one.off()
-    print("RELAY TURNED OFF.")
     states.stateCooldown()
     states.updateServerState()
 
@@ -186,6 +184,8 @@ def bedoff():
 
     elif  currentState == 1: # on
 
+        shield.relay.one.off()
+        print("RELAY TURNED OFF.")
         afterOn()
         #shield.relay.one.off()
         #currentState = 2 # cooldown
