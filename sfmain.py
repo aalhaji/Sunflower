@@ -186,7 +186,7 @@ def bedoff():
         afterOn()
         #shield.relay.one.off()
         #currentState = 2 # cooldown
-        currentState = state.checkLocalState()
+        currentState = states.checkLocalState()
         str_state = states_dict[currentState]
         #states.updateLocalState(currentState)
         #states.updateServerState()
