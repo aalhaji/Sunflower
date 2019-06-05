@@ -75,6 +75,7 @@ states_dict={0:"AVAILABLE(OFF)",
 def afterOn():
 
     shield.relay.one.off()
+    print("RELAY TURNED OFF.")
     states.stateCooldown()
     states.updateServerState()
 
@@ -85,25 +86,17 @@ def afterOn():
 
     startTime = time.time()
 
-    while True:
+    while time.time() < (startTime + COOLDOWN_DURATION):
         # if time is less than cooldown time
 
         print("ENTERED WHILE LOOP")
 
-        if time.time() < (startTime + COOLDOWN_DURATION):
+        currentState = states.checkLocalState()
+        print("CHECKING LOCAL STATE...")
 
-            print("ENTERED COUNTDOWN.")
-
-            # keep checking for state
-            currentState = states.checkLocalState()
-
-            print("CHECKING LOCAL STATE...")
-
-            if currentState != 2: # if it has been changed
-                #states.stateCleaning()
-                #states.updateServerState()
-                print("STATE NOT COOL.")
-                break
+        if currentState != 2: # if it has been changed
+            print("STATE NOT COOL.")
+            break
 
         else:
             print("STATE REACHED THE ELSE.")
