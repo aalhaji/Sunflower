@@ -97,12 +97,24 @@ def afterOn():
         currentState = states.checkLocalState()
         print("CHECKING LOCAL STATE...")
 
-        if currentState == 2:
+        while currentState == 2:
+
             print("STILL IN COUNTDOWN")
             break
-        else:
-            print("INTERRUPTED")
-            break
+
+        # otherwise
+
+        print("INTERRUPTED")
+        break
+
+
+
+        #if currentState == 2:
+        #    print("STILL IN COUNTDOWN")
+        #    break
+        #else:
+        #    print("INTERRUPTED")
+        #    break
 
     print("COUNTDOWN DONE NORMALLY")
     states.stateCleaning()
