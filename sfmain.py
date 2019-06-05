@@ -91,11 +91,11 @@ def afterOn():
         if time.time() < (startTime + COOLDOWN_DURATION):
 
             # keep checking for state
-            currentState = int(states.checkLocalState())
+            currentState = states.checkLocalState()
 
-            if currentState != 2: # has been changed
-                states.stateCleaning()
-                states.updateServerState()
+            if currentState != 2: # if it has been changed
+                #states.stateCleaning()
+                #states.updateServerState()
                 break
 
         else:
