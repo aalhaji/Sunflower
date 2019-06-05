@@ -91,7 +91,7 @@ def afterOn():
         if time.time() < (startTime + COOLDOWN_DURATION):
 
             # keep checking for state
-            currentState = states.checkLocalState()
+            currentState = int(states.checkLocalState())
 
             if currentState != 2: # has been changed
                 states.stateCleaning()
