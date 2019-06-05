@@ -86,36 +86,26 @@ def afterOn():
 
     startTime = time.time()
 
-    while True:
+    while time.time() < (startTime + COOLDOWN_DURATION):
 
         print("ENTERED WHILE LOOP")
 
-        counter = 0
-        if counter == 10 or time.time() > (startTime + COOLDOWN_DURATION):
-            print("COOLDOWN DONE, NOW CLEANING")
+        # check status_code
+
+        currentState = states.checkLocalState()
+        print("CHECKING LOCAL STATE...")
+
+        if currentState == 2:
+            print("STILL IN COUNTDOWN")
+        else:
+            print("INTERRUPTED")
             break
-        counter = counter - 1
-        states.stateCleaning()
-        states.updateServerState()
-        print("INTERRUPTED. NOW CLEANING.")
 
-        # if time is less than cooldown time
+    print("COUNTDOWN DONE NORMALLY")
+    states.stateCleaning()
+    states.updateServerState()
+    print("SUCCESSFUL COUNTDOWN")
 
-    #    print("ENTERED WHILE LOOP")
-
-    #    currentState = states.checkLocalState()
-    #    print("CHECKING LOCAL STATE...")
-
-    #    if currentState != 2: # if it has been changed
-    #        print("STATE NOT COOL.")
-            #break
-
-        #else:
-        #print("STATE REACHED THE ELSE.")
-        #states.stateCleaning()
-        #states.updateServerState()
-        #print("CHANGED TO CLEANING")
-        #break
 
 # START APP
 
