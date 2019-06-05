@@ -107,8 +107,11 @@ def bedon():
 
         #state ON for 15 minutes
 
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn(0))
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
         on_timer.start()
+        if off_flag:
+            on_timer.cancel()
+
 
     return "Bed turned ON."
 
@@ -116,7 +119,7 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    off_flag = 1
+    global off_flag = 1
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
@@ -127,7 +130,7 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-        transitions.afterOn(off_flag)
+        transitions.afterOn()
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 

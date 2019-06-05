@@ -66,11 +66,7 @@ class transitions:
 
 
     ## AFTER ON FUNCTION ##
-    def afterOn(src):
-
-        if src == 1 # APP
-
-        elif src == 2 # button
+    def afterOn():
 
         shield.relay.one.off()
         print("RELAY TURNED OFF.")
@@ -83,5 +79,6 @@ class transitions:
 
         cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
         cooldown_timer.start()
+
 
     ## END AFTER ON FUNCTION ##
