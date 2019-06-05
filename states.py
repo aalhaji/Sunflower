@@ -3,6 +3,7 @@ import SunflowerAPI as sF
 import socket
 import automationhat as shield
 import threading
+import time
 
 TREATMENT_DURATION = 10 # testing
 COOLDOWN_DURATION = 10 # testing
@@ -51,6 +52,7 @@ class transitions:
 
         states.stateCleaning()
         print("COOLDOWN FINISHED. NOW CLEANING.")
+        print(time.ctime())
         states.updateServerState()
 
     ## END AFTER COOLDOWN FUNCTION ##
@@ -61,9 +63,11 @@ class transitions:
 
         shield.relay.one.off()
         print("RELAY TURNED OFF.")
+        print(time.ctime())
 
         states.stateCooldown()
         print("COOLDOWN STARTED.")
+        print(time.ctime())
         states.updateServerState()
 
         cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)

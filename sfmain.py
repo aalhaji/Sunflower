@@ -135,9 +135,6 @@ def bedoff():
     elif currentState == 2: # cooldown
 
         transitions.afterCool()
-        #currentState = 3
-        #states.updateLocalState(currentState)
-        #states.updateServerState()
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 
