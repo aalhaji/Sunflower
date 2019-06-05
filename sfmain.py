@@ -136,7 +136,7 @@ def afterOn():
     print("COOLDOWN STARTED.")
     states.updateServerState()
 
-    cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCool())
+    cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCool)
     cooldown_timer.start()
 
 
