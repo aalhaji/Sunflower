@@ -177,15 +177,14 @@ def bedoff():
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
-    relayState = shield.relay.one.read()
+    shield.relay.one.off()
+    print("RELAY TURNED OFF.")
 
     if currentState == 0: # already off
         return "The bed is already in state: {}".format(str_state)
 
     elif  currentState == 1: # on
-
-        shield.relay.one.off()
-        print("RELAY TURNED OFF.")
+    
         afterOn()
         #shield.relay.one.off()
         #currentState = 2 # cooldown
