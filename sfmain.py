@@ -82,6 +82,7 @@ def checkTime():
     coolingTime = startTime + COOLDOWN_DURATION
     #print("coolingTime =")
     #print(coolingTime)
+
     test = 1
 
     while test == 1 and (time.time() < coolingTime):
@@ -102,11 +103,6 @@ def checkTime():
             print("STILL IN COUNTDOWN")
             coolingTime = coolingTime - 1
             time.sleep(1)
-
-        elif currentState == 3:
-            print("CLEANING ALREADY STARTED.")
-            test = 0
-            break
 
         else:
             print("INTERRUPTED")
