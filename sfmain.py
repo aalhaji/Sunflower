@@ -77,11 +77,11 @@ states_dict={0:"AVAILABLE(OFF)",
 def checkTime():
 
     startTime = time.time()
-    print("startTime = ")
-    print(startTime)
-    coolingTime = startTime + COOLDOWN_DURATION
-    print("coolingTime =")
-    print(coolingTime)
+    #print("startTime = ")
+    #print(startTime)
+    #coolingTime = startTime + COOLDOWN_DURATION
+    #print("coolingTime =")
+    #print(coolingTime)
     test = 1
 
     while test == 1 and (time.time() < coolingTime):
@@ -89,8 +89,8 @@ def checkTime():
         whileStartTime = time.time()
 
         print("ENTERED WHILE LOOP")
-        print("whileTime =")
-        print(whileStartTime)
+    #    print("whileTime =")
+    #    print(whileStartTime)
 
         # check status_code
 
@@ -102,8 +102,8 @@ def checkTime():
             print("STILL IN COUNTDOWN")
             coolingTime = coolingTime - 1
             time.sleep(1)
-            print("COOLING TIME =")
-            print(coolingTime)
+    #        print("COOLING TIME =")
+    #        print(coolingTime)
 
 
         else:
@@ -154,7 +154,7 @@ def bedon():
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
 
-    if currentState == (1 or 2 or 3 or 4):
+    if currentState == (1 or 2 or 3):
         return "ERROR. The bed is currently in state: {}".format(str_state)
 
     else:
