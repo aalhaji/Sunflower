@@ -140,14 +140,8 @@ def bedoff():
 
     elif currentState == 2: # cooldown
 
-<<<<<<< HEAD
         transitions.afterCool()
         currentState = states.checkLocalState()
-=======
-        currentState = 3
-        states.updateLocalState(currentState)
-        states.updateServerState()
->>>>>>> parent of 0c98166... removing repetition
         str_state = states_dict[currentState]
 
         return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
