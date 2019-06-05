@@ -79,7 +79,7 @@ def checkTime():
     startTime = time.time()
     #print("startTime = ")
     #print(startTime)
-    #coolingTime = startTime + COOLDOWN_DURATION
+    coolingTime = startTime + COOLDOWN_DURATION
     #print("coolingTime =")
     #print(coolingTime)
     test = 1
@@ -124,6 +124,9 @@ def checkTime():
 
 ## AFTER ON FUNCTION ##
 def afterOn():
+
+    shield.relay.one.off()
+    print("RELAY TURNED OFF.")
 
     states.stateCooldown()
     states.updateServerState()
