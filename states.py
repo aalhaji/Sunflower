@@ -12,8 +12,7 @@ class states:
 
     def checkLocalState():
         currentState_file = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
-        currentState = currentState_file[0]
-        currentState = int(currentState)
+        currentState = int(currentState_file[0])
         
         return currentState
 
