@@ -101,7 +101,7 @@ def checkTime():
         if currentState == 2:
             print("STILL IN COUNTDOWN")
             coolingTime = coolingTime - 1
-            sleep(1)
+            time.sleep(1)
             print("COOLING TIME =")
             print(coolingTime)
 
