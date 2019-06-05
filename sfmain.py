@@ -103,6 +103,10 @@ def checkTime():
             coolingTime = coolingTime - 1
             time.sleep(1)
 
+        else if currentState == 3:
+            print("CLEANING ALREADY STARTED.")
+            test = 0
+            break
 
         else:
             print("INTERRUPTED")
@@ -110,7 +114,7 @@ def checkTime():
             break
 
 
-    print("COUNTDOWN DONE NORMALLY")
+    print("COOLDOWN")
 
     states.stateCleaning()
     states.updateServerState()
