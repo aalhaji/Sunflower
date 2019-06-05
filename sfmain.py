@@ -8,8 +8,6 @@ import threading # library for timers
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
 COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 
-global off_flag
-
 
 # IP library
 import socket
@@ -111,9 +109,8 @@ def bedon():
 
         on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
         on_timer.start()
-        if off_flag:
+        if (states.checkLocalState() != 1):
             on_timer.cancel()
-
 
     return "Bed turned ON."
 
@@ -121,7 +118,6 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    off_flag = 1
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
