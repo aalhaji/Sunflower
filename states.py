@@ -4,6 +4,9 @@ import socket
 import automationhat as shield
 import threading
 
+TREATMENT_DURATION = 10 # testing
+COOLDOWN_DURATION = 10 # testing
+
 
 class states:
 
