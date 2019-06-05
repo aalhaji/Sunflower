@@ -91,7 +91,7 @@ def afterOn():
         print("ENTERED WHILE LOOP")
 
         counter = 0
-        if counter == 10 or time.time() > (time.time() + startTime):
+        if counter == 10 or time.time() > (startTime + COOLDOWN_DURATION):
             print("COOLDOWN DONE, NOW CLEANING")
             break
         counter = counter - 1
