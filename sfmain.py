@@ -74,52 +74,57 @@ states_dict={0:"AVAILABLE(OFF)",
 
 ## COOLDOWN TIMER FUNCTION ##
 
-def checkTime():
+#def checkTime():
 
-    startTime = time.time()
+#    startTime = time.time()
     #print("startTime = ")
     #print(startTime)
-    coolingTime = startTime + COOLDOWN_DURATION
+#    coolingTime = startTime + COOLDOWN_DURATION
     #print("coolingTime =")
     #print(coolingTime)
 
-    test = 1
+#    test = 1
 
-    while test == 1 and (time.time() < coolingTime):
+#    while test == 1 and (time.time() < coolingTime):
 
-        time.sleep(1)
+#        whileStartTime = time.time()
 
-        whileStartTime = time.time()
-
-        print("ENTERED WHILE LOOP")
+#        print("ENTERED WHILE LOOP")
     #    print("whileTime =")
     #    print(whileStartTime)
 
         # check status_code
 
-        currentState = states.checkLocalState()
+#        currentState = states.checkLocalState()
 
-        print("CHECKING LOCAL STATE...")
+#        print("CHECKING LOCAL STATE...")
 
-        if currentState == 2:
-            print("STILL IN COUNTDOWN")
-            coolingTime = coolingTime - 1
+#        if currentState == 2:
+#            print("STILL IN COUNTDOWN")
+#            coolingTime = coolingTime - 1
 
-        else:
-            print("INTERRUPTED")
-            test = 0
-            break
-
-
-    print("COOLDOWN")
-
-    states.stateCleaning()
-    states.updateServerState()
+#        else:
+#            print("INTERRUPTED")
+#            test = 0
+#            break
 
 
-    print("SUCCESSFUL COUNTDOWN")
+#    print("COOLDOWN")
+
+#    states.stateCleaning()
+#    states.updateServerState()
+
+
+#    print("SUCCESSFUL COUNTDOWN")
 
 ## END COOLDOWN TIMER FUNCTION ##
+
+def afterCool():
+
+    states.stateCleaning()
+    print("AFTER COOL CLEANING")
+    states.updateServerState()
+
 
 ## AFTER ON FUNCTION ##
 def afterOn():
@@ -128,9 +133,14 @@ def afterOn():
     print("RELAY TURNED OFF.")
 
     states.stateCooldown()
+    print("COOLDOWN STARTED.")
     states.updateServerState()
 
-    checkTime()
+    cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCool())
+    cooldown_timer.start()
+
+
+    #checkTime()
 
 ## END AFTER ON FUNCTION ##
 # START APP
