@@ -102,6 +102,7 @@ def checkTime():
         if currentState == 2:
             print("STILL IN COUNTDOWN")
             coolingTime = coolingTime - 1
+            wait(1)
 
         else:
             print("INTERRUPTED")
