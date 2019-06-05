@@ -72,13 +72,6 @@ states_dict={0:"AVAILABLE(OFF)",
         3: "CLEANING"
         }
 
-# SIGNAL SOURCES
-
-sources_dict={0:"TIMEOUT",
-        1: "APP",
-        2: "BUTTON"
-}
-
 # START APP
 
 from flask import Flask
@@ -114,7 +107,7 @@ def bedon():
 
         #state ON for 15 minutes
 
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn(0))
         on_timer.start()
 
     return "Bed turned ON."
@@ -123,19 +116,18 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    signal_src = sources_dict[1]
+    off_flag = 1
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
-    #shield.relay.one.off()
-    #print("RELAY TURNED OFF.")
+
 
     if currentState == 0: # already off
         return "The bed is already in state: {}".format(str_state)
 
     elif  currentState == 1: # on
 
-        transitions.afterOn()
+        transitions.afterOn(off_flag)
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 
