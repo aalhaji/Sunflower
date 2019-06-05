@@ -20,6 +20,7 @@ import SunflowerAPI as sF
 
 # states library
 from states import states
+from states import transitions
 
 # PATCH IP ADDRESS
 
@@ -68,35 +69,8 @@ except RuntimeError:
 states_dict={0:"AVAILABLE(OFF)",
         1: "BED_ON",
         2: "COOLDOWN",
-        3: "CLEANING",
-        4: "NOT_AVAILABLE_ERROR"
+        3: "CLEANING"
         }
-
-## AFTER COOLDOWN FUNCTION ##
-
-def afterCool():
-
-    states.stateCleaning()
-    print("COOLDOWN FINISHED. NOW CLEANING.")
-    states.updateServerState()
-
-## END AFTER COOLDOWN FUNCTION ##
-
-
-## AFTER ON FUNCTION ##
-def afterOn():
-
-    shield.relay.one.off()
-    print("RELAY TURNED OFF.")
-
-    states.stateCooldown()
-    print("COOLDOWN STARTED.")
-    states.updateServerState()
-
-    cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCool)
-    cooldown_timer.start()
-
-## END AFTER ON FUNCTION ##
 
 # START APP
 
@@ -133,7 +107,7 @@ def bedon():
 
         #state ON for 15 minutes
 
-        on_timer = threading.Timer(TREATMENT_DURATION, afterOn)
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
         on_timer.start()
 
     return "Bed turned ON."

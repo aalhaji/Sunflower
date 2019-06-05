@@ -1,6 +1,7 @@
 # updating and checking the states, both locally and on the server
 import SunflowerAPI as sF
 import socket
+import automationhat as shield
 
 
 class states:
@@ -37,3 +38,31 @@ class states:
 
     def stateCleaning():
         states.updateLocalState(3)
+
+class transitions:
+
+    ## AFTER COOLDOWN FUNCTION ##
+
+    def afterCool():
+
+        states.stateCleaning()
+        print("COOLDOWN FINISHED. NOW CLEANING.")
+        states.updateServerState()
+
+    ## END AFTER COOLDOWN FUNCTION ##
+
+
+    ## AFTER ON FUNCTION ##
+    def afterOn():
+
+        shield.relay.one.off()
+        print("RELAY TURNED OFF.")
+
+        states.stateCooldown()
+        print("COOLDOWN STARTED.")
+        states.updateServerState()
+
+        cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
+        cooldown_timer.start()
+
+    ## END AFTER ON FUNCTION ##

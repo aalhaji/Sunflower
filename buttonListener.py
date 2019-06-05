@@ -1,6 +1,12 @@
 import automationhat as shield
 import time
 
+from states import states, transitions
+
+
+TREATMENT_DURATION = 10 # TESTING
+COOLDOWN_DURATION = 10 # testing
+
 #IP library
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -27,15 +33,11 @@ sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 #######################################################################
 
 time_now = time.time()
-bedon_time = 5 # 5 seconds for testing, 15 minutes of "bed_started"
-cooling_time = 5 # 5 seconds for testing, 3 minutes for real
 
-states={0:"AVAILABLE_NOT_STARTED",
-        1: "AVAILABLE",
-        2: "BED_STARTED",
-        3: "BED_COOLING_DOWN",
-        4: "NEEDS_CLEANING",
-        5: "NOT_AVAILABLE_ERROR"
+states_dict={0:"AVAILABLE(OFF)",
+        1: "BED_ON",
+        2: "COOLDOWN",
+        3: "CLEANING"
         }
 
 def bedAvailable():
@@ -51,19 +53,16 @@ def bedAvailable():
             print("Bed Available. Not started.")
 
             currentState = 0
-            state_open = open("currentState.txt", "w")
-            state_open.write(str(currentState))
-            state_open.close()
-            sF.Devices.patchCurrentState(devname, uuid, ip_address)
+
+            states.updateLocalState(currentState)
+            states.updateServerState()
 
 ##########################################################################
 # initial state of 0
 
 currentState = 0
-state_open = open("currentState.txt", "w")
-state_open.write(str(currentState))
-state_open.close()
-sF.Devices.patchCurrentState(devname, uuid, ip_address)
+sstates.updateLocalState(currentState)
+states.updateServerState()
 
 while True:
 
@@ -78,54 +77,25 @@ while True:
 
                 # BUTTON TO START BED
 
-                print("Button pressed to start bed.")
-                shield.relay.one.on()
+                currentState = states.checkLocalState()
+                str_state = states_dict[currentState]
 
-                currentState = 2 #states[2]
-                state_open = open("currentState.txt", "w")
-                state_open.write(str(currentState))
-                state_open.close()
-                sF.Devices.patchCurrentState(devname, uuid, ip_address)
+                if currentState == (1 or 2 or 3):
+                    print("ERROR. The bed is currently in state: {}".format(str_state))
 
+                else:
+                    print("Button pressed to start bed.")
+                    shield.relay.one.on()
+                    currentState = 1
+                    states.updateLocalState(currentState)
+                    states.updateServerState()
 
-                startTime = time.ctime()
-                print("Bed started at: {}".format(startTime))
-                time.sleep(bedon_time)
+                    #state ON for 15 minutes
 
+                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
+                    on_timer.start()
 
-                shield.relay.one.off()
-
-                endTime = time.ctime()
-                print("Bed turned off at: {}".format(endTime))
-
-                # COOLING STATE
-
-                print("Bed cooldown started at: {}".format(endTime))
-
-                currentState = 3 #states[3]
-                state_open = open("currentState.txt", "w")
-                state_open.write(str(currentState))
-                state_open.close()
-                sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-                time.sleep(cooling_time)
-
-                cooldown_endtime = time.ctime()
-
-                print("Bed cooldown ended at: {}".format(cooldown_endtime))
-
-                # NEEDS CLEANING STATE
-
-                print("Bed needs cleaning starting at: {}".format(cooldown_endtime))
-
-                currentState = 4
-                state_open = open("currentState.txt", "w")
-                state_open.write(str(currentState))
-                state_open.close()
-                sF.Devices.patchCurrentState(devname, uuid, ip_address)
-
-                time_now = time.time()
-                break
+                    break
 
     while True:
 
@@ -138,10 +108,8 @@ while True:
                 print("Bed cleaned. Time: {}".format(time.ctime()))
 
                 currentState = 0
-                state_open = open("currentState.txt", "w")
-                state_open.write(str(currentState))
-                state_open.close()
-                sF.Devices.patchCurrentState(devname, uuid, ip_address)
+                states.updateLocalState(currentState)
+                states.updateServerState()
                 time.sleep(5) # debouncing
                 time_now = time.time()
                 break
