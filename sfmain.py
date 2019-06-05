@@ -72,6 +72,13 @@ states_dict={0:"AVAILABLE(OFF)",
         3: "CLEANING"
         }
 
+# SIGNAL SOURCES
+
+sources_dict={0:"TIMEOUT",
+        1: "APP",
+        2: "BUTTON"
+}
+
 # START APP
 
 from flask import Flask
@@ -115,6 +122,8 @@ def bedon():
 
 @app.route('/bedoff')
 def bedoff():
+
+    signal_src = sources_dict[1]
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]

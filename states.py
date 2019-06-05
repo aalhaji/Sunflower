@@ -8,6 +8,13 @@ import time
 TREATMENT_DURATION = 10 # testing
 COOLDOWN_DURATION = 10 # testing
 
+# SIGNAL SOURCES
+
+sources_dict={0:"TIMEOUT",
+        1: "APP",
+        2: "BUTTON"
+}
+
 
 class states:
 
@@ -59,7 +66,11 @@ class transitions:
 
 
     ## AFTER ON FUNCTION ##
-    def afterOn():
+    def afterOn(src):
+
+        if src == 1 # APP
+
+        elif src == 2 # button
 
         shield.relay.one.off()
         print("RELAY TURNED OFF.")
