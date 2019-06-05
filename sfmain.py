@@ -72,6 +72,54 @@ states_dict={0:"AVAILABLE(OFF)",
         4: "NOT_AVAILABLE_ERROR"
         }
 
+## COOLDOWN TIMER FUNCTION ##
+
+def checkTime():
+
+    startTime = time.time()
+    print("startTime = ")
+    print(startTime)
+    coolingTime = startTime + COOLDOWN_DURATION
+    print("coolingTime =")
+    print(coolingTime)
+    test = 1
+
+    while test == 1 and (time.time() < coolingTime):
+
+        print("ENTERED WHILE LOOP")
+        print("whileTime =")
+        print(time.time())
+
+        # check status_code
+
+        currentState = states.checkLocalState()
+
+        print("CHECKING LOCAL STATE...")
+
+        if currentState == 2:
+            print("STILL IN COUNTDOWN")
+            coolingTime = coolingTime - 1
+            print("COOLING TIME =")
+            print(coolingTime)
+
+
+        else:
+            print("INTERRUPTED")
+            test = 0
+            break
+
+
+    print("COUNTDOWN DONE NORMALLY")
+
+    states.stateCleaning()
+    states.updateServerState()
+
+
+    print("SUCCESSFUL COUNTDOWN")
+
+## END COOLDOWN TIMER FUNCTION ##
+
+## AFTER ON FUNCTION ##
 def afterOn():
 
     shield.relay.one.off()
@@ -79,49 +127,9 @@ def afterOn():
     states.stateCooldown()
     states.updateServerState()
 
-    #time.sleep(COOLDOWN_DURATION)
+    checkTime()
 
-    #cooldown_timer = threading.Timer(COOLDOWN_DURATION, afterCooldown)
-    #cooldown_timer.start()
-
-    startTime = time.time()
-
-    while time.time() < (startTime + COOLDOWN_DURATION):
-
-        #sleep(2)
-
-        print("ENTERED WHILE LOOP")
-
-        # check status_code
-
-        currentState = states.checkLocalState()
-        print("CHECKING LOCAL STATE...")
-
-        while currentState == 2:
-
-            print("STILL IN COUNTDOWN")
-            break
-
-        # otherwise
-
-        print("INTERRUPTED")
-        break
-
-
-
-        #if currentState == 2:
-        #    print("STILL IN COUNTDOWN")
-        #    break
-        #else:
-        #    print("INTERRUPTED")
-        #    break
-
-    print("COUNTDOWN DONE NORMALLY")
-    states.stateCleaning()
-    states.updateServerState()
-    print("SUCCESSFUL COUNTDOWN")
-
-
+## END AFTER ON FUNCTION ##
 # START APP
 
 from flask import Flask
