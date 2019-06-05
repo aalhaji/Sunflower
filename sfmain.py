@@ -126,7 +126,7 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-        afterOn()
+        transitions.afterOn()
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 
