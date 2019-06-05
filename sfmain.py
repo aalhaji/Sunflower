@@ -134,9 +134,11 @@ def bedoff():
 
     elif currentState == 2: # cooldown
 
-        currentState = 3
-        states.updateLocalState(currentState)
-        states.updateServerState()
+        transitions.afterCool()
+        #currentState = 3
+        #states.updateLocalState(currentState)
+        #states.updateServerState()
+        currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 
         return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
