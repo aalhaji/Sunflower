@@ -4,7 +4,6 @@ import automationhat as shield
 import time
 time.sleep(0.1)
 import threading # library for timers
-from timerDeclaration import onTimer
 
 
 global TREATMENT_DURATION

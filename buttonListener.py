@@ -2,8 +2,6 @@ import automationhat as shield
 import time
 import threading
 import socket
-import globals
-from timerDeclaration import onTimer
 
 
 from states import states, transitions
