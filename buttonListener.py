@@ -2,7 +2,7 @@ import automationhat as shield
 import time
 import threading
 import socket
-from internet_on import internet_on
+
 
 from states import states, transitions
 
@@ -18,7 +18,7 @@ global on_timer
 
 
 #IP library
-
+from internet_on import internet_on
 if internet_on():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))

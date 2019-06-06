@@ -29,17 +29,22 @@ class states:
 
     def updateServerState():
 
-        dev_file = open("/home/pi/sunflower/txt/devicename.txt", "r").read().splitlines()
-        devname = dev_file[0]
+        from internet_on import internet_on
+        if internet_on():
+            dev_file = open("/home/pi/sunflower/txt/devicename.txt", "r").read().splitlines()
+            devname = dev_file[0]
 
-        uuid_file = open("/home/pi/sunflower/txt/uuid.txt", "r").read().splitlines()
-        uuid = uuid_file[0]
+            uuid_file = open("/home/pi/sunflower/txt/uuid.txt", "r").read().splitlines()
+            uuid = uuid_file[0]
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip_address = s.getsockname()[0]
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            ip_address = s.getsockname()[0]
 
-        sF.Devices.patchState(devname, uuid, ip_address)
+            sF.Devices.patchState(devname, uuid, ip_address)
+
+        else:
+            print("No internet connection. State change not patched to server.")
 
     # def checkServerState():
 
