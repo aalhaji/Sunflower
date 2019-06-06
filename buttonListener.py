@@ -102,9 +102,9 @@ while True:
 
                 elif currentState == 1: # if you're on
 
-                    if(!mismatch):
+                    if mismatch != 1:
                         on_timer.cancel()
-                        
+
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
 
