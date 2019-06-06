@@ -165,7 +165,9 @@ def bedoff():
         return "Bed off."
 
 class ReusableForm(Form):
-    duration = TextField('Duration:', validators=[validators.required()])
+
+    TreatmentDuration = TextField('Treatment:', validators=[validators.required()])
+    CooldownDuration = TextField('Cooldown:', validators=[validators.required()])
 
     @app.route("/durations", methods=['GET', 'POST'])
     def durations():
@@ -173,9 +175,11 @@ class ReusableForm(Form):
         form = ReusableForm(request.form)
 
         print(form.errors)
-        if request.method == 'POST':
-            duration=request.form['TreatmentDuration']
-            print("Duration")
+
+        if request.method == 'GET':
+            TreatmentDuration=request.form['TreatmentDuration']
+            CooldownDuration=request.form['CooldownDuration']
+            print("durations")
 
         if form.validate():
             # Save the comment here.
