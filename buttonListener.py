@@ -82,7 +82,7 @@ while True:
 
 
                 if currentState == 0: # if you're off
-                
+
                     print("Button pressed to start bed.")
                     shield.relay.one.on()
                     currentState = 1
@@ -138,11 +138,3 @@ while True:
                     print("Error. Bed is already in state {}.".format(currentState))
                     time_now = time.time()
                     break
-
-    while True:
-
-        # check for flag off from POS
-        onFlag = int((open("/home/pi/sunflower/onFlag.txt", "r").read().splitlines())[0])
-
-        if onFlag != 1:
-            on_timer.cancel()
