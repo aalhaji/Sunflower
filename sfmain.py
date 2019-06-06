@@ -139,7 +139,7 @@ def bedon():
 
         globals.initialize()
         onTimer(TREATMENT_DURATION)
-        globals.onTimer.start()
+        globals.on_timer.start()
 
     return "Bed turned ON."
 
