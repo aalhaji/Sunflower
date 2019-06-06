@@ -75,7 +75,8 @@ states_dict={0:"AVAILABLE(OFF)",
 
 # START APP
 
-from flask import Flask
+from flask import Flask, request, render_template
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -156,6 +157,16 @@ def bedoff():
 
     else:
         return "Bed off."
+
+@app.route('/onduration')
+def onDuration():
+    return render_template('/templates/on_duration.html')
+
+@app.route('/onduration', methods=['POST'])
+def onDuration_post():
+    text = request.form['text']
+    processed_text = text.upper()
+    return processed_text
 
 
 if __name__ == "__main__":
