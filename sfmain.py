@@ -13,6 +13,8 @@ global COOLDOWN_DURATION
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
 COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 
+global on_timer
+
 # reset default duration values
 
 cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
