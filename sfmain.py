@@ -166,10 +166,10 @@ class ReusableForm(Form):
     def hello():
         form = ReusableForm(request.form)
 
-        print form.errors
+        print(form.errors)
         if request.method == 'POST':
             name=request.form['name']
-            print name
+            print(name)
 
         if form.validate():
             # Save the comment here.
