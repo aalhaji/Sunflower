@@ -27,9 +27,12 @@ cooldur_file.close()
 
 # IP library
 import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-ip_address = s.getsockname()[0]
+from internet_on import internet_on
+if internet_on():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
+
 
 # API library
 import SunflowerAPI as sF
@@ -53,10 +56,15 @@ uuid = uuid_file[0]
 dev_open = open("/home/pi/sunflower/txt/devicename.txt", "r").read().splitlines()
 devname = dev_open[0]
 
-print("Establishing Database Connection...")
-print("==================================")
-sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
-sF.Devices.patchIP(devname, uuid, ip_address)
+if internet_on():
+    print("Establishing Database Connection...")
+    print("==================================")
+    sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
+    sF.Devices.patchIP(devname, uuid, ip_address)
+else:
+    print("No internet connection.")
+    print("Sunflower operating exclusively offline.")
+    print("==================================")
 
 # END PATCH IP ADDRESS
 
