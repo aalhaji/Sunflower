@@ -3,32 +3,22 @@ import time
 
 from states import states, transitions
 
+# should always fetch duration values from txt, whether "last recorded" or "default"
 
-TREATMENT_DURATION = 10 # TESTING
-COOLDOWN_DURATION = 10 # testing
+global TREATMENT_DURATION
+global COOLDOWN_DURATION
+
+TREATMENT_DURATION = (open("/home/pi/sunflower/txt/treatmentDuration.txt", "r").read().splitlines())[0]
+COOLDOWN_DURATION = (open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines())[0]
+
+global on_timer
+
 
 #IP library
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 ip_address = s.getsockname()[0]
-
-# API library
-import SunflowerAPI as sF
-
-cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
-
-username = cred_file[0]
-password = cred_file[1]
-client_id = 'client-86a11a2564fb9b007b9901a21c10578753196d96'
-client_secret = 'secret-7d6b06470b6b3d37367e3c5968fb91138d61509c'
-grant_type = 'password'
-uuid = cred_file[2]
-
-dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
-devname = dev_open[0]
-
-sF.Access.authenticate(username, password, client_id, client_secret, grant_type)
 
 #######################################################################
 
@@ -39,6 +29,8 @@ states_dict={0:"AVAILABLE(OFF)",
         2: "COOLDOWN",
         3: "CLEANING"
         }
+
+# this func here for testing purposes
 
 def bedAvailable():
 
@@ -61,9 +53,10 @@ def bedAvailable():
 # initial state of 0
 
 currentState = 0
-sstates.updateLocalState(currentState)
+states.updateLocalState(currentState)
 states.updateServerState()
 
+# LISTENS FOR BUTTON TO TURN ON
 while True:
 
     while True:
@@ -71,6 +64,8 @@ while True:
         value = shield.analog.one.read()
 
         if (value > 1):
+
+            # the '0.3' is because the analog signal only stabilizes after that time
 
             if ((time.time()-time_now) > 0.3):
                 #print(value)
@@ -80,36 +75,36 @@ while True:
                 currentState = states.checkLocalState()
                 str_state = states_dict[currentState]
 
-                if currentState == (1 or 2 or 3):
-                    print("ERROR. The bed is currently in state: {}".format(str_state))
 
-                else:
+                if currentState == 0:
                     print("Button pressed to start bed.")
                     shield.relay.one.on()
                     currentState = 1
                     states.updateLocalState(currentState)
                     states.updateServerState()
+                    # consider debouncing here
+                    # time.sleep(5)
 
-                    #state ON for 15 minutes
-
+                    global on_timer
                     on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
                     on_timer.start()
 
+                    time_now = time.time()
+
                     break
 
-    while True:
+                elif currentState == 1:
 
-        value = shield.analog.one.read()
+                    on_timer.cancel()
+                    print("Button pressed to turn off bed.")
+                    transitions.afterOn()
 
-        if (value > 1):
+                    time_now = time.time()
 
-            if ((time.time()-time_now) > 0.3):
+                    break
 
-                print("Bed cleaned. Time: {}".format(time.ctime()))
-
-                currentState = 0
-                states.updateLocalState(currentState)
-                states.updateServerState()
-                time.sleep(5) # debouncing
-                time_now = time.time()
-                break
+                else:
+                    currentState = states.checkLocalState()
+                    print("Error. Bed is already in state {}.".format(currentState))
+                    time_now = time.time()
+                    break

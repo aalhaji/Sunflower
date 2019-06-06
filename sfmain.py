@@ -13,12 +13,15 @@ global COOLDOWN_DURATION
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
 COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 
-# reset default cooldown duration value
+# reset default duration values
 
 cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
 cooldur_file.write(str(COOLDOWN_DURATION))
 cooldur_file.close()
 
+cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
+cooldur_file.write(str(COOLDOWN_DURATION))
+cooldur_file.close()
 
 # IP library
 import socket
@@ -85,7 +88,7 @@ states_dict={0:"AVAILABLE(OFF)",
 
 # START APP
 
-from flask import Flask, render_template, flash, request
+from flask import Flask
 
 # App config.
 #DEBUG = True # debug mode
@@ -124,8 +127,6 @@ def bedon():
         global on_timer
         on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
         on_timer.start()
-        #if (states.checkLocalState() != 1):
-        #    on_timer.cancel()
 
     return "Bed turned ON."
 
@@ -176,6 +177,10 @@ def onDuration(treatmentDuration):
 
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration)
+
+    trdur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
+    trdur_file.write(treatmentDuration)
+    trdur_file.close()
 
     print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
 
