@@ -91,9 +91,13 @@ while True:
                     states.updateServerState()
 
 
-                    globals.initialize()
-                    onTimer(TREATMENT_DURATION)
-                    globals.on_timer.start()
+                    global on_timer
+                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
+                    on_timer.start()
+
+                    flag_file = open("/home/pi/sunflower/onFlag.txt", "w")
+                    flag_file.write(str(1))
+                    flag_file.close()
 
                     # debouncing here
                     time.sleep(5)
@@ -105,11 +109,14 @@ while True:
                 elif currentState == 1: # if you're on
 
                     if mismatch != 1:
-                        globals.initialize()
-                        globals.on_timer.cancel()
+                        on_timer.cancel()
 
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
+
+                    flag_file = open("/home/pi/sunflower/onFlag.txt", "w")
+                    flag_file.write(str(0))
+                    flag_file.close()
 
                     #debouncing
                     time.sleep(5)
@@ -136,3 +143,11 @@ while True:
                     print("Error. Bed is already in state {}.".format(currentState))
                     time_now = time.time()
                     break
+
+    while True:
+
+        # check for flag off from POS
+        onFlag = int((open("/home/pi/sunflower/onFlag.txt", "r").read().splitlines())[0])
+
+        if onFlag != 1:
+            on_timer.cancel()
