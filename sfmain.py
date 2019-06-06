@@ -16,7 +16,7 @@ COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 # reset default cooldown duration value
 
 cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
-cooldur_file.write(COOLDOWN_DURATION)
+cooldur_file.write(str(COOLDOWN_DURATION))
 cooldur_file.close()
 
 
