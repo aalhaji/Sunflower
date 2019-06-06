@@ -9,8 +9,8 @@ from states import states, transitions
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
 
-TREATMENT_DURATION = (open("/home/pi/sunflower/txt/treatmentDuration.txt", "r").read().splitlines())[0]
-COOLDOWN_DURATION = (open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines())[0]
+TREATMENT_DURATION = int((open("/home/pi/sunflower/txt/treatmentDuration.txt", "r").read().splitlines())[0])
+COOLDOWN_DURATION = int((open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines())[0])
 
 global on_timer
 
