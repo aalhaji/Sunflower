@@ -4,6 +4,8 @@ import automationhat as shield
 import time
 time.sleep(0.1)
 import threading # library for timers
+import globals
+from timerDeclaration import onTimer
 
 
 global TREATMENT_DURATION
@@ -13,7 +15,8 @@ global COOLDOWN_DURATION
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
 COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 
-global on_timer
+#global on_timer
+globals.initialize()
 
 # reset default duration values
 
@@ -134,9 +137,9 @@ def bedon():
 
         #state ON for 15 minutes
 
-        global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
-        on_timer.start()
+        globals.initialize()
+        onTimer(TREATMENT_DURATION)
+        globals.onTimer.start()
 
     return "Bed turned ON."
 
@@ -144,7 +147,7 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    on_timer.cancel()
+    globals.on_timer.cancel()
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
