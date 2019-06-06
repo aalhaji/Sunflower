@@ -4,8 +4,8 @@ import socket
 
 def automatedLogin():
 
-    cred_file = open("/home/pi/sunflower/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
-    uuid_file = open("/home/pi/sunflower/uuid.txt", "r").read().splitlines()
+    cred_file = open("/home/pi/sunflower/txt/credentials.txt", "r").read().splitlines() # Read file into Python dictionary
+    uuid_file = open("/home/pi/sunflower/txt/uuid.txt", "r").read().splitlines()
 
     username = cred_file[0]
     password = cred_file[1]
@@ -14,7 +14,7 @@ def automatedLogin():
     grant_type = 'password'
     uuid = uuid_file[0]
 
-    dev_open = open("/home/pi/sunflower/devicename.txt", "r").read().splitlines()
+    dev_open = open("/home/pi/sunflower/txt/devicename.txt", "r").read().splitlines()
     devname = dev_open[0]
 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

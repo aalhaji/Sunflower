@@ -33,8 +33,7 @@ class Login:
     def credentials():
 
         Login.username = input("Please enter your username (usually an e-mail): ")
-
-        cred_file = open("/home/pi/sunflower/credentials.txt", "w")
+        cred_file = open("/home/pi/sunflower/txt/credentials.txt", "w")
         cred_file.write(Login.username)
         cred_file.write("\n")
 
@@ -85,7 +84,7 @@ class Login:
 
         Login.API_URL_BASE = API_DICT[selected_api]['url_base']
 
-        api_file = open("api_url.txt", "w")
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "w")
         api_file.write(Login.API_URL_BASE)
         api_file.close()
 
@@ -97,7 +96,7 @@ class Access:
 
     def authenticate(username, password, client_id, client_secret, grant_type):
 
-        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
         body ={"username":username,"password":password, "client_id":client_id, "client_secret":client_secret, "grant_type":grant_type}
@@ -110,7 +109,7 @@ class Access:
         Access.refresh_token = resp.json()["refresh_token"]
         Access.bearer = 'Bearer '+str(Access.access_token)
 
-        token_file = open("/home/pi/sunflower/access_token.txt", "w")
+        token_file = open("/home/pi/sunflower/txt/access_token.txt", "w")
         token_file.write(Access.bearer)
         token_file.close()
 
@@ -121,7 +120,7 @@ class Access:
 
     def refresh(grant_type, client_id, client_secret, refresh_token):
 
-        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
         body ={"grant_type":grant_type, "client_id":client_id, "client_secret":client_secret, "refresh_token":refresh_token}
@@ -239,7 +238,7 @@ class Devices:
 
             Devices.uuid = str(uuid.uuid1())
 
-            uuid_file = open("/home/pi/sunflower/uuid.txt", "w")
+            uuid_file = open("/home/pi/sunflower/txt/uuid.txt", "w")
             uuid_file.write(Devices.uuid)
             uuid_file.write("\n")
             uuid_file.close()
@@ -266,10 +265,10 @@ class Devices:
 
     def patchIP(name, uuid,  ip_address):
 
-        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
-        token_file = open("/home/pi/sunflower/access_token.txt", "r").read().splitlines()
+        token_file = open("/home/pi/sunflower/txt/access_token.txt", "r").read().splitlines()
         auth = token_file[0]
 
         while True:
@@ -290,13 +289,13 @@ class Devices:
 
     def patchState(name, uuid, ip_address):
 
-        api_file = open("/home/pi/sunflower/api_url.txt", "r").read().splitlines()
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "r").read().splitlines()
         api_url_base = api_file[0]
 
-        token_file = open("/home/pi/sunflower/access_token.txt", "r").read().splitlines()
+        token_file = open("/home/pi/sunflower/txt/access_token.txt", "r").read().splitlines()
         auth = token_file[0]
 
-        currentStateFile = open("/home/pi/sunflower/currentState.txt", "r").read().splitlines()
+        currentStateFile = open("/home/pi/sunflower/txt/currentState.txt", "r").read().splitlines()
         currentState = int(currentStateFile[0])
 
         while True:
@@ -328,7 +327,7 @@ class Devices:
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
                 print("==================================")
-                dev_open = open("devicename.txt", "w")
+                dev_open = open("/home/pi/sunflower/txt/devicename.txt", "w")
                 dev_open.write(Devices.DeviceName)
                 dev_open.write("\n")
                 dev_open.close()
