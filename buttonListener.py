@@ -83,12 +83,14 @@ while True:
                     currentState = 1
                     states.updateLocalState(currentState)
                     states.updateServerState()
-                    # consider debouncing here
-                    # time.sleep(5)
+
 
                     global on_timer
                     on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
                     on_timer.start()
+
+                    # debouncing here
+                    time.sleep(5)
 
                     time_now = time.time()
 
@@ -99,6 +101,9 @@ while True:
                     on_timer.cancel()
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
+
+                    #debouncing
+                    time.sleep(5)
 
                     time_now = time.time()
 
