@@ -8,12 +8,7 @@ import time
 TREATMENT_DURATION = 10 # testing
 COOLDOWN_DURATION = 10 # testing
 
-# SIGNAL SOURCES
-
-sources_dict={0:"TIMEOUT",
-        1: "APP",
-        2: "BUTTON"
-}
+global cooldown_timer
 
 
 class states:
@@ -57,6 +52,8 @@ class transitions:
 
     def afterCool():
 
+        cooldown_timer.cancel()
+
         states.stateCleaning()
         print("COOLDOWN FINISHED. NOW CLEANING.")
         print(time.ctime())
@@ -77,6 +74,7 @@ class transitions:
         print(time.ctime())
         states.updateServerState()
 
+        global cooldown_timer
         cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
         cooldown_timer.start()
 
