@@ -80,6 +80,8 @@ class transitions:
         cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()
         rec_COOLDOWN_DURATION = int(cooldur_file[0])
 
+        global COOLDOWN_DURATION
+
         if rec_COOLDOWN_DURATION != COOLDOWN_DURATION:
             COOLDOWN_DURATION = rec_COOLDOWN_DURATION
 
