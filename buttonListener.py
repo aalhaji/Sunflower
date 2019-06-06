@@ -75,7 +75,8 @@ while True:
 
                 if currentState == (0 or 1):
                     if currentState != shield.relay.one.read():
-                        currentState == shield.relay.one.read()
+                        currentState = shield.relay.one.read()
+                        mismatch = 1
                         states.updateLocalState(currentState)
                         states.updateServerState()
 
@@ -101,8 +102,9 @@ while True:
 
                 elif currentState == 1: # if you're on
 
-                    shield.relay.one.off()
-                    on_timer.cancel()
+                    if(!mismatch):
+                        on_timer.cancel()
+                        
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
 
