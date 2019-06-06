@@ -51,11 +51,6 @@ def bedAvailable():
             states.updateServerState()
 
 ##########################################################################
-# initial state of 0
-
-currentState = 0
-states.updateLocalState(currentState)
-states.updateServerState()
 
 # LISTENS FOR BUTTON TO TURN ON
 while True:
