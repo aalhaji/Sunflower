@@ -160,7 +160,7 @@ def bedoff():
 
 @app.route('/onduration')
 def onDuration():
-    return render_template('/templates/on_duration.html')
+    return render_template('/home/pi/sunflower/templates/on_duration.html')
 
 @app.route('/onduration', methods=['POST'])
 def onDuration_post():
