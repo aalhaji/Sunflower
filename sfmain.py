@@ -164,7 +164,7 @@ def bedoff():
     else:
         return "Bed off."
 
-class ReusableForm(Form):
+"""class ReusableForm(Form):
 
     TreatmentDuration = TextField('Treatment:', validators=[validators.required()])
     CooldownDuration = TextField('Cooldown:', validators=[validators.required()])
@@ -188,7 +188,13 @@ class ReusableForm(Form):
         else:
             flash('All the form fields are required. ')
 
-        return render_template('durations.html', form=form)
+        return render_template('durations.html', form=form)"""
+
+@app.route('/onduration/<treatmentDuration>')
+def onDuration(treatmentDuration):
+    print("Treatment duration recorded.")
+    return("The treatment duration is " + treatmentDuration)
+
 
 
 
