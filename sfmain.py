@@ -176,7 +176,7 @@ class ReusableForm(Form):
 
         print(form.errors)
 
-        if request.method == 'GET':
+        if request.method == 'POST':
             TreatmentDuration=request.form['TreatmentDuration']
             CooldownDuration=request.form['CooldownDuration']
             print("durations")
