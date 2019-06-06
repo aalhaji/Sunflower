@@ -7,5 +7,5 @@ def internet_on():
     try:
         urlopen('http://1.1.1.1', timeout=1) # generic
         return True
-    except urllib.error.urlerror as err:
+    except urllib.error.URLError as err:
         return False
