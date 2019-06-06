@@ -182,7 +182,7 @@ class ReusableForm(Form):
         else:
             flash('All the form fields are required. ')
 
-        return render_template('/templates/on_duration.html', form=form)
+        return render_template('on_duration.html', form=form)
 
 
 
