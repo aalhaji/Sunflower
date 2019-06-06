@@ -147,6 +147,7 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
+    globals.initialize()
     globals.on_timer.cancel()
 
     currentState = states.checkLocalState()

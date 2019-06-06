@@ -105,6 +105,7 @@ while True:
                 elif currentState == 1: # if you're on
 
                     if mismatch != 1:
+                        globals.initialize()
                         globals.on_timer.cancel()
 
                     print("Button pressed to turn off bed.")
