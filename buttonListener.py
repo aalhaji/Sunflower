@@ -82,6 +82,7 @@ while True:
 
 
                 if currentState == 0: # if you're off
+                
                     print("Button pressed to start bed.")
                     shield.relay.one.on()
                     currentState = 1
@@ -92,10 +93,6 @@ while True:
                     global on_timer
                     on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
                     on_timer.start()
-
-                    flag_file = open("/home/pi/sunflower/onFlag.txt", "w")
-                    flag_file.write(str(1))
-                    flag_file.close()
 
                     # debouncing here
                     time.sleep(5)

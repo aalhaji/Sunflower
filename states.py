@@ -73,26 +73,33 @@ class transitions:
     ## AFTER ON FUNCTION ##
     def afterOn():
 
-        shield.relay.one.off()
-        print("RELAY TURNED OFF.")
-        print(time.ctime())
+        currentState = states.checkLocalState()
+        
+        if currentState == 1:
 
-        states.stateCooldown()
-        print("COOLDOWN STARTED.")
-        print(time.ctime())
-        states.updateServerState()
+            shield.relay.one.off()
+            print("RELAY TURNED OFF.")
+            print(time.ctime())
 
-        cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()
-        rec_COOLDOWN_DURATION = int(cooldur_file[0])
+            states.stateCooldown()
+            print("COOLDOWN STARTED.")
+            print(time.ctime())
+            states.updateServerState()
 
-        global COOLDOWN_DURATION
+            cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()
+            rec_COOLDOWN_DURATION = int(cooldur_file[0])
 
-        if rec_COOLDOWN_DURATION != COOLDOWN_DURATION:
-            COOLDOWN_DURATION = rec_COOLDOWN_DURATION
+            global COOLDOWN_DURATION
 
-        global cooldown_timer
-        cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
-        cooldown_timer.start()
+            if rec_COOLDOWN_DURATION != COOLDOWN_DURATION:
+                COOLDOWN_DURATION = rec_COOLDOWN_DURATION
+
+            global cooldown_timer
+            cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
+            cooldown_timer.start()
+
+
+
 
 
     ## END AFTER ON FUNCTION ##
