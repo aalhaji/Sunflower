@@ -1,5 +1,6 @@
 import automationhat as shield
 import time
+import threading
 
 from states import states, transitions
 
