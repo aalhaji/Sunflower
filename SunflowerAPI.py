@@ -21,9 +21,10 @@ grant_type = 'password'
 
 fixed_uuid = 'ac04be98-7ec1-11e8-9bda-b827eb98dcda' # was generated from str(uuid.uuid1())
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-ip_address = s.getsockname()[0]
+if internet_on():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
 
 ############## LOGIN INFORMATION ###########
 
