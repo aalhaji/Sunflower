@@ -76,8 +76,8 @@ while True:
                 if currentState == (0 or 1):
                     if currentState != shield.relay.one.read():
                         currentState == shield.relay.one.read()
-                        state.updateLocalState(currentState)
-                        state.updateServerState()
+                        states.updateLocalState(currentState)
+                        states.updateServerState()
 
 
                 if currentState == 0: # if you're off
