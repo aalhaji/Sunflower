@@ -2,6 +2,8 @@ import automationhat as shield
 import time
 import threading
 import socket
+import globals
+from timerDeclaration import onTimer
 
 
 from states import states, transitions
@@ -89,9 +91,9 @@ while True:
                     states.updateServerState()
 
 
-                    global on_timer
-                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
-                    on_timer.start()
+                    globals.initialize()
+                    onTimer(TREATMENT_DURATION)
+                    globals.on_timer.start()
 
                     # debouncing here
                     time.sleep(5)
@@ -103,7 +105,7 @@ while True:
                 elif currentState == 1: # if you're on
 
                     if mismatch != 1:
-                        on_timer.cancel()
+                        globals.on_timer.cancel()
 
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
