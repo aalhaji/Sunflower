@@ -77,7 +77,7 @@ while True:
                 str_state = states_dict[currentState]
 
 
-                if currentState == 0:
+                if currentState == 0: # if you're off
                     print("Button pressed to start bed.")
                     shield.relay.one.on()
                     currentState = 1
@@ -96,7 +96,7 @@ while True:
 
                     break
 
-                elif currentState == 1:
+                elif currentState == 1: # if you're on
 
                     on_timer.cancel()
                     print("Button pressed to turn off bed.")
@@ -107,6 +107,19 @@ while True:
 
                     time_now = time.time()
 
+                    break
+
+                elif currentState == 3: # if you're in cleaning
+
+                    print("Button was pressed to declare cleaning done.")
+                    currentState = 0
+                    states.updateLocalState(currentState)
+                    states.updateServerState()
+
+                    #debouncing
+                    time.sleep(5)
+
+                    time_now = time.time()
                     break
 
                 else:
