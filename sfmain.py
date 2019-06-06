@@ -174,7 +174,7 @@ def bedoff():
 def onDuration(treatmentDuration):
 
     global TREATMENT_DURATION
-    TREATMENT_DURATION = treatmentDuration
+    TREATMENT_DURATION = int(treatmentDuration)
 
     print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
 
@@ -186,7 +186,7 @@ def onDuration(treatmentDuration):
 def coolDuration(cooldownDuration):
 
     global COOLDOWN_DURATION
-    COOLDOWN_DURATION = cooldownDuration
+    COOLDOWN_DURATION = int(cooldownDuration)
 
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
 
