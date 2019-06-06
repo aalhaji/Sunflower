@@ -72,7 +72,12 @@ while True:
                 # BUTTON TO START BED
 
                 currentState = states.checkLocalState()
-                str_state = states_dict[currentState]
+
+                if currentState == (0 or 1):
+                    if currentState != shield.relay.one.read():
+                        currentState == shield.relay.one.read()
+                        state.updateLocalState(currentState)
+                        state.updateServerState()
 
 
                 if currentState == 0: # if you're off
@@ -96,6 +101,7 @@ while True:
 
                 elif currentState == 1: # if you're on
 
+                    shield.relay.one.off()
                     on_timer.cancel()
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
