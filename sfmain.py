@@ -107,6 +107,7 @@ def bedon():
 
         #state ON for 15 minutes
 
+        global on_timer
         on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
         on_timer.start()
         #if (states.checkLocalState() != 1):
@@ -119,7 +120,7 @@ def bedon():
 def bedoff():
 
     on_timer.cancel()
-    
+
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
 
