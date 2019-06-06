@@ -188,6 +188,13 @@ def coolDuration(cooldownDuration):
     global COOLDOWN_DURATION
     COOLDOWN_DURATION = int(cooldownDuration)
 
+    cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
+    cooldur_file.write(cooldownDuration)
+    cooldur_file.close()
+
+    # cooldown duration has to be recorded in a txt file because it's referenced in "states"
+
+
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
 
     return("The cooldown duration has been recorded as " + cooldownDuration + " minutes")
