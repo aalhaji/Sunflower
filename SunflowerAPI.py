@@ -10,6 +10,7 @@ import json
 import uuid
 import socket
 import getpass
+from internet_on import internet_on
 
 # for testing
 username = 'demo@countrhq.com'
