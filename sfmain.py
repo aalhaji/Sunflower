@@ -5,6 +5,11 @@ import time
 time.sleep(0.1)
 import threading # library for timers
 
+
+global TREATMENT_DURATION
+global COOLDOWN_DURATION
+
+# default values go here
 TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
 COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
 
@@ -164,36 +169,28 @@ def bedoff():
     else:
         return "Bed off."
 
-"""class ReusableForm(Form):
-
-    TreatmentDuration = TextField('Treatment:', validators=[validators.required()])
-    CooldownDuration = TextField('Cooldown:', validators=[validators.required()])
-
-    @app.route("/durations", methods=['GET', 'POST'])
-    def durations():
-
-        form = ReusableForm(request.form)
-
-        print(form.errors)
-
-        if request.method == 'POST':
-            TreatmentDuration=request.form['TreatmentDuration']
-            CooldownDuration=request.form['CooldownDuration']
-            print("durations")
-
-        if form.validate():
-            # Save the comment here.
-            flash('The treatment time is ' + TreatmentDuration)
-            flash('The cooldown time is ' + CooldownDuration)
-        else:
-            flash('All the form fields are required. ')
-
-        return render_template('durations.html', form=form)"""
-
 @app.route('/onduration/<treatmentDuration>')
+
 def onDuration(treatmentDuration):
-    print("Treatment duration recorded.")
-    return("The treatment duration is " + treatmentDuration)
+
+    global TREATMENT_DURATION
+    TREATMENT_DURATION = treatmentDuration
+
+    print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
+
+    return("The treatment duration has been recorded as " + treatmentDuration + " minutes")
+
+
+@app.route('/coolduration/<cooldownDuration>')
+
+def coolDuration(cooldownDuration):
+
+    global COOLDOWN_DURATION
+    COOLDOWN_DURATION = cooldownDuration
+
+    print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
+
+    return("The cooldown duration has been recorded as " + cooldownDuration + " minutes")
 
 
 
