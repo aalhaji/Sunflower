@@ -70,7 +70,7 @@ while True:
                 #print(value)
 
                 # BUTTON TO START BED
-
+                mismatch = 0
                 currentState = states.checkLocalState()
 
                 if currentState == (0 or 1):
@@ -108,10 +108,6 @@ while True:
 
                     print("Button pressed to turn off bed.")
                     transitions.afterOn()
-
-                    flag_file = open("/home/pi/sunflower/onFlag.txt", "w")
-                    flag_file.write(str(0))
-                    flag_file.close()
 
                     #debouncing
                     time.sleep(5)
