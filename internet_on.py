@@ -5,7 +5,7 @@ import urllib.error
 
 def internet_on():
     try:
-        urlopen('http://1.1.1.1', timeout=1) # generic
+        urlopen('http://www.google.com', timeout=1) # generic
         return True
     except urllib.error.URLError as err:
         return False
