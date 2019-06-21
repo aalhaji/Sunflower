@@ -10,24 +10,26 @@ global TREATMENT_DURATION
 global COOLDOWN_DURATION
 
 # default values go here
-TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
-COOLDOWN_DURATION = 10 # + 60*3 to get 3 mins
+#TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
+#COOLDOWN_DURATION = 4 # + 60*3 to get 3 mins
 
 global on_timer
 
 # reset default duration values
 
-cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
-cooldur_file.write(str(COOLDOWN_DURATION))
-cooldur_file.close()
+#cooldur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
+#cooldur_file.write(str(TREATMENT_DURATION))
+#cooldur_file.close()
 
-cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
-cooldur_file.write(str(COOLDOWN_DURATION))
-cooldur_file.close()
+#cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
+#cooldur_file.write(str(COOLDOWN_DURATION))
+#cooldur_file.close()
 
 # IP library
 import socket
 from internet_on import internet_on
+
+# Check if the internet is on, or operate offline
 if internet_on():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
@@ -187,6 +189,9 @@ def onDuration(treatmentDuration):
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration)
 
+    # Convert Minutes to Seconds, Uncomment this for Production
+    #TREATMENT_DURATION = 60 * TREATMENT_DURATION
+
     trdur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
     trdur_file.write(treatmentDuration)
     trdur_file.close()
@@ -203,6 +208,9 @@ def coolDuration(cooldownDuration):
     global COOLDOWN_DURATION
     COOLDOWN_DURATION = int(cooldownDuration)
 
+    # Convert Minutes to Seconds, uncomment this for production
+    #COOLDOWN_DURATION = 60 * COOLDOWN_DURATION
+
     cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
     cooldur_file.write(cooldownDuration)
     cooldur_file.close()
@@ -213,6 +221,37 @@ def coolDuration(cooldownDuration):
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
 
     return("The cooldown duration has been recorded as " + cooldownDuration + " minutes")
+
+# if you want to test the bed, 2 mins
+
+@app.route('/test')
+
+def test():
+
+    currentState = states.checkLocalState()
+    str_state = states_dict[currentState]
+
+    if currentState == (1 or 2 or 3):
+        return "ERROR. The bed is currently in state: {}".format(str_state)
+
+    else:
+        shield.relay.one.on()
+        currentState = 1
+
+        states.updateLocalState(currentState)
+        states.updateServerState()
+        #state ON for 2 minutes
+
+        TESTING_DURATION = 2 # * 60 # to convert to minutes
+
+        global on_timer
+        on_timer = threading.Timer(TESTING_DURATION, transitions.afterOn)
+        on_timer.start()
+
+    return "Bed turned ON."
+
+
+
 
 
 
