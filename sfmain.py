@@ -4,6 +4,7 @@ import automationhat as shield
 import time
 time.sleep(0.1)
 import threading # library for timers
+import csv
 
 
 global TREATMENT_DURATION
@@ -14,6 +15,8 @@ global COOLDOWN_DURATION
 #COOLDOWN_DURATION = 4 # + 60*3 to get 3 mins
 
 global on_timer
+global startTime, startTimeSec, endTime, endTimeSec
+global dateToday, timeSpent, totalUseTime
 
 # reset default duration values
 
@@ -28,6 +31,8 @@ global on_timer
 # IP library
 import socket
 from internet_on import internet_on
+
+
 
 # Check if the internet is on, or operate offline
 if internet_on():
@@ -128,11 +133,21 @@ def bedon():
         return "ERROR. The bed is currently in state: {}".format(str_state)
 
     else:
+        # Turn on
         shield.relay.one.on()
-        currentState = 1
 
+        # Record start time
+        global dateToday, startTimeSec, startTime
+        dateToday = time.strftime("%d %b %Y", time.gmtime())
+        startTimeSec = time.time()
+        startTime = time.strftime("%H:%M:%S", time.gmtime())
+
+        # State change protocol
+        currentState = 1
         states.updateLocalState(currentState)
         states.updateServerState()
+
+
         #state ON for 15 minutes
 
         global on_timer
@@ -145,7 +160,14 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
+    # cancel timer if still on
     on_timer.cancel()
+
+    # Record Off time
+    global endTimeSec, endTime, timeSpent
+    endTimeSec = time.time()
+    endTime = time.strftime("%H:%M:%S", time.gmtime())
+    timeSpent = (endTimeSec - startTimeSec) / 60
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
@@ -159,6 +181,23 @@ def bedoff():
         transitions.afterOn()
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
+
+        # Save run info to useData.csv
+
+        useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+        useData_thisInstance = [
+        { 'DATE':dateToday,
+        'START_TIME':startTime,
+        'END_TIME':endTime,
+        "MINUTES_SPENT":timeSpent }]
+
+        useData_file = open("txt/useData.csv", "a")
+        writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
+
+        for data in useData_thisInstance:
+            writer.writerow()
+
+        useData_file.close()
 
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
