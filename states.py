@@ -71,19 +71,41 @@ class transitions:
 
 
     ## AFTER ON FUNCTION ##
-    def afterOn():
+    def afterOn(startTimeSec, startTime):
 
         currentState = states.checkLocalState()
-        
+
         if currentState == 1:
+
+            # Record Off time
+            global dateToday, endTimeSec, endTime, timeSpent
+            dateToday = time.strftime("%d %b %Y", time.localtime())
+            endTimeSec = time.time()
+            endTime = time.strftime("%H:%M:%S", time.localtime())
+            timeSpent = (endTimeSec - startTimeSec) / 60
+
 
             shield.relay.one.off()
             print("RELAY TURNED OFF.")
-            print(time.ctime())
+
+            useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+            useData_thisInstance = [
+            { 'DATE':dateToday,
+            'START_TIME':startTime,
+            'END_TIME':endTime,
+            "MINUTES_SPENT":timeSpent }]
+
+            useData_file = open("txt/useData.csv", "a")
+            writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
+
+            for data in useData_thisInstance:
+                writer.writerow(data)
+
+            useData_file.close()
 
             states.stateCooldown()
             print("COOLDOWN STARTED.")
-            print(time.ctime())
+
             states.updateServerState()
 
             cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()

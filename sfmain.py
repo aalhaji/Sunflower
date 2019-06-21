@@ -137,10 +137,9 @@ def bedon():
         shield.relay.one.on()
 
         # Record start time
-        global dateToday, startTimeSec, startTime
-        dateToday = time.strftime("%d %b %Y", time.gmtime())
+        global startTimeSec, startTime
         startTimeSec = time.time()
-        startTime = time.strftime("%H:%M:%S", time.gmtime())
+        startTime = time.strftime("%H:%M:%S", time.localtime())
 
         # State change protocol
         currentState = 1
@@ -172,12 +171,6 @@ def bedoff():
     # cancel timer if still on
     on_timer.cancel()
 
-    # Record Off time
-    global endTimeSec, endTime, timeSpent
-    endTimeSec = time.time()
-    endTime = time.strftime("%H:%M:%S", time.gmtime())
-    timeSpent = (endTimeSec - startTimeSec) / 60
-
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
 
@@ -187,26 +180,10 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-        transitions.afterOn()
+        global startTimeSec, startTime
+        transitions.afterOn(startTimeSec, startTime)
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
-
-        # Save run info to useData.csv
-
-        useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
-        useData_thisInstance = [
-        { 'DATE':dateToday,
-        'START_TIME':startTime,
-        'END_TIME':endTime,
-        "MINUTES_SPENT":timeSpent }]
-
-        useData_file = open("txt/useData.csv", "a")
-        writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
-
-        for data in useData_thisInstance:
-            writer.writerow(data)
-
-        useData_file.close()
 
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
