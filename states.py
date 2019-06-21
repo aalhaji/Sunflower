@@ -83,6 +83,7 @@ class transitions:
             dateToday = time.strftime("%d %b %Y", time.localtime())
             endTimeSec = time.time()
             endTime = time.strftime("%H:%M:%S", time.localtime())
+            startTimeSec = float(startTimeSec)
             timeSpent = (endTimeSec - startTimeSec) / 60
 
 
