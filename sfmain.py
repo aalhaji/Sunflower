@@ -204,7 +204,7 @@ def bedoff():
         writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
 
         for data in useData_thisInstance:
-            writer.writerow()
+            writer.writerow(data)
 
         useData_file.close()
 
