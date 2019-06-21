@@ -159,7 +159,7 @@ def bedon():
         #state ON for 15 minutes
 
         global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn(starttimeSec, startTime))
         on_timer.start()
 
     return "Bed turned ON."
@@ -263,6 +263,9 @@ def test():
         shield.relay.one.on()
         currentState = 1
 
+        startTimeSec = time.time()
+        startTime = time.strftime("%H:%M:%S", time.localtime())
+
         states.updateLocalState(currentState)
         states.updateServerState()
         #state ON for 2 minutes
@@ -270,7 +273,7 @@ def test():
         TESTING_DURATION = 2 # * 60 # to convert to minutes
 
         global on_timer
-        on_timer = threading.Timer(TESTING_DURATION, transitions.afterOn)
+        on_timer = threading.Timer(TESTING_DURATION, transitions.afterOn(startTimeSec, startTime))
         on_timer.start()
 
     return "Bed turned ON."
