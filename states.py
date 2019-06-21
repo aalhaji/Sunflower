@@ -4,6 +4,7 @@ import socket
 import automationhat as shield
 import threading
 import time
+import csv
 
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
