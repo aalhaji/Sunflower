@@ -273,7 +273,7 @@ def test():
         TESTING_DURATION = 2 # * 60 # to convert to minutes
 
         global on_timer
-        on_timer = threading.Timer(TESTING_DURATION, transitions.afterOn(startTimeSec, startTime))
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
         on_timer.start()
 
     return "Bed turned ON."
