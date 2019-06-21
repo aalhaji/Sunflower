@@ -11,8 +11,8 @@ global TREATMENT_DURATION
 global COOLDOWN_DURATION
 
 # default values go here
-#TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
-#COOLDOWN_DURATION = 4 # + 60*3 to get 3 mins
+TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
+COOLDOWN_DURATION = 4 # + 60*3 to get 3 mins
 
 global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
@@ -147,6 +147,15 @@ def bedon():
         states.updateLocalState(currentState)
         states.updateServerState()
 
+        # Get treatment duration
+
+        trdur_file = open("txt/treatmentDuration.txt", "r").read().splitlines()
+        rec_TREATMENT_DURATION = int(trdur_file[0])
+
+        global TREATMENT_DURATION
+
+        if rec_TREATMENT_DURATION != TREATMENT_DURATION:
+            TREATMENT_DURATION = rec_TREATMENT_DURATION
 
         #state ON for 15 minutes
 
