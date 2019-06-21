@@ -159,7 +159,7 @@ def bedon():
         #state ON for 15 minutes
 
         global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn(startTimeSec, startTime))
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTime, startTimeSec])
         on_timer.start()
 
     return "Bed turned ON."
