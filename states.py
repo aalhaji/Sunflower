@@ -6,6 +6,7 @@ import threading
 import time
 import csv
 import dataKeeper
+from internet_on import internet_on
 
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
@@ -31,7 +32,6 @@ class states:
 
     def updateServerState():
 
-        from internet_on import internet_on
         if internet_on():
             dev_file = open("txt/devinfo.txt", "r").read().splitlines()
             devname = dev_file[0]
@@ -48,7 +48,25 @@ class states:
         else:
             print("No internet connection. State change not patched to server.")
 
-    # def checkServerState():
+
+    def updateServerUseTime():
+
+        if internet_on():
+            dev_file = open("txt/devinfo.txt", "r").read().splitlines()
+            devname = dev_file[0]
+
+            uuid_file = open("txt/uuid.txt", "r").read().splitlines()
+            uuid = uuid_file[0]
+
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            ip_address = s.getsockname()[0]
+
+            sF.Devices.patchUseTime(devname, uuid, ip_address)
+
+        else:
+            print("No internet connection. Use time not patched to server.")
+
 
     def stateCooldown():
         states.updateLocalState(2)
@@ -117,7 +135,9 @@ class transitions:
 
             totalUseTime = dataKeeper.logdata.getTotalUseTime()
             print("Total Use Time Is: %0.2f Minutes" % totalUseTime)
-            ## Here, patch total use time
+            print("===================================")
+
+            states.updateServerUseTime()
 
             ##### COOLDOWN PROTOCOL
 

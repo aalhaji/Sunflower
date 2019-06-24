@@ -11,6 +11,7 @@ import uuid
 import socket
 import getpass
 from internet_on import internet_on
+import dataKeeper
 
 # for testing
 username = 'demo@countrhq.com'
@@ -313,6 +314,31 @@ class Devices:
                 misc.Exception_Handler(resp)
                 break
 
+############# SEND TOTAL USE TIME #####################
+
+
+    def patchUseTime(name, uuid, ip_address):
+
+        api_file = open("/home/pi/sunflower/txt/api_url.txt", "r").read().splitlines()
+        api_url_base = api_file[0]
+
+        token_file = open("/home/pi/sunflower/txt/access_token.txt", "r").read().splitlines()
+        auth = token_file[0]
+
+        totalUseTime = dataKeeper.logdata.getTotalUseTime()
+
+        while True:
+            body = {"name":name, "uuid":uuid, "info.ip_address":ip_address, "info.total_use_time":totalUseTime}
+            resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":auth})
+
+            if resp.status_code == 200:
+                print("Total use time patched to Countr server.")
+                print('==================================')
+                break
+
+            else:
+                misc.Exception_Handler(resp)
+                break
 
 ########## DEVICE REGISTRATION PROMPT #############
 
