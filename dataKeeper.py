@@ -68,15 +68,17 @@ class logdata:
 
         useFile = "txt/useData.csv"
         useFile = open(useFile, "r")
-        reader = csv.reader(useFile)
-
+    
         # Record last use time, for errors
 
-        lastDuration = round((float((useFile.readlines()[-1]).split(","))),2)
+        lastDuration =round((float((useFile.readlines()[-1]).split(",")[3])),2)
         print("LAST DURATION")
-        print(lastDuration)
+        print(lastDuration) 
+
+        reader = csv.reader(useFile)
 
         next(reader) # Skipping Header Line
+
         totalUseTime = 0
 
         for row in reader:
