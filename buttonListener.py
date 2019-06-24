@@ -16,6 +16,7 @@ TREATMENT_DURATION = int((open("txt/treatmentDuration.txt", "r").read().splitlin
 COOLDOWN_DURATION = int((open("txt/cooldownDuration.txt", "r").read().splitlines())[0])
 
 global on_timer
+on_timer = 0
 
 
 #IP library
@@ -61,22 +62,12 @@ while True:
 
     while True:
 
-        global on_timer
-
         currentState = states.checkLocalState()
-        #mismatch = 0
+        # if it was changed from the POS
 
         if currentState == (0 or 2 or 3):
-            if (on_timer):
+            if(on_timer):
                 on_timer.cancel()
-
-        #if currentState == (0 or 1):
-        #    if currentState != shield.relay.one.read():
-        #        currentState = shield.relay.one.read()
-        #        mismatch = 1
-        #        states.updateLocalState(currentState)
-        #        states.updateServerState()
-
 
         value = shield.analog.one.read()
 

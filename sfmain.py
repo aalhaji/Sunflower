@@ -18,6 +18,9 @@ global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
+global BED_STARTED_FROM_POS
+BED_STARTED_FROM_POS = 0
+
 # reset default duration values
 
 #cooldur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
@@ -134,6 +137,9 @@ def bedon():
 
     else:
         # Turn on
+        global BED_STARTED_FROM_POS
+        BED_STARTED_FROM_POS = 1
+
         shield.relay.one.on()
 
         # Record start time
@@ -168,10 +174,10 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    global on_timer
-
     # cancel timer if still on
-    if (on_timer):
+    if (BED_STARTED_FROM_POS):
+        global BED_STARTED_FROM_POS
+        BED_STARTED_FROM_POS = 0
         on_timer.cancel()
 
     currentState = states.checkLocalState()
