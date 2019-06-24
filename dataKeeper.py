@@ -4,53 +4,76 @@
 
 
 import csv
-from time import gmtime, strftime, time
+from time import localtime, strftime, time
 
-# define dictionary's columns for csv
-useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+class logdata:
 
-# configure parameters
-dateToday = strftime("%d %b %Y", gmtime())
+    def makeUseFile():
 
-startTimeSec = time()
-startTime = strftime("%H:%M:%S", gmtime())
+        useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
 
-endTimeSec = time()
-endTime = strftime("%H:%M:%S", gmtime())
+        # configure parameters
+        dateToday = strftime("%d %b %Y", localtime())
 
-timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
+        startTimeSec = time()
+        startTime = strftime("%H:%M:%S", localtime())
 
-useData_dict = [
-                { 'DATE': dateToday,
-                'START_TIME': startTime,
-                'END_TIME': endTime,
-                'MINUTES_SPENT': timeSpent }
-                ]
+        endTimeSec = time()
+        endTime = strftime("%H:%M:%S", localtime())
 
-useFile = "txt/useData.csv"
+        timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
 
-try:
-    with open(useFile, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=useData_columns)
-        writer.writeheader()
-        for data in useData_dict:
-            writer.writerow(data)
-except IOError:
-    print("I/O Error")
+        useData_dict = [
+                        { 'DATE': dateToday,
+                        'START_TIME': startTime,
+                        'END_TIME': endTime,
+                        'MINUTES_SPENT': timeSpent }
+                        ]
 
-from collections import OrderedDict
+        useFile = "txt/useData.csv"
 
-#tartTime = 'NEW START TIME'
-#current_file = open("txt/useData.csv", "r")
-#reader = csv.DictReader(current_file)
+        try:
+            with open(useFile, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=useData_columns)
+                writer.writeheader()
+                for data in useData_dict:
+                    writer.writerow(data)
+        except IOError:
+            print("I/O Error")
+    ############
 
-#readlist = list(reader)
-#print(type(readlist))
-#print(readlist[0])
+    def resetUseFile():
 
-#readdict = dict(readlist[0])
-#print(readdict)
 
-#writeList = open("txt/useData.csv", "w")
-#writer = csv.writer(writeList)
-#writer.writerows()
+            # truncate the useFile
+
+            useFile = "txt/useData.csv"
+
+            csvfile = open(useFile, "w+")
+            csvfile.close()
+
+            # Redefine the labels
+
+            useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+
+            try:
+                with open(useFile, 'w') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=useData_columns)
+                    writer.writeheader()
+            except IOError:
+                print("I/O Error")
+
+
+    def getTotalUseTime():
+
+        useFile = "txt/useData.csv"
+        useFile = open(useFile, "r")
+        reader = csv.reader(useFile)
+
+        next(reader) # Skipping Header Line
+        totalUseTime = 0
+
+        for row in reader:
+            totalUseTime += int(row[3])
+
+        return totalUseTime

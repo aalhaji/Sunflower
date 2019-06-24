@@ -5,6 +5,7 @@ import automationhat as shield
 import threading
 import time
 import csv
+import dataKeeper
 
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
@@ -105,10 +106,20 @@ class transitions:
 
             useData_file.close()
 
+            ##### STATE CHANGE PROTOCOL
+
             states.stateCooldown()
             print("COOLDOWN STARTED.")
 
             states.updateServerState()
+
+            #### TOTAL USE TIME PROTOCOL
+
+            totalUseTime = dataKeeper.logdata.getTotalUseTime()
+            print("Total Use Time Is" + totalUseTime)
+            ## Here, patch total use time
+
+            ##### COOLDOWN PROTOCOL
 
             cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()
             rec_COOLDOWN_DURATION = int(cooldur_file[0])

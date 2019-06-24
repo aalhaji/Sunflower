@@ -329,7 +329,7 @@ class Devices:
             if (is_confirmed == ('y' or 'Y')):
                 print("Name '{}' confirmed.".format(Devices.DeviceName))
                 print("==================================")
-                dev_open = open("/home/pi/sunflower/txt/devicename.txt", "w")
+                dev_open = open("/home/pi/sunflower/txt/devinfo.txt", "w")
                 dev_open.write(Devices.DeviceName)
                 dev_open.write("\n")
                 dev_open.close()
