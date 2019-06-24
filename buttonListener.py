@@ -2,6 +2,7 @@ import automationhat as shield
 import time
 import threading
 import socket
+import csv
 
 
 from states import states, transitions
@@ -11,8 +12,8 @@ from states import states, transitions
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
 
-TREATMENT_DURATION = int((open("/home/pi/sunflower/txt/treatmentDuration.txt", "r").read().splitlines())[0])
-COOLDOWN_DURATION = int((open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines())[0])
+TREATMENT_DURATION = int((open("txt/treatmentDuration.txt", "r").read().splitlines())[0])
+COOLDOWN_DURATION = int((open("txt/cooldownDuration.txt", "r").read().splitlines())[0])
 
 global on_timer
 
@@ -85,13 +86,17 @@ while True:
 
                     print("Button pressed to start bed.")
                     shield.relay.one.on()
+
+                    global startTimeSec, startTime
+                    startTimeSec = time.time()
+                    startTime = time.strftime("%H:%M:%S", time.localtime())
+
                     currentState = 1
                     states.updateLocalState(currentState)
                     states.updateServerState()
 
-
                     global on_timer
-                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn)
+                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
                     on_timer.start()
 
                     # debouncing here
@@ -103,18 +108,26 @@ while True:
 
                 elif currentState == 1: # if you're on
 
-                    if mismatch != 1:
-                        on_timer.cancel()
-
-                    print("Button pressed to turn off bed.")
-                    transitions.afterOn()
-
-                    #debouncing
-                    time.sleep(5)
+                    print("Button pressed while bed is on.")
+                    print("Bed cannot be turned off from the button.")
+                    print("Must be turned off from the POS.")
 
                     time_now = time.time()
 
                     break
+
+                    ## this code was from when the bed was allowed to turn OFF
+
+            #        if mismatch != 1:
+            #            on_timer.cancel()
+
+
+            #        transitions.afterOn()
+
+                    #debouncing
+            #        time.sleep(5)
+
+
 
                 elif currentState == 3: # if you're in cleaning
 
@@ -131,6 +144,8 @@ while True:
 
                 else:
                     currentState = states.checkLocalState()
-                    print("Error. Bed is already in state {}.".format(currentState))
+                    print("Error. Bed is in state {}.".format(currentState))
+                    print("Bed cannot be turned off from the button.")
+                    print("Must be turned off from the POS.")
                     time_now = time.time()
                     break
