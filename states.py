@@ -19,12 +19,12 @@ global cooldown_timer
 class states:
 
     def updateLocalState(newState):
-        open_state_file = open("/home/pi/sunflower/txt/currentState.txt", "w")
+        open_state_file = open("txt/currentState.txt", "w")
         open_state_file.write(str(newState))
         open_state_file.close()
 
     def checkLocalState():
-        currentState_file = open("/home/pi/sunflower/txt/currentState.txt", "r").read().splitlines()
+        currentState_file = open("txt/currentState.txt", "r").read().splitlines()
         currentState = int(currentState_file[0])
 
         return currentState
@@ -33,10 +33,10 @@ class states:
 
         from internet_on import internet_on
         if internet_on():
-            dev_file = open("/home/pi/sunflower/txt/devicename.txt", "r").read().splitlines()
+            dev_file = open("txt/devinfo.txt", "r").read().splitlines()
             devname = dev_file[0]
 
-            uuid_file = open("/home/pi/sunflower/txt/uuid.txt", "r").read().splitlines()
+            uuid_file = open("txt/uuid.txt", "r").read().splitlines()
             uuid = uuid_file[0]
 
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -116,12 +116,12 @@ class transitions:
             #### TOTAL USE TIME PROTOCOL
 
             totalUseTime = dataKeeper.logdata.getTotalUseTime()
-            print("Total Use Time Is" + totalUseTime)
+            print("Total Use Time Is: %0.2f Minutes" % totalUseTime)
             ## Here, patch total use time
 
             ##### COOLDOWN PROTOCOL
 
-            cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "r").read().splitlines()
+            cooldur_file = open("txt/cooldownDuration.txt", "r").read().splitlines()
             rec_COOLDOWN_DURATION = int(cooldur_file[0])
 
             global COOLDOWN_DURATION

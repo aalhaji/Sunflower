@@ -74,6 +74,6 @@ class logdata:
         totalUseTime = 0
 
         for row in reader:
-            totalUseTime += int(row[3])
+            totalUseTime += float(row[3]) ## Only float because the test values are under 1 minute
 
         return totalUseTime
