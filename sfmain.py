@@ -169,7 +169,8 @@ def bedon():
 def bedoff():
 
     # cancel timer if still on
-    on_timer.cancel()
+    if (on_timer):
+        on_timer.cancel()
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]

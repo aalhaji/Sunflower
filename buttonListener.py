@@ -61,6 +61,21 @@ while True:
 
     while True:
 
+        currentState = states.checkLocalState()
+        #mismatch = 0
+
+        if currentState == (0 or 2 or 3):
+            if (on_timer):
+                on_timer.cancel()
+
+        #if currentState == (0 or 1):
+        #    if currentState != shield.relay.one.read():
+        #        currentState = shield.relay.one.read()
+        #        mismatch = 1
+        #        states.updateLocalState(currentState)
+        #        states.updateServerState()
+
+
         value = shield.analog.one.read()
 
         if (value > 1):
@@ -68,19 +83,6 @@ while True:
             # the '0.3' is because the analog signal only stabilizes after that time
 
             if ((time.time()-time_now) > 0.3):
-                #print(value)
-
-                # BUTTON TO START BED
-                mismatch = 0
-                currentState = states.checkLocalState()
-
-                if currentState == (0 or 1):
-                    if currentState != shield.relay.one.read():
-                        currentState = shield.relay.one.read()
-                        mismatch = 1
-                        states.updateLocalState(currentState)
-                        states.updateServerState()
-
 
                 if currentState == 0: # if you're off
 
