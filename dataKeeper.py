@@ -76,4 +76,6 @@ class logdata:
         for row in reader:
             totalUseTime += float(row[3]) ## Only float because the test values are under 1 minute
 
+        totalUseTime = round(totalUseTime, 2) ## 2 significant numbers only
+
         return totalUseTime
