@@ -18,8 +18,7 @@ global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
-global BED_STARTED_FROM_POS
-BED_STARTED_FROM_POS = 0
+global BED_STARTED_FROM_POS = 0
 
 # reset default duration values
 
@@ -174,12 +173,6 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
-    # cancel timer if still on
-    if (BED_STARTED_FROM_POS):
-        global BED_STARTED_FROM_POS
-        BED_STARTED_FROM_POS = 0
-        on_timer.cancel()
-
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
 
@@ -189,12 +182,37 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-        global startTimeSec, startTime
-        transitions.afterOn(startTimeSec, startTime)
-        currentState = states.checkLocalState()
-        str_state = states_dict[currentState]
+    # cancel timer if still on
+        if (BED_STARTED_FROM_POS):
+            global BED_STARTED_FROM_POS = 0
+            on_timer.cancel()
 
-        return "The bed has been turned off. Bed is now in state: {}".format(str_state)
+            global startTimeSec, startTime
+            transitions.afterOn(startTimeSec, startTime)
+            currentState = states.checkLocalState()
+            str_state = states_dict[currentState]
+
+            return "The bed has been turned off. Bed is now in state: {}".format(str_state)
+
+        else:
+            # read the start times
+
+            useFile = "txt/useData.csv"
+            useFile = open(useFile, "r")
+
+            timesArray = useFile.readlines()[-1].split(",")
+
+            startTime = timesArray[1]
+            startTimeSec = timesArray[2]
+
+            transitions.afterOn(startTimeSec, startTime)
+            currentState = states.checkLocalState()
+            str_state = states_dict[currentState]
+
+            return "The bed has been turned off. Bed is now in state: {}".format(str_state)
+
+
+
 
     elif currentState == 2: # cooldown
 

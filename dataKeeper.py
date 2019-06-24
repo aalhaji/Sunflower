@@ -10,7 +10,7 @@ class logdata:
 
     def makeUseFile():
 
-        useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+        useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
 
         # configure parameters
         dateToday = strftime("%d %b %Y", localtime())
@@ -26,6 +26,7 @@ class logdata:
         useData_dict = [
                         { 'DATE': dateToday,
                         'START_TIME': startTime,
+                        'START_TIME_SINCE_EPOCH':startTimeSec,
                         'END_TIME': endTime,
                         'MINUTES_SPENT': timeSpent }
                         ]
@@ -54,7 +55,7 @@ class logdata:
 
             # Redefine the labels
 
-            useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+            useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
 
             try:
                 with open(useFile, 'w') as csvfile:
@@ -87,6 +88,6 @@ class logdata:
         useFile = "txt/useData.csv"
         useFile = open(useFile, "r")
 
-        lastDuration =round((float((useFile.readlines()[-1]).split(",")[3])),2)
+        lastDuration = round((float((useFile.readlines()[-1]).split(",")[4])),2)
 
         return lastDuration

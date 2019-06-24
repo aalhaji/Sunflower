@@ -90,10 +90,11 @@ class transitions:
             shield.relay.one.off()
             print("RELAY TURNED OFF.")
 
-            useData_columns = ['DATE', 'START_TIME', 'END_TIME', 'MINUTES_SPENT']
+            useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
             useData_thisInstance = [
             { 'DATE':dateToday,
             'START_TIME':startTime,
+            'START_TIME_SINCE_EPOCH':startTimeSec,
             'END_TIME':endTime,
             "MINUTES_SPENT":timeSpent }]
 
