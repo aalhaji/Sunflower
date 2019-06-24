@@ -326,6 +326,8 @@ class Devices:
         auth = token_file[0]
 
         totalUseTime = dataKeeper.logdata.getTotalUseTime()
+        print("after getting total use time")
+        print(totalUseTime)
 
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address, "info.total_use_time":totalUseTime}
