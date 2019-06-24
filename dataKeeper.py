@@ -68,13 +68,6 @@ class logdata:
 
         useFile = "txt/useData.csv"
         useFile = open(useFile, "r")
-    
-        # Record last use time, for errors
-
-        lastDuration =round((float((useFile.readlines()[-1]).split(",")[3])),2)
-        print("LAST DURATION")
-        print(lastDuration) 
-
         reader = csv.reader(useFile)
 
         next(reader) # Skipping Header Line
@@ -87,3 +80,13 @@ class logdata:
         totalUseTime = round(totalUseTime, 2) ## 2 significant numbers only
 
         return totalUseTime
+
+
+    def getLastDuration():
+
+        useFile = "txt/useData.csv"
+        useFile = open(useFile, "r")
+
+        lastDuration =round((float((useFile.readlines()[-1]).split(",")[3])),2)
+
+        return lastDuration

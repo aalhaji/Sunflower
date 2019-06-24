@@ -303,13 +303,15 @@ class Devices:
 
         totalUseTime = dataKeeper.logdata.getTotalUseTime()
 
+        lastDuration = dataKeeper.logdata.getLastDuration()
+
         while True:
             body = {"name":name, "uuid":uuid, "info.ip_address":ip_address, "info.last_state":currentState,
-            "info.total_use_time":totalUseTime}
+            "info.total_use_time":totalUseTime, "info.last_duration":lastDuration}
             resp = requests.patch(api_url_base+'devices/'+uuid, data=body, headers={"Authorization":auth})
 
             if resp.status_code == 200:
-                print("State change and total use time patched to Countr server.")
+                print("State change and use data patched to Countr server.")
                 print('==================================')
                 break
 
