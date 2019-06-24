@@ -70,6 +70,12 @@ class logdata:
         useFile = open(useFile, "r")
         reader = csv.reader(useFile)
 
+        # Record last use time, for errors
+
+        lastDuration = round((float((useFile.readlines()[-1]).split(","))),2)
+        print("LAST DURATION")
+        print(lastDuration)
+
         next(reader) # Skipping Header Line
         totalUseTime = 0
 
