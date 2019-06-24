@@ -61,6 +61,8 @@ while True:
 
     while True:
 
+        global on_timer
+
         currentState = states.checkLocalState()
         #mismatch = 0
 

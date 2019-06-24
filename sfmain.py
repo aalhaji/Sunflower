@@ -168,6 +168,8 @@ def bedon():
 @app.route('/bedoff')
 def bedoff():
 
+    global on_timer
+
     # cancel timer if still on
     if (on_timer):
         on_timer.cancel()
