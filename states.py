@@ -46,26 +46,7 @@ class states:
             sF.Devices.patchState(devname, uuid, ip_address)
 
         else:
-            print("No internet connection. State change not patched to server.")
-
-
-    def updateServerUseTime():
-
-        if internet_on():
-            dev_file = open("txt/devinfo.txt", "r").read().splitlines()
-            devname = dev_file[0]
-
-            uuid_file = open("txt/uuid.txt", "r").read().splitlines()
-            uuid = uuid_file[0]
-
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            ip_address = s.getsockname()[0]
-
-            sF.Devices.patchUseTime(devname, uuid, ip_address)
-
-        else:
-            print("No internet connection. Use time not patched to server.")
+            print("No internet connection. State change and use time not patched to server.")
 
 
     def stateCooldown():
@@ -128,16 +109,7 @@ class transitions:
 
             states.stateCooldown()
             print("COOLDOWN STARTED.")
-
             states.updateServerState()
-
-            #### TOTAL USE TIME PROTOCOL
-
-            totalUseTime = dataKeeper.logdata.getTotalUseTime()
-            print("Total Use Time Is: %0.2f Minutes" % totalUseTime)
-            print("===================================")
-
-            states.updateServerUseTime()
 
             ##### COOLDOWN PROTOCOL
 
