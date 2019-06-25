@@ -215,8 +215,8 @@ def durations(): # treatmentDuration, cooldownDuration):
 
     print("getting stuff")
 
-    treatmentDuration = request.args.get('treatmentDuration', None)
-    cooldownDuration = request.args.get('cooldownDuration', None)
+    treatmentDuration = request.args.get('treatmentDuration')
+    cooldownDuration = request.args.get('cooldownDuration')
 
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration) # * 60
