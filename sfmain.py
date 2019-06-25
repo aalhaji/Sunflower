@@ -222,7 +222,7 @@ def bedoff():
         return "Bed off."
 
 
-app.route('/onduration/<treatmentDuration>/coolduration/<cooldownDuration')
+app.route('/onduration/<treatmentDuration>/coolduration/<cooldownDuration>')
 
 def durations(treatmentDuration, cooldownDuration):
 

@@ -17,7 +17,6 @@ dur_file = open("txt/durations.txt", "r").read().splitlines()
 TREATMENT_DURATION = int(dur_file[0])
 COOLDOWN_DURATION = int(dur_file[1])
 
-dur_file.close()
 
 on_timer = 0
 
