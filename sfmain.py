@@ -135,7 +135,7 @@ def bedon():
 
         dur_file = open("txt/durations.txt", "r").read().splitlines()
         global TREATMENT_DURATION
-        TREATMENT_DURATION = dur_file[0]
+        TREATMENT_DURATION = int(dur_file[0])
 
         global on_timer
         on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
@@ -214,6 +214,8 @@ app.route('/durations') # <int:treatmentDuration>/coolduration/<int:cooldownDura
 
 def durations(): # treatmentDuration, cooldownDuration):
 
+    print("getting stuff")
+
     treatmentDuration = request.args.get('treatmentDuration', None)
     cooldownDuration = requests.args.get('cooldownDuration', None)
 
@@ -237,9 +239,6 @@ def durations(): # treatmentDuration, cooldownDuration):
 
     return("The treatment duration has been recorded as " + treatmentDuration +
     "seconds. The cooldown duration has been recorded as" + cooldownDuration + "seconds.")
-
-
-
 
 
 
