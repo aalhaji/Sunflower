@@ -88,7 +88,7 @@ states_dict={0:"AVAILABLE(OFF)",
 
 # START APP
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 # App config.
 #DEBUG = True # debug mode
@@ -209,20 +209,20 @@ def bedoff():
         return "Bed off."
 
 
-app.route('/durations', methods=['GET']) # <int:treatmentDuration>/coolduration/<int:cooldownDuration>')
+app.route('/durations/<int:treatmentDuration>/<int:cooldownDuration>')
 
-def durations(): # treatmentDuration, cooldownDuration):
+def durations(treatmentDuration=None, cooldownDuration=None): # treatmentDuration, cooldownDuration):
 
     print("getting stuff")
 
-    treatmentDuration = request.args.get('treatmentDuration')
-    cooldownDuration = request.args.get('cooldownDuration')
+    #treatmentDuration = request.args.get('treatmentDuration')
+    #cooldownDuration = request.args.get('cooldownDuration')
 
     global TREATMENT_DURATION
-    TREATMENT_DURATION = int(treatmentDuration) # * 60
+    TREATMENT_DURATION = treatmentDuration # * 60
 
     global COOLDOWN_DURATION
-    COOLDOWN_DURATION = int(cooldownDuration) # * 60
+    COOLDOWN_DURATION = cooldownDuration # * 60
 
     # Convert Minutes to Seconds, Uncomment this for Production
     #TREATMENT_DURATION = 60 * TREATMENT_DURATION
@@ -235,10 +235,7 @@ def durations(): # treatmentDuration, cooldownDuration):
 
     print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
-
-    return("The treatment duration has been recorded as " + treatmentDuration +
-    "seconds. The cooldown duration has been recorded as" + cooldownDuration + "seconds.")
-
+    return jsonify({'treatment': treatmentDuration, 'cooldown': cooldownDuration})
 
 
 
