@@ -24,9 +24,6 @@ global autostart_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
-global BED_STARTED_FROM_POS
-BED_STARTED_FROM_POS = 0
-
 # Check if the internet is on, or operate offline
 if internet_on():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -159,10 +156,6 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-    # cancel timer if still on
-        if (BED_STARTED_FROM_POS):
-            global BED_STARTED_FROM_POS
-            BED_STARTED_FROM_POS = 0
 
         useFile = "txt/useData.csv"
         useFile = open(useFile, "r")
@@ -232,7 +225,9 @@ def durations():
 
     ## Here, start autostart timer
 
+
     auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout)
+    auto_timer.start()
 
     return jsonify({'treatment': treatmentDuration,
                     'cooldown': cooldownDuration,
