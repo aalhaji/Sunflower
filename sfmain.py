@@ -226,7 +226,7 @@ def durations():
 
     dur_file = open("txt/durations.txt", "w")
     dur_file.write(treatmentDuration)
-    dur_file.write("/n")
+    dur_file.write("\n")
     dur_file.write(cooldownDuration)
     dur_file.close()
 
