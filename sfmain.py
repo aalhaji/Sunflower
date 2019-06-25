@@ -209,17 +209,17 @@ def bedoff():
         return "Bed off."
 
 
-app.route('/durations/<int:treatmentDuration>/<int:cooldownDuration>')
-def durations(treatmentDuration=None, cooldownDuration=None):
+@app.route('/durations', methods=['GET']) #<int:treatmentDuration>/<int:cooldownDuration>')
+def durations():
 
-    #treatmentDuration = request.args.get('treatmentDuration')
-    #cooldownDuration = request.args.get('cooldownDuration')
+    treatmentDuration = request.args.get('treatmentDuration')
+    cooldownDuration = request.args.get('cooldownDuration')
 
     global TREATMENT_DURATION
-    TREATMENT_DURATION = treatmentDuration # * 60
+    TREATMENT_DURATION = int(treatmentDuration) # * 60
 
     global COOLDOWN_DURATION
-    COOLDOWN_DURATION = cooldownDuration # * 60
+    COOLDOWN_DURATION = int(cooldownDuration) # * 60
 
     # Convert Minutes to Seconds, Uncomment this for Production
     #TREATMENT_DURATION = 60 * TREATMENT_DURATION
