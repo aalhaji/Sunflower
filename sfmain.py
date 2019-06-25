@@ -18,6 +18,7 @@ global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
+global BED_STARTED_FROM_POS
 BED_STARTED_FROM_POS = 0
 
 # reset default duration values
@@ -184,7 +185,8 @@ def bedoff():
 
     # cancel timer if still on
         if (BED_STARTED_FROM_POS):
-            global BED_STARTED_FROM_POS = 0
+            global BED_STARTED_FROM_POS
+            BED_STARTED_FROM_POS = 0
             on_timer.cancel()
 
             global startTimeSec, startTime

@@ -15,7 +15,6 @@ global COOLDOWN_DURATION
 TREATMENT_DURATION = int((open("txt/treatmentDuration.txt", "r").read().splitlines())[0])
 COOLDOWN_DURATION = int((open("txt/cooldownDuration.txt", "r").read().splitlines())[0])
 
-global on_timer
 on_timer = 0
 
 
@@ -61,6 +60,8 @@ def bedAvailable():
 while True:
 
     while True:
+
+        time.sleep(5) # allows room for state to be changed from POS
 
         currentState = states.checkLocalState()
         # if it was changed from the POS
