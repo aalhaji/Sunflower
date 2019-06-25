@@ -107,8 +107,8 @@ def status():
 
     return "The current state is {}".format(str_state)
 
-@app.route('/bedon')
-def bedon():
+@app.route('/starttest')
+def startTest():
 
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
