@@ -101,7 +101,7 @@ class transitions:
 
         # first erase the last row
 
-        useData_file = open("txt/useData.csv", "r+w")
+        useData_file = open("txt/useData.csv", "r+")
         lines = useData_file.readlines()
         lastRow =lines[:-1]
 

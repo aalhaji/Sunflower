@@ -207,19 +207,23 @@ def bedoff():
 @app.route('/durations', methods=['GET']) #<int:treatmentDuration>/<int:cooldownDuration>')
 def durations():
 
-    treatmentDuration = int(request.args.get('treatmentDuration', default=None))
-    cooldownDuration = int(request.args.get('cooldownDuration', default=None))
-    autostartDuration = int(request.args.get('autostartDuration', default=None))
+    treatment_duration = request.args.get('treatmentDuration', default=None)
+    cooldown_duration = request.args.get('cooldownDuration', default=None)
+    autostart_duration = request.args.get('autostartDuration', default=None)
+
+    treatmentDuration = int(treatment_duration)
+    cooldownDuration = int(cooldown_duration)
+    autostartDuration = int(autostart_duration)
 
     # Convert Minutes to Seconds, Uncomment this for Production
     #TREATMENT_DURATION = 60 * TREATMENT_DURATION
 
     dur_file = open("txt/durations.txt", "w")
-    dur_file.write(treatmentDuration)
+    dur_file.write(treatment_duration)
     dur_file.write("\n")
-    dur_file.write(cooldownDuration)
+    dur_file.write(cooldown_duration)
     dur_file.write("\n")
-    dur_file.write(autostartDuration)
+    dur_file.write(autostart_duration)
     dur_file.close()
 
     print("Treatment duration recorded as {} seconds.".format(treatmentDuration))
@@ -228,7 +232,7 @@ def durations():
 
     ## Here, start autostart timer
 
-    auto_timer = threading.timer(autostartDuration, transitions.afterTimeout())
+    auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout)
 
     return jsonify({'treatment': treatmentDuration,
                     'cooldown': cooldownDuration,
