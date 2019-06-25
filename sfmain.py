@@ -7,7 +7,6 @@ time.sleep(0.1)
 import threading
 
 import csv
-import requests
 
 import socket
 from internet_on import internet_on
@@ -89,7 +88,7 @@ states_dict={0:"AVAILABLE(OFF)",
 
 # START APP
 
-from flask import Flask
+from flask import Flask, request
 
 # App config.
 #DEBUG = True # debug mode
@@ -217,7 +216,7 @@ def durations(): # treatmentDuration, cooldownDuration):
     print("getting stuff")
 
     treatmentDuration = request.args.get('treatmentDuration', None)
-    cooldownDuration = requests.args.get('cooldownDuration', None)
+    cooldownDuration = request.args.get('cooldownDuration', None)
 
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration) # * 60
