@@ -12,11 +12,14 @@ from states import states, transitions
 global TREATMENT_DURATION
 global COOLDOWN_DURATION
 
-TREATMENT_DURATION = int((open("txt/treatmentDuration.txt", "r").read().splitlines())[0])
-COOLDOWN_DURATION = int((open("txt/cooldownDuration.txt", "r").read().splitlines())[0])
+dur_file = open("txt/durations.txt", "r").read().splitlines()
+
+TREATMENT_DURATION = int(dur_file[0])
+COOLDOWN_DURATION = int(dur_file[1])
+
+dur_file.close()
 
 on_timer = 0
-
 
 #IP library
 from internet_on import internet_on

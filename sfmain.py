@@ -6,14 +6,6 @@ time.sleep(0.1)
 import threading # library for timers
 import csv
 
-
-global TREATMENT_DURATION
-global COOLDOWN_DURATION
-
-# default values go here
-TREATMENT_DURATION = 10 # 15*60 TO GET 15 MINUTES
-COOLDOWN_DURATION = 4 # + 60*3 to get 3 mins
-
 global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
@@ -152,20 +144,10 @@ def bedon():
         states.updateLocalState(currentState)
         states.updateServerState()
 
-        # Get treatment duration
-
-        trdur_file = open("txt/treatmentDuration.txt", "r").read().splitlines()
-        rec_TREATMENT_DURATION = int(trdur_file[0])
-
-        global TREATMENT_DURATION
-
-        if rec_TREATMENT_DURATION != TREATMENT_DURATION:
-            TREATMENT_DURATION = rec_TREATMENT_DURATION
-
         #state ON for 15 minutes
 
         global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
+        on_timer = threading.Timer(10, transitions.afterOn, args=[startTimeSec, startTime])
         on_timer.start()
 
     return "Bed turned ON."
@@ -218,11 +200,14 @@ def bedoff():
 
     elif currentState == 2: # cooldown
 
-        transitions.afterCool()
-        currentState = states.checkLocalState()
-        str_state = states_dict[currentState]
+        #transitions.afterCool()
+        #currentState = states.checkLocalState()
+        #str_state = states_dict[currentState]
 
-        return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
+        #return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
+
+        # can't interrupt cooldown (anymore)
+        return "The bed is in cooldown. Please wait."
 
     elif currentState == 3: # Cleaning
 
@@ -236,45 +221,30 @@ def bedoff():
     else:
         return "Bed off."
 
-@app.route('/onduration/<treatmentDuration>')
 
-def onDuration(treatmentDuration):
+app.route('/onduration/<treatmentDuration>/coolduration/<cooldownDuration')
+
+def durations(treatmentDuration, cooldownDuration):
 
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration)
 
-    # Convert Minutes to Seconds, Uncomment this for Production
-    #TREATMENT_DURATION = 60 * TREATMENT_DURATION
-
-    trdur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
-    trdur_file.write(treatmentDuration)
-    trdur_file.close()
-
-    print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
-
-    return("The treatment duration has been recorded as " + treatmentDuration + " minutes")
-
-
-@app.route('/coolduration/<cooldownDuration>')
-
-def coolDuration(cooldownDuration):
-
     global COOLDOWN_DURATION
     COOLDOWN_DURATION = int(cooldownDuration)
 
-    # Convert Minutes to Seconds, uncomment this for production
-    #COOLDOWN_DURATION = 60 * COOLDOWN_DURATION
+    # Convert Minutes to Seconds, Uncomment this for Production
+    #TREATMENT_DURATION = 60 * TREATMENT_DURATION
 
-    cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
-    cooldur_file.write(cooldownDuration)
-    cooldur_file.close()
+    dur_file = open("txt/durations.txt", "w")
+    dur_file.write(treatmentDuration)
+    dur_file.write("/n")
+    dur_file.write(cooldownDuration)
+    dur_file.close()
 
-    # cooldown duration has to be recorded in a txt file because it's referenced in "states"
-
-
+    print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
 
-    return("The cooldown duration has been recorded as " + cooldownDuration + " minutes")
+    return("The treatment duration has been recorded as " + treatmentDuration + " minutes")
 
 # if you want to test the bed, 2 mins
 

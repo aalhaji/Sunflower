@@ -8,14 +8,7 @@ import csv
 import dataKeeper
 from internet_on import internet_on
 
-global TREATMENT_DURATION
-global COOLDOWN_DURATION
-
-TREATMENT_DURATION = 10 # testing
-COOLDOWN_DURATION = 10 # testing
-
 global cooldown_timer
-
 
 class states:
 
@@ -46,7 +39,7 @@ class states:
             sF.Devices.patchState(devname, uuid, ip_address)
 
         else:
-            print("No internet connection. State change and use time not patched to server.")
+            print("No internet connection. State change and use data not patched to server.")
 
 
     def stateCooldown():
@@ -65,7 +58,6 @@ class transitions:
 
         states.stateCleaning()
         print("COOLDOWN FINISHED. NOW CLEANING.")
-        print(time.ctime())
         states.updateServerState()
 
     ## END AFTER COOLDOWN FUNCTION ##
@@ -114,13 +106,9 @@ class transitions:
 
             ##### COOLDOWN PROTOCOL
 
-            cooldur_file = open("txt/cooldownDuration.txt", "r").read().splitlines()
-            rec_COOLDOWN_DURATION = int(cooldur_file[0])
+            cooldur_file = open("txt/durations.txt", "r").read().splitlines()
+            COOLDOWN_DURATION = int(cooldur_file[1])
 
-            global COOLDOWN_DURATION
-
-            if rec_COOLDOWN_DURATION != COOLDOWN_DURATION:
-                COOLDOWN_DURATION = rec_COOLDOWN_DURATION
 
             global cooldown_timer
             cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
