@@ -20,7 +20,7 @@ from states import transitions
 
 # Global variables
 
-global on_timer
+global autostart_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
@@ -126,31 +126,22 @@ def startTest():
         if(DURATIONS_EXIST):
 
             dur_file = open("txt/durations.txt", "r").read().splitlines()
-            global TREATMENT_DURATION
-            TREATMENT_DURATION = int(dur_file[0])
+            autostartDuration = int(dur_file[2])
 
-            shield.relay.one.on()
-
-            # Turn on
             global BED_STARTED_FROM_POS
             BED_STARTED_FROM_POS = 1
-
-            # Record start time
-            global startTimeSec, startTime
-            startTimeSec = time.time()
-            startTime = time.strftime("%H:%M:%S", time.localtime())
 
             # State change protocol
             currentState = 1
             states.updateLocalState(currentState)
             states.updateServerState()
 
-            global on_timer
-            on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
+            global autostart_timer
+            autostart_timer = threading.Timer(autostartDuration, transitions.afterTimeout)
 
-            on_timer.start()
+            autostart_timer.start()
 
-            return "Bed turned ON."
+            return "Autostart timer started to begin treatment."
 
         else:
             return "Please input durations in the POS."
@@ -172,31 +163,22 @@ def bedoff():
         if (BED_STARTED_FROM_POS):
             global BED_STARTED_FROM_POS
             BED_STARTED_FROM_POS = 0
-            on_timer.cancel()
 
-            global startTimeSec, startTime
-            transitions.afterOn(startTimeSec, startTime)
-            currentState = states.checkLocalState()
-            str_state = states_dict[currentState]
+        useFile = "txt/useData.csv"
+        useFile = open(useFile, "r")
 
-            return "The bed has been turned off. Bed is now in state: {}".format(str_state)
+        timesArray = useFile.readlines()[-1].split(",")
 
-        else:
-            # read the start times
+        startTime = timesArray[1]
+        startTimeSec = timesArray[2]
 
-            useFile = "txt/useData.csv"
-            useFile = open(useFile, "r")
+        transitions.afterOn(startTimeSec, startTime)
+        currentState = states.checkLocalState()
+        str_state = states_dict[currentState]
 
-            timesArray = useFile.readlines()[-1].split(",")
+        return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
-            startTime = timesArray[1]
-            startTimeSec = timesArray[2]
 
-            transitions.afterOn(startTimeSec, startTime)
-            currentState = states.checkLocalState()
-            str_state = states_dict[currentState]
-
-            return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
     elif currentState == 2: # cooldown
 
@@ -225,14 +207,9 @@ def bedoff():
 @app.route('/durations', methods=['GET']) #<int:treatmentDuration>/<int:cooldownDuration>')
 def durations():
 
-    treatmentDuration = request.args.get('treatmentDuration', default=None)
-    cooldownDuration = request.args.get('cooldownDuration', default=None)
-
-    global TREATMENT_DURATION
-    TREATMENT_DURATION = int(treatmentDuration) # * 60
-
-    global COOLDOWN_DURATION
-    COOLDOWN_DURATION = int(cooldownDuration) # * 60
+    treatmentDuration = int(request.args.get('treatmentDuration', default=None))
+    cooldownDuration = int(request.args.get('cooldownDuration', default=None))
+    autostartDuration = int(request.args.get('autostartDuration', default=None))
 
     # Convert Minutes to Seconds, Uncomment this for Production
     #TREATMENT_DURATION = 60 * TREATMENT_DURATION
@@ -241,12 +218,21 @@ def durations():
     dur_file.write(treatmentDuration)
     dur_file.write("\n")
     dur_file.write(cooldownDuration)
+    dur_file.write("\n")
+    dur_file.write(autostartDuration)
     dur_file.close()
 
     print("Treatment duration recorded as {} seconds.".format(treatmentDuration))
     print("Cooldown duration recorded as {} seconds.".format(cooldownDuration))
+    print("Autostart duration recorded as {} seconds.".format(autostartDuration))
 
-    return jsonify({'treatment': treatmentDuration, 'cooldown': cooldownDuration})
+    ## Here, start autostart timer
+
+    auto_timer = threading.timer(autostartDuration, transitions.afterTimeout())
+
+    return jsonify({'treatment': treatmentDuration,
+                    'cooldown': cooldownDuration,
+                    'autostart': autostartDuration})
 
 
 

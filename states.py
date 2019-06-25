@@ -8,6 +8,8 @@ import csv
 import dataKeeper
 from internet_on import internet_on
 
+
+global on_timer
 global cooldown_timer
 
 class states:
@@ -71,55 +73,109 @@ class transitions:
     ## AFTER ON FUNCTION ##
     def afterOn(startTimeSec, startTime):
 
-        currentState = states.checkLocalState()
+        if (on_timer):
+            on_timer.cancel()
 
-        if currentState == 1:
+        # Record Off time
 
-            # Record Off time
-            global dateToday, endTimeSec, endTime, timeSpent
-            dateToday = time.strftime("%d %b %Y", time.localtime())
-            endTimeSec = time.time()
-            endTime = time.strftime("%H:%M:%S", time.localtime())
-            startTimeSec = float(startTimeSec)
-            timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
-
-
-            shield.relay.one.off()
-            print("RELAY TURNED OFF.")
-
-            useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
-            useData_thisInstance = [
-            { 'DATE':dateToday,
-            'START_TIME':startTime,
-            'START_TIME_SINCE_EPOCH':startTimeSec,
-            'END_TIME':endTime,
-            "MINUTES_SPENT":timeSpent }]
-
-            useData_file = open("txt/useData.csv", "a")
-            writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
-
-            for data in useData_thisInstance:
-                writer.writerow(data)
-
-            useData_file.close()
-
-            ##### STATE CHANGE PROTOCOL
-
-            states.stateCooldown()
-            print("COOLDOWN STARTED.")
-            states.updateServerState()
-
-            ##### COOLDOWN PROTOCOL
-
-            cooldur_file = open("txt/durations.txt", "r").read().splitlines()
-            COOLDOWN_DURATION = int(cooldur_file[1])
-
-            global cooldown_timer
-            cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
-            cooldown_timer.start()
+        dateToday = time.strftime("%d %b %Y", time.localtime())
+        #startTime = startTime
+        endTimeSec = time.time()
+        endTime = time.strftime("%H:%M:%S", time.localtime())
+        startTimeSec = float(startTimeSec)
+        timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
 
 
+        shield.relay.one.off()
+        print("RELAY TURNED OFF.")
 
+        useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
+        useData_thisInstance = [
+        { 'DATE':dateToday,
+        'START_TIME':startTime,
+        'START_TIME_SINCE_EPOCH':startTimeSec,
+        'END_TIME':endTime,
+        "MINUTES_SPENT":timeSpent }]
 
+        # here rewrite the row
+
+        # first erase the last row
+
+        useData_file = open("txt/useData.csv", "r+w")
+        lines = useData_file.readlines()
+        lastRow =lines[:-1]
+
+        eraser = csv.writer(useFile, delimiter=',')
+        for data in lastRow:
+            eraser.writerow(data)
+
+        useData_file.close()
+
+        # second, write over it
+
+        useData_file = open("txt/useData.csv", "a")
+        writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
+
+        for data in useData_thisInstance:
+            writer.writerow(data)
+
+        writeFile.close()
+
+        ##### STATE CHANGE PROTOCOL
+
+        states.stateCooldown()
+        print("COOLDOWN STARTED.")
+        states.updateServerState()
+
+        ##### COOLDOWN PROTOCOL
+
+        cooldur_file = open("txt/durations.txt", "r").read().splitlines()
+        cooldownDuration = int(cooldur_file[1])
+
+        global cooldown_timer
+        cooldown_timer = threading.Timer(cooldownDuration, transitions.afterCool)
+        cooldown_timer.start()
 
     ## END AFTER ON FUNCTION ##
+
+    ## AFTER TIMEOUT FUNCTION (AUTOSTART TIMER DONE) ##
+
+    def afterTimeout():
+
+        # turn ON
+
+        dur_file = open("txt/durations.txt", "r").read().splitlines()
+        treatmentDuration = int(dur_file[0])
+
+        shield.relay.one.on()
+        print("RELAY TURNED ON.")
+
+        startTimeSec = time.time()
+        startTime = time.strftime("%H:%M:%S", time.localtime())
+
+        useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
+        useData_thisInstance = [
+        { 'DATE':'0',
+        'START_TIME':startTime,
+        'START_TIME_SINCE_EPOCH':startTimeSec,
+        'END_TIME':'0',
+        "MINUTES_SPENT":'0' }]
+
+        useData_file = open("txt/useData.csv", "a")
+        writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
+
+        for data in useData_thisInstance:
+            writer.writerow(data)
+
+        useData_file.close()
+
+        # State change protocol
+        currentState = 1
+        states.updateLocalState(currentState)
+        states.updateServerState()
+
+        global on_timer
+        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime])
+        on_timer.start()
+
+    ## END AFTER TIMEOUT FUNCTION

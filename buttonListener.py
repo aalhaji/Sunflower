@@ -55,7 +55,7 @@ while True:
 
     while True:
 
-        time.sleep(2) # allows room for state to be changed from POS
+        time.sleep(1) # allows room for state to be changed from POS
 
         currentState = states.checkLocalState()
         # if it was changed from the POS
@@ -63,6 +63,9 @@ while True:
         if currentState == (0 or 2 or 3):
             if(on_timer):
                 on_timer.cancel()
+
+            #if(autostart_timer):
+                #autostart_timer.cancel()
 
         value = shield.analog.one.read()
 
@@ -90,10 +93,10 @@ while True:
                         states.updateServerState()
 
                         dur_file = open("txt/durations.txt", "r").read().splitlines()
-                        TREATMENT_DURATION = int(dur_file[0])
+                        treatmentDuration = int(dur_file[0])
 
                         global on_timer
-                        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
+                        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime])
                         on_timer.start()
 
                         # debouncing here
