@@ -6,6 +6,8 @@ import time
 time.sleep(0.1)
 import threading
 
+from os import stat
+
 import csv
 
 import socket
@@ -119,11 +121,13 @@ def startTest():
 
         # read treatment durations
 
-        dur_file = open("txt/durations.txt", "r").read().splitlines()
-        global TREATMENT_DURATION
-        TREATMENT_DURATION = int(dur_file[0])
+        DURATIONS_EXIST = stat("txt/durations.txt").st_size
 
-        if(TREATMENT_DURATION):
+        if(DURATIONS_EXIST):
+
+            dur_file = open("txt/durations.txt", "r").read().splitlines()
+            global TREATMENT_DURATION
+            TREATMENT_DURATION = int(dur_file[0])
 
             shield.relay.one.on()
 
@@ -149,7 +153,7 @@ def startTest():
             return "Bed turned ON."
 
         else:
-            return "Please input treatment duration in the POS."
+            return "Please input durations in the POS."
 
 
 @app.route('/bedoff')
