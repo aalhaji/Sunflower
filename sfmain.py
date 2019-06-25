@@ -210,7 +210,7 @@ def bedoff():
         return "Bed off."
 
 
-app.route('/durations') # <int:treatmentDuration>/coolduration/<int:cooldownDuration>')
+app.route('/durations', methods=['GET']) # <int:treatmentDuration>/coolduration/<int:cooldownDuration>')
 
 def durations(): # treatmentDuration, cooldownDuration):
 
