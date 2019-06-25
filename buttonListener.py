@@ -61,7 +61,7 @@ while True:
 
     while True:
 
-        time.sleep(5) # allows room for state to be changed from POS
+        time.sleep(2) # allows room for state to be changed from POS
 
         currentState = states.checkLocalState()
         # if it was changed from the POS
@@ -96,7 +96,7 @@ while True:
                     on_timer.start()
 
                     # debouncing here
-                    time.sleep(5)
+                    time.sleep(2)
 
                     time_now = time.time()
 

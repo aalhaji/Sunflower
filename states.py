@@ -84,7 +84,7 @@ class transitions:
             endTimeSec = time.time()
             endTime = time.strftime("%H:%M:%S", time.localtime())
             startTimeSec = float(startTimeSec)
-            timeSpent = (endTimeSec - startTimeSec) / 60
+            timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
 
 
             shield.relay.one.off()
