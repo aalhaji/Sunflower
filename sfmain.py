@@ -116,31 +116,40 @@ def startTest():
         return "ERROR. The bed is currently in state: {}".format(str_state)
 
     else:
-        # Turn on
-        global BED_STARTED_FROM_POS
-        BED_STARTED_FROM_POS = 1
 
-        shield.relay.one.on()
-
-        # Record start time
-        global startTimeSec, startTime
-        startTimeSec = time.time()
-        startTime = time.strftime("%H:%M:%S", time.localtime())
-
-        # State change protocol
-        currentState = 1
-        states.updateLocalState(currentState)
-        states.updateServerState()
+        # read treatment durations
 
         dur_file = open("txt/durations.txt", "r").read().splitlines()
         global TREATMENT_DURATION
         TREATMENT_DURATION = int(dur_file[0])
 
-        global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
-        on_timer.start()
+        if(TREATMENT_DURATION):
 
-    return "Bed turned ON."
+            shield.relay.one.on()
+
+            # Turn on
+            global BED_STARTED_FROM_POS
+            BED_STARTED_FROM_POS = 1
+
+            # Record start time
+            global startTimeSec, startTime
+            startTimeSec = time.time()
+            startTime = time.strftime("%H:%M:%S", time.localtime())
+
+            # State change protocol
+            currentState = 1
+            states.updateLocalState(currentState)
+            states.updateServerState()
+
+            global on_timer
+            on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
+
+            on_timer.start()
+
+            return "Bed turned ON."
+
+        else:
+            return "Please input treatment duration in the POS."
 
 
 @app.route('/bedoff')
@@ -230,8 +239,8 @@ def durations():
     dur_file.write(cooldownDuration)
     dur_file.close()
 
-    print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
-    print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
+    print("Treatment duration recorded as {} seconds.".format(treatmentDuration))
+    print("Cooldown duration recorded as {} seconds.".format(cooldownDuration))
 
     return jsonify({'treatment': treatmentDuration, 'cooldown': cooldownDuration})
 
