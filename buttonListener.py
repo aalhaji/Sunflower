@@ -7,15 +7,6 @@ import csv
 
 from states import states, transitions
 
-# should always fetch duration values from txt, whether "last recorded" or "default"
-
-global TREATMENT_DURATION
-global COOLDOWN_DURATION
-
-dur_file = open("txt/durations.txt", "r").read().splitlines()
-
-TREATMENT_DURATION = int(dur_file[0])
-COOLDOWN_DURATION = int(dur_file[1])
 
 
 on_timer = 0
@@ -92,6 +83,9 @@ while True:
                     currentState = 1
                     states.updateLocalState(currentState)
                     states.updateServerState()
+
+                    dur_file = open("txt/durations.txt", "r").read().splitlines()
+                    TREATMENT_DURATION = int(dur_file[0])
 
                     global on_timer
                     on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])

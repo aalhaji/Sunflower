@@ -109,7 +109,6 @@ class transitions:
             cooldur_file = open("txt/durations.txt", "r").read().splitlines()
             COOLDOWN_DURATION = int(cooldur_file[1])
 
-
             global cooldown_timer
             cooldown_timer = threading.Timer(COOLDOWN_DURATION, transitions.afterCool)
             cooldown_timer.start()
