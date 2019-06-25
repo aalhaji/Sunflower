@@ -3,6 +3,7 @@ import time
 import threading
 import socket
 import csv
+from os import stat
 
 
 from states import states, transitions
@@ -73,30 +74,40 @@ while True:
 
                 if currentState == 0: # if you're off
 
-                    print("Button pressed to start bed.")
-                    shield.relay.one.on()
+                    DURATIONS_EXIST = stat("txt/durations.txt").st_size
 
-                    global startTimeSec, startTime
-                    startTimeSec = time.time()
-                    startTime = time.strftime("%H:%M:%S", time.localtime())
+                    if(DURATIONS_EXIST):
 
-                    currentState = 1
-                    states.updateLocalState(currentState)
-                    states.updateServerState()
+                        print("Button pressed to start bed.")
+                        shield.relay.one.on()
 
-                    dur_file = open("txt/durations.txt", "r").read().splitlines()
-                    TREATMENT_DURATION = int(dur_file[0])
+                        global startTimeSec, startTime
+                        startTimeSec = time.time()
+                        startTime = time.strftime("%H:%M:%S", time.localtime())
 
-                    global on_timer
-                    on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
-                    on_timer.start()
+                        currentState = 1
+                        states.updateLocalState(currentState)
+                        states.updateServerState()
 
-                    # debouncing here
-                    time.sleep(2)
+                        dur_file = open("txt/durations.txt", "r").read().splitlines()
+                        TREATMENT_DURATION = int(dur_file[0])
 
-                    time_now = time.time()
+                        global on_timer
+                        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
+                        on_timer.start()
 
-                    break
+                        # debouncing here
+                        time.sleep(2)
+
+                        time_now = time.time()
+
+                        break
+
+                    else:
+
+                        print("Durations not detected. Input them in the POS.")
+
+                        break
 
                 elif currentState == 1: # if you're on
 
