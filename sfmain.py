@@ -18,7 +18,7 @@ global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
-global BED_STARTED_FROM_POS = 0
+BED_STARTED_FROM_POS = 0
 
 # reset default duration values
 
