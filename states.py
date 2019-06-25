@@ -106,7 +106,7 @@ class transitions:
         lastRow =lines[:-1]
         useData_file.close()
 
-        useData_file = open("txt/useData.csv", "w")
+        useData_file = open("txt/useData.csv", "a")
         eraser = csv.writer(useData_file, delimiter=',')
         for data in lastRow:
             eraser.writerow(data) # write nothingness
