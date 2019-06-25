@@ -1,10 +1,23 @@
 
-# I/O libraries
+# Libraries
 import automationhat as shield
+
 import time
 time.sleep(0.1)
-import threading # library for timers
+import threading
+
 import csv
+import requests
+
+import socket
+from internet_on import internet_on
+
+import SunflowerAPI as sF
+
+from states import states
+from states import transitions
+
+# Global variables
 
 global on_timer
 global startTime, startTimeSec, endTime, endTimeSec
@@ -13,35 +26,12 @@ global dateToday, timeSpent, totalUseTime
 global BED_STARTED_FROM_POS
 BED_STARTED_FROM_POS = 0
 
-# reset default duration values
-
-#cooldur_file = open("/home/pi/sunflower/txt/treatmentDuration.txt", "w")
-#cooldur_file.write(str(TREATMENT_DURATION))
-#cooldur_file.close()
-
-#cooldur_file = open("/home/pi/sunflower/txt/cooldownDuration.txt", "w")
-#cooldur_file.write(str(COOLDOWN_DURATION))
-#cooldur_file.close()
-
-# IP library
-import socket
-from internet_on import internet_on
-
-
-
 # Check if the internet is on, or operate offline
 if internet_on():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     ip_address = s.getsockname()[0]
 
-
-# API library
-import SunflowerAPI as sF
-
-# states library
-from states import states
-from states import transitions
 
 # PATCH IP ADDRESS
 
@@ -86,7 +76,6 @@ try:
     shield.relay.one.read()
 except RuntimeError:
     shield.relay.one.off() # Ensure that relay is off
-
 
 # END INITIALIZATION
 
@@ -144,10 +133,12 @@ def bedon():
         states.updateLocalState(currentState)
         states.updateServerState()
 
-        #state ON for 15 minutes
+        dur_file = open("txt/durations.txt", "r").read().splitlines()
+        global TREATMENT_DURATION
+        TREATMENT_DURATION = dur_file[0]
 
         global on_timer
-        on_timer = threading.Timer(10, transitions.afterOn, args=[startTimeSec, startTime])
+        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
         on_timer.start()
 
     return "Bed turned ON."
@@ -195,9 +186,6 @@ def bedoff():
 
             return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
-
-
-
     elif currentState == 2: # cooldown
 
         #transitions.afterCool()
@@ -222,15 +210,18 @@ def bedoff():
         return "Bed off."
 
 
-app.route('/onduration/<treatmentDuration>/coolduration/<cooldownDuration>')
+app.route('/durations') # <int:treatmentDuration>/coolduration/<int:cooldownDuration>')
 
-def durations(treatmentDuration, cooldownDuration):
+def durations(): # treatmentDuration, cooldownDuration):
+
+    treatmentDuration = request.args.get('treatmentDuration', None)
+    cooldownDuration = requests.args.get('cooldownDuration', None)
 
     global TREATMENT_DURATION
-    TREATMENT_DURATION = int(treatmentDuration)
+    TREATMENT_DURATION = int(treatmentDuration) # * 60
 
     global COOLDOWN_DURATION
-    COOLDOWN_DURATION = int(cooldownDuration)
+    COOLDOWN_DURATION = int(cooldownDuration) # * 60
 
     # Convert Minutes to Seconds, Uncomment this for Production
     #TREATMENT_DURATION = 60 * TREATMENT_DURATION
@@ -244,38 +235,8 @@ def durations(treatmentDuration, cooldownDuration):
     print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
 
-    return("The treatment duration has been recorded as " + treatmentDuration + " minutes")
-
-# if you want to test the bed, 2 mins
-
-@app.route('/test')
-
-def test():
-
-    currentState = states.checkLocalState()
-    str_state = states_dict[currentState]
-
-    if currentState == (1 or 2 or 3):
-        return "ERROR. The bed is currently in state: {}".format(str_state)
-
-    else:
-        shield.relay.one.on()
-        currentState = 1
-
-        startTimeSec = time.time()
-        startTime = time.strftime("%H:%M:%S", time.localtime())
-
-        states.updateLocalState(currentState)
-        states.updateServerState()
-        #state ON for 2 minutes
-
-        TESTING_DURATION = 2 # * 60 # to convert to minutes
-
-        global on_timer
-        on_timer = threading.Timer(TREATMENT_DURATION, transitions.afterOn, args=[startTimeSec, startTime])
-        on_timer.start()
-
-    return "Bed turned ON."
+    return("The treatment duration has been recorded as " + treatmentDuration +
+    "seconds. The cooldown duration has been recorded as" + cooldownDuration + "seconds.")
 
 
 
