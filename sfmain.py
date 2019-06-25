@@ -212,8 +212,8 @@ def bedoff():
 @app.route('/durations', methods=['GET']) #<int:treatmentDuration>/<int:cooldownDuration>')
 def durations():
 
-    treatmentDuration = request.args.get('treatmentDuration')
-    cooldownDuration = request.args.get('cooldownDuration')
+    treatmentDuration = request.args.get('treatmentDuration', default=None)
+    cooldownDuration = request.args.get('cooldownDuration', default=None)
 
     global TREATMENT_DURATION
     TREATMENT_DURATION = int(treatmentDuration) # * 60

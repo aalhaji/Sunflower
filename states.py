@@ -60,6 +60,11 @@ class transitions:
         print("COOLDOWN FINISHED. NOW CLEANING.")
         states.updateServerState()
 
+        ## CLEAR DURATIONS (to prevent unauthorized use)
+        open("txt/durations.txt", "w").close()
+
+
+
     ## END AFTER COOLDOWN FUNCTION ##
 
 
