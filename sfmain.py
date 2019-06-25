@@ -210,10 +210,7 @@ def bedoff():
 
 
 app.route('/durations/<int:treatmentDuration>/<int:cooldownDuration>')
-
-def durations(treatmentDuration=None, cooldownDuration=None): # treatmentDuration, cooldownDuration):
-
-    print("getting stuff")
+def durations(treatmentDuration=None, cooldownDuration=None):
 
     #treatmentDuration = request.args.get('treatmentDuration')
     #cooldownDuration = request.args.get('cooldownDuration')
@@ -235,6 +232,7 @@ def durations(treatmentDuration=None, cooldownDuration=None): # treatmentDuratio
 
     print("Treatment duration recorded as {} minutes.".format(treatmentDuration))
     print("Cooldown duration recorded as {} minutes.".format(cooldownDuration))
+
     return jsonify({'treatment': treatmentDuration, 'cooldown': cooldownDuration})
 
 
