@@ -80,9 +80,10 @@ except RuntimeError:
 # STATES
 
 states_dict={0:"AVAILABLE(OFF)",
-        1: "BED_ON",
-        2: "COOLDOWN",
-        3: "CLEANING"
+        1: "WAITING_TO_AUTOSTART",
+        2: "BED_ON",
+        3: "COOLDOWN",
+        4: "CLEANING"
         }
 
 # START APP
@@ -154,7 +155,17 @@ def bedoff():
     if currentState == 0: # already off
         return "The bed is already in state: {}".format(str_state)
 
-    elif  currentState == 1: # on
+    elif currentState == 1: # waiting for autoStart
+
+        # interrupt autotimer
+        transitions.stopTimer("auto_timer")
+
+        # change state back to 0
+        currentState = 0
+        states.updateLocalState(currentState)
+        states.updateServerState()
+
+    elif  currentState == 2: # on
 
         useFile = open("txt/useData.csv", "r")
 
@@ -174,9 +185,7 @@ def bedoff():
 
         return "The bed has been turned off. Bed is now in state: {}".format(str_state)
 
-
-
-    elif currentState == 2: # cooldown
+    elif currentState == 3: # cooldown
 
         #transitions.afterCool()
         #currentState = states.checkLocalState()
@@ -187,7 +196,7 @@ def bedoff():
         # can't interrupt cooldown (anymore)
         return "The bed is in cooldown. Please wait."
 
-    elif currentState == 3: # Cleaning
+    elif currentState == 4: # Cleaning
 
         currentState = 0
         str_state = states_dict[currentState]

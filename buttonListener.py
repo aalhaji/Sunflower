@@ -7,6 +7,8 @@ from os import stat
 
 from states import states, transitions
 
+time_now = time.time()
+
 global on_timer
 on_timer = 0
 
@@ -19,12 +21,13 @@ if internet_on():
 
 #######################################################################
 
-time_now = time.time()
+
 
 states_dict={0:"AVAILABLE(OFF)",
-        1: "BED_ON",
-        2: "COOLDOWN",
-        3: "CLEANING"
+        1: "WAITING_TO_AUTOSTART",
+        2: "BED_ON",
+        3: "COOLDOWN",
+        4: "CLEANING"
         }
 
 # this func here for testing purposes
@@ -58,9 +61,9 @@ while True:
         currentState = states.checkLocalState()
 
         # if it was changed from the POS
-        if currentState == (0 or 2 or 3):
-            if(on_timer):
-                on_timer.cancel()
+        #if currentState == (0 or 3 or 4):
+        #    if(on_timer):
+        #        on_timer.cancel()
 
         value = shield.analog.one.read()
 
@@ -70,45 +73,25 @@ while True:
 
             if ((time.time()-time_now) > 0.3):
 
-                if currentState == 0: # if you're off
+                if currentState == 1: # if you're waiting to start
 
-                    DURATIONS_EXIST = stat("txt/durations.txt").st_size
+                    print("Button pressed to start bed.")
 
-                    if(DURATIONS_EXIST):
+                    dur_file = open("txt/durations.txt", "r").read().splitlines()
+                    treatmentDuration = int(dur_file[0])
+                    cooldownDuration = int(dur_file[1])
 
-                        print("Button pressed to start bed.")
-                        shield.relay.one.on()
+                    transitions.afterAutostart(treatmentDuration, cooldownDuration)
 
-                        global startTimeSec, startTime
-                        startTimeSec = time.time()
-                        startTime = time.strftime("%H:%M:%S", time.localtime())
+                    # debouncing here
+                    time.sleep(2)
 
-                        currentState = 1
-                        states.updateLocalState(currentState)
-                        states.updateServerState()
+                    time_now = time.time()
 
-                        dur_file = open("txt/durations.txt", "r").read().splitlines()
-                        treatmentDuration = int(dur_file[0])
-                        cooldownDuration = int(dur_file[1])
+                    break
 
-                        global on_timer
-                        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
-                        on_timer.start()
 
-                        # debouncing here
-                        time.sleep(2)
-
-                        time_now = time.time()
-
-                        break
-
-                    else:
-
-                        print("Durations not detected. Input them in the POS.")
-
-                        break
-
-                elif currentState == 1: # if you're on
+                elif currentState == 2: # if you're on
 
                     print("Button pressed while bed is on.")
                     print("Bed cannot be turned off from the button.")
@@ -118,20 +101,12 @@ while True:
 
                     break
 
-                    ## this code was from when the bed was allowed to turn OFF
+                elif currentState == 3: # if you're in cooldown
 
-            #        if mismatch != 1:
-            #            on_timer.cancel()
+                    print("Button pressed during cooldown.")
+                    print("Please wait until cooldown is done.")
 
-
-            #        transitions.afterOn()
-
-                    #debouncing
-            #        time.sleep(5)
-
-
-
-                elif currentState == 3: # if you're in cleaning
+                elif currentState == 4: # if you're in cleaning
 
                     print("Button was pressed to declare cleaning done.")
                     currentState = 0
@@ -144,10 +119,7 @@ while True:
                     time_now = time.time()
                     break
 
-                else:
-                    currentState = states.checkLocalState()
-                    print("Error. Bed is in state {}.".format(currentState))
-                    print("Bed cannot be turned off from the button.")
-                    print("Must be turned off from the POS.")
+                else: # elif state 0
+                    print("Bed needs durations to be input from the POS.")
                     time_now = time.time()
                     break

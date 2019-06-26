@@ -49,18 +49,39 @@ class states:
 
 
     def stateCooldown():
-        states.updateLocalState(2)
-
-    def stateCleaning():
         states.updateLocalState(3)
 
+    def stateCleaning():
+        states.updateLocalState(4)
+
 class transitions:
+
+    ## INTERRUPT TIMER FUNCTION ##
+
+    def stopTimer(timer):
+
+        if timer == "auto_timer":
+            auto_timer.cancel()
+            print("auto timer cancelled.")
+
+        elif timer == "on_timer":
+            on_timer.cancel()
+            print("on timer cancelled.")
+
+        elif timer == "cooldown_timer":
+            cooldown_timer.cancel()
+            print("cooldown timer cancelled.")
+
+        else:
+            print("Unidentified timer. Check spelling.")
+
+    ## END INTERRUPT TIMER FUNCTION ##
 
     ## AFTER COOLDOWN FUNCTION ##
 
     def afterCool():
 
-        cooldown_timer.cancel()
+        transitions.stopTimer("cooldown_timer")
 
         states.stateCleaning()
         print("COOLDOWN FINISHED. NOW CLEANING.")
@@ -77,28 +98,13 @@ class transitions:
     ## AFTER ON FUNCTION ##
     def afterOn(startTimeSec, startTime, cooldownDuration):
 
-        ## the only TWO cases in which "auto_timer" would still be running
-        ## is if the autostart timer was started from the POS
-        ## but then the client clicked the button to start early
-        ## since the buttonListener can't stop a timer that was started
-        ## from the POS. We take care of it in this function
-        ## since this function is the endpoint of *both* ways of turning
-        ## on
-        ## The second case is the rare case of route "starttest"
-
-        if (AUTO_TIMER_STARTED):
-            global AUTO_TIMER_STARTED
-            AUTO_TIMER_STARTED = 0
-            auto_timer.cancel()
-            print("auto_timer cancelled.")
-
         ## the case in which the "on_timer" is on is if you hit
         ## route bedoff() from POS during treatment
 
         if (ON_TIMER_STARTED):
             global ON_TIMER_STARTED
             ON_TIMER_STARTED = 0
-            on_timer.cancel()
+            transitions.stopTimer("on_timer")
             print("on_timer cancelled.")
 
         # Record Off time
@@ -148,7 +154,21 @@ class transitions:
 
     ## AFTER TIMEOUT FUNCTION (AUTOSTART TIMER DONE) ##
 
-    def afterTimeout(treatmentDuration, cooldownDuration):
+    def afterAutostart(treatmentDuration, cooldownDuration):
+
+        ## the only case in which "auto_timer" would still be running
+        ## is if the autostart timer was started from the POS
+        ## but then the client clicked the button to start early
+        ## since the buttonListener can't stop a timer that was started
+        ## from the POS. We take care of it in this function
+        ## since this function is the endpoint of *both* ways of turning
+        ## on
+
+        if (AUTO_TIMER_STARTED):
+            global AUTO_TIMER_STARTED
+            AUTO_TIMER_STARTED = 0
+            transitions.stopTimer("auto_timer")
+            print("auto_timer cancelled.")
 
         # turn ON
 
@@ -158,8 +178,8 @@ class transitions:
         startTimeSec = time.time()
         startTime = time.strftime("%H:%M:%S", time.localtime())
 
-        # State change protocol
-        currentState = 1
+        # CHANGE TO STATE 2
+        currentState = 2
         states.updateLocalState(currentState)
         states.updateServerState()
 
@@ -175,8 +195,15 @@ class transitions:
 
     def autoStart(treatmentDuration, cooldownDuration, autostartDuration):
 
+        ## CHANGE TO STATE 1
+        currentState = 1
+        states.updateLocalState(currentState)
+        states.updateServerState()
+
         global auto_timer
         global AUTO_TIMER_STARTED
-        auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout, args=[treatmentDuration, cooldownDuration])
+        auto_timer = threading.Timer(autostartDuration, transitions.afterAutostart, args=[treatmentDuration, cooldownDuration])
         AUTO_TIMER_STARTED = 1
         auto_timer.start()
+
+    ## END AUTOSTART FUNCTION ##
