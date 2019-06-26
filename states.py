@@ -153,7 +153,7 @@ class transitions:
 
     ## AFTER TIMEOUT FUNCTION (AUTOSTART TIMER DONE) ##
 
-    def afterAutostart(treatmentDuration, cooldownDuration):
+    def afterAutostart(treatmentDuration, cooldownDuration, STARTED_FROM_BUTTON):
 
         ## the only case in which "auto_timer" would still be running
         ## is if the autostart timer was started from the POS
@@ -163,7 +163,7 @@ class transitions:
         ## since this function is the endpoint of *both* ways of turning
         ## on
 
-        if (AUTO_TIMER_STARTED):
+        if (AUTO_TIMER_STARTED or STARTED_FROM_BUTTON):
             global AUTO_TIMER_STARTED
             AUTO_TIMER_STARTED = 0
             transitions.stopTimer("auto_timer")
@@ -200,7 +200,8 @@ class transitions:
 
         global auto_timer
         global AUTO_TIMER_STARTED
-        auto_timer = threading.Timer(autostartDuration, transitions.afterAutostart, args=[treatmentDuration, cooldownDuration])
+        STARTED_FROM_BUTTON = 0
+        auto_timer = threading.Timer(autostartDuration, transitions.afterAutostart, args=[treatmentDuration, cooldownDuration, STARTED_FROM_BUTTON])
         AUTO_TIMER_STARTED = 1
         auto_timer.start()
 
