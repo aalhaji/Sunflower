@@ -165,6 +165,8 @@ def bedoff():
         states.updateLocalState(currentState)
         states.updateServerState()
 
+        return "Autostart was interrupted. Back to state 0."
+
     elif  currentState == 2: # on
 
         useFile = open("txt/useData.csv", "r")
