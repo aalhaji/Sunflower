@@ -10,6 +10,7 @@ from internet_on import internet_on
 
 global auto_timer
 global on_timer
+global ON_TIMER_STARTED
 global cooldown_timer
 
 class states:
@@ -84,13 +85,16 @@ class transitions:
 
         if (auto_timer):
             auto_timer.cancel()
-            print("autostart timer cancelled because bed started before timeout.")
+            print("auto_timer cancelled.")
 
         ## the case in which the "on_timer" is on is if you hit
         ## route bedoff() from POS during treatment
 
-        if (on_timer):
+        if (ON_TIMER_STARTED):
+            global ON_TIMER_STARTED
+            ON_TIMER_STARTED = 0
             on_timer.cancel()
+            print("on_timer cancelled.")
 
         # Record Off time
 
@@ -155,7 +159,9 @@ class transitions:
         states.updateServerState()
 
         global on_timer
+        global ON_TIMER_STARTED
         on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
+        ON_TIMER_STARTED = 1
         on_timer.start()
 
     ## END AFTER TIMEOUT FUNCTION
