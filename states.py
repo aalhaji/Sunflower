@@ -121,7 +121,7 @@ class transitions:
         for data in useData_thisInstance:
             writer.writerow(data)
 
-        writeFile.close()
+        useData_file.close()
 
         ##### STATE CHANGE PROTOCOL
 
