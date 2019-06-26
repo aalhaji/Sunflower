@@ -8,7 +8,7 @@ import csv
 import dataKeeper
 from internet_on import internet_on
 
-
+global auto_timer
 global on_timer
 global cooldown_timer
 
@@ -71,7 +71,23 @@ class transitions:
 
 
     ## AFTER ON FUNCTION ##
-    def afterOn(startTimeSec, startTime):
+    def afterOn(startTimeSec, startTime, cooldownDuration):
+
+        ## the only TWO cases in which "auto_timer" would still be running
+        ## is if the autostart timer was started from the POS
+        ## but then the client clicked the button to start early
+        ## since the buttonListener can't stop a timer that was started
+        ## from the POS. We take care of it in this function
+        ## since this function is the endpoint of *both* ways of turning
+        ## on
+        ## The second case is the rare case of route "starttest"
+
+        if (auto_timer):
+            auto_timer.cancel()
+            print("autostart timer cancelled because bed started before timeout.")
+
+        ## the case in which the "on_timer" is on is if you hit
+        ## route bedoff() from POS during treatment
 
         if (on_timer):
             on_timer.cancel()
@@ -89,6 +105,8 @@ class transitions:
         shield.relay.one.off()
         print("RELAY TURNED OFF.")
 
+        # append new row
+
         useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
         useData_thisInstance = [
         { 'DATE':dateToday,
@@ -96,23 +114,6 @@ class transitions:
         'START_TIME_SINCE_EPOCH':startTimeSec,
         'END_TIME':endTime,
         "MINUTES_SPENT":timeSpent }]
-
-        # here rewrite the row
-
-        # first erase the last row
-
-        useData_file = open("txt/useData.csv", "r")
-        lines = useData_file.readlines()
-        lastRow =lines[:-1]
-        useData_file.close()
-
-        useData_file = open("txt/useData.csv", "a")
-        eraser = csv.writer(useData_file, delimiter=',')
-        for data in lastRow:
-            eraser.writerow(data) # write nothingness
-        useData_file.close()
-
-        # second, write over it
 
         useData_file = open("txt/useData.csv", "a")
         writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
@@ -130,9 +131,6 @@ class transitions:
 
         ##### COOLDOWN PROTOCOL
 
-        cooldur_file = open("txt/durations.txt", "r").read().splitlines()
-        cooldownDuration = int(cooldur_file[1])
-
         global cooldown_timer
         cooldown_timer = threading.Timer(cooldownDuration, transitions.afterCool)
         cooldown_timer.start()
@@ -141,12 +139,9 @@ class transitions:
 
     ## AFTER TIMEOUT FUNCTION (AUTOSTART TIMER DONE) ##
 
-    def afterTimeout():
+    def afterTimeout(treatmentDuration, cooldownDuration):
 
         # turn ON
-
-        dur_file = open("txt/durations.txt", "r").read().splitlines()
-        treatmentDuration = int(dur_file[0])
 
         shield.relay.one.on()
         print("RELAY TURNED ON.")
@@ -154,29 +149,21 @@ class transitions:
         startTimeSec = time.time()
         startTime = time.strftime("%H:%M:%S", time.localtime())
 
-        useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
-        useData_thisInstance = [
-        { 'DATE':'0',
-        'START_TIME':startTime,
-        'START_TIME_SINCE_EPOCH':startTimeSec,
-        'END_TIME':'0',
-        "MINUTES_SPENT":'0' }]
-
-        useData_file = open("txt/useData.csv", "a")
-        writer = csv.DictWriter(useData_file, fieldnames=useData_columns)
-
-        for data in useData_thisInstance:
-            writer.writerow(data)
-
-        useData_file.close()
-
         # State change protocol
         currentState = 1
         states.updateLocalState(currentState)
         states.updateServerState()
 
         global on_timer
-        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime])
+        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
         on_timer.start()
 
     ## END AFTER TIMEOUT FUNCTION
+
+    ## AUTOSTART FUNCTION ##
+
+    def autoStart(treatmentDuration, cooldownDuration, autostartDuration):
+
+        global auto_timer
+        auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout, args=[treatmentDuration, cooldownDuration])
+        auto_timer.start()

@@ -21,13 +21,13 @@ class logdata:
         endTimeSec = time()
         endTime = strftime("%H:%M:%S", localtime())
 
-        timeSpent = (endTimeSec - startTimeSec) / 60 # in minutes
+        timeSpent = 0 # (endTimeSec - startTimeSec) / 60 # in minutes
 
         useData_dict = [
                         { 'DATE': dateToday,
                         'START_TIME': startTime,
-                        'START_TIME_SINCE_EPOCH':startTimeSec,
-                        'END_TIME': endTime,
+                        'START_TIME_SINCE_EPOCH':'0',
+                        'END_TIME': 'SKIP FIRST ROW',
                         'MINUTES_SPENT': timeSpent }
                         ]
 
@@ -43,26 +43,25 @@ class logdata:
             print("I/O Error")
     ############
 
-    def resetUseFile():
-
+    #def resetUseFile():
 
             # truncate the useFile
 
-            useFile = "txt/useData.csv"
+        #    useFile = "txt/useData.csv"
 
-            csvfile = open(useFile, "w+")
-            csvfile.close()
+        #    csvfile = open(useFile, "w+")
+        #    csvfile.close()
 
             # Redefine the labels
 
-            useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
+        #    useData_columns = ['DATE', 'START_TIME', 'START_TIME_SINCE_EPOCH', 'END_TIME', 'MINUTES_SPENT']
 
-            try:
-                with open(useFile, 'w') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=useData_columns)
-                    writer.writeheader()
-            except IOError:
-                print("I/O Error")
+        #    try:
+        #        with open(useFile, 'w') as csvfile:
+        #            writer = csv.DictWriter(csvfile, fieldnames=useData_columns)
+        #            writer.writeheader()
+        #    except IOError:
+        #        print("I/O Error")
 
 
     def getTotalUseTime():

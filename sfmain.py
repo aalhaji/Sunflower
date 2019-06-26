@@ -20,7 +20,7 @@ from states import transitions
 
 # Global variables
 
-global autostart_timer
+global auto_timer
 global startTime, startTimeSec, endTime, endTimeSec
 global dateToday, timeSpent, totalUseTime
 
@@ -225,9 +225,7 @@ def durations():
 
     ## Here, start autostart timer
 
-
-    auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout)
-    auto_timer.start()
+    transitions.autoStart(treatmentDuration, cooldownDuration, autostartDuration)
 
     return jsonify({'treatment': treatmentDuration,
                     'cooldown': cooldownDuration,
