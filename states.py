@@ -9,8 +9,11 @@ import dataKeeper
 from internet_on import internet_on
 
 global auto_timer
+global AUTO_TIMER_STARTED
+AUTO_TIMER_STARTED = 0
 global on_timer
 global ON_TIMER_STARTED
+ON_TIMER_STARTED = 0
 global cooldown_timer
 
 class states:
@@ -83,7 +86,9 @@ class transitions:
         ## on
         ## The second case is the rare case of route "starttest"
 
-        if (auto_timer):
+        if (AUTO_TIMER_STARTED):
+            global AUTO_TIMER_STARTED
+            AUTO_TIMER_STARTED = 0
             auto_timer.cancel()
             print("auto_timer cancelled.")
 
@@ -171,5 +176,7 @@ class transitions:
     def autoStart(treatmentDuration, cooldownDuration, autostartDuration):
 
         global auto_timer
+        global AUTO_TIMER_STARTED
         auto_timer = threading.Timer(autostartDuration, transitions.afterTimeout, args=[treatmentDuration, cooldownDuration])
+        AUTO_TIMER_STARTED = 1
         auto_timer.start()
