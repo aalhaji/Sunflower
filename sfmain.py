@@ -156,16 +156,19 @@ def bedoff():
 
     elif  currentState == 1: # on
 
-
-        useFile = "txt/useData.csv"
-        useFile = open(useFile, "r")
+        useFile = open("txt/useData.csv", "r")
 
         timesArray = useFile.readlines()[-1].split(",")
 
         startTime = timesArray[1]
         startTimeSec = timesArray[2]
 
-        transitions.afterOn(startTimeSec, startTime)
+        useFile.close()
+
+        dur_file = open("txt/durations.txt", "r").read().splitlines()
+        cooldownDuration = int(dur_file[1])
+
+        transitions.afterOn(startTimeSec, startTime, cooldownDuration)
         currentState = states.checkLocalState()
         str_state = states_dict[currentState]
 
