@@ -77,13 +77,12 @@ while True:
                     dur_file = open("txt/durations.txt", "r").read().splitlines()
                     treatmentDuration = int(dur_file[0])
                     cooldownDuration = int(dur_file[1])
-
-                    global STARTED_FROM_BUTTON
-                    STARTED_FROM_BUTTON = 1
+                    autostartDuration = int(dur_file[2])
 
                     print("auto timer interrupted from BUTTON.")
+                    BUTTON_STARTED_FROM_BED = 1
 
-                    transitions.afterAutostart(treatmentDuration, cooldownDuration, STARTED_FROM_BUTTON)
+                    transitions.afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED)
 
                     # debouncing here
                     time.sleep(2)

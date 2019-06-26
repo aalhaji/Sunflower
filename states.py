@@ -153,7 +153,26 @@ class transitions:
 
     ## AFTER TIMEOUT FUNCTION (AUTOSTART TIMER DONE) ##
 
-    def afterAutostart(treatmentDuration, cooldownDuration, STARTED_FROM_BUTTON):
+    def afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED):
+
+        global auto_timer
+    #    global AUTO_TIMER_STARTED
+    #    STARTED_FROM_BUTTON = 0
+        auto_timer = threading.Timer(autostartDuration, transitions.turnOn, args=[treatmentDuration, cooldownDuration])
+        #AUTO_TIMER_STARTED = 1
+        auto_timer.start()
+
+        if (BUTTON_STARTED_FROM_BED):
+            # CANCEL TIMER THEN TURN ON
+            transitions.stopTimer("auto_timer")
+            transitions.turnOn(treatmentDuration, cooldownDuration)
+
+        else:
+            # just turn on
+            print("timed out. starting now.")
+            transitions.turnOn(treatmentDuration, cooldownDuration)
+
+
 
         ## the only case in which "auto_timer" would still be running
         ## is if the autostart timer was started from the POS
@@ -168,6 +187,22 @@ class transitions:
             AUTO_TIMER_STARTED = 0
             transitions.stopTimer("auto_timer")
 
+    ## END AFTER TIMEOUT FUNCTION
+
+    ## AUTOSTART FUNCTION ##
+
+    def autoStart(treatmentDuration, cooldownDuration, autostartDuration):
+
+        ## CHANGE TO STATE 1
+        currentState = 1
+        states.updateLocalState(currentState)
+        states.updateServerState()
+
+        transitions.afterAutostart(treatmentDuration, cooldownDuration, autoStartDuration)
+
+    ## END AUTOSTART FUNCTION ##
+
+    def turnOn(treatmentDuration, cooldownDuration):
         # turn ON
 
         shield.relay.one.on()
@@ -186,23 +221,3 @@ class transitions:
         on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
         ON_TIMER_STARTED = 1
         on_timer.start()
-
-    ## END AFTER TIMEOUT FUNCTION
-
-    ## AUTOSTART FUNCTION ##
-
-    def autoStart(treatmentDuration, cooldownDuration, autostartDuration):
-
-        ## CHANGE TO STATE 1
-        currentState = 1
-        states.updateLocalState(currentState)
-        states.updateServerState()
-
-        global auto_timer
-        global AUTO_TIMER_STARTED
-        STARTED_FROM_BUTTON = 0
-        auto_timer = threading.Timer(autostartDuration, transitions.afterAutostart, args=[treatmentDuration, cooldownDuration, STARTED_FROM_BUTTON])
-        AUTO_TIMER_STARTED = 1
-        auto_timer.start()
-
-    ## END AUTOSTART FUNCTION ##
