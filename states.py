@@ -105,7 +105,6 @@ class transitions:
             global ON_TIMER_STARTED
             ON_TIMER_STARTED = 0
             transitions.stopTimer("on_timer")
-            print("on_timer cancelled.")
 
         # Record Off time
 
@@ -168,7 +167,6 @@ class transitions:
             global AUTO_TIMER_STARTED
             AUTO_TIMER_STARTED = 0
             transitions.stopTimer("auto_timer")
-            print("auto_timer cancelled.")
 
         # turn ON
 

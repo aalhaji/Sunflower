@@ -165,6 +165,8 @@ def bedoff():
         states.updateLocalState(currentState)
         states.updateServerState()
 
+        ## MAYBE, clear the durations file ..
+
         return "Autostart was interrupted. Back to state 0."
 
     elif  currentState == 2: # on

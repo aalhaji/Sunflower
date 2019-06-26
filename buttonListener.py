@@ -81,6 +81,9 @@ while True:
                     treatmentDuration = int(dur_file[0])
                     cooldownDuration = int(dur_file[1])
 
+                    transitions.stopTimer("auto_timer")
+                    print("auto timer interrupted from BUTTON.")
+
                     transitions.afterAutostart(treatmentDuration, cooldownDuration)
 
                     # debouncing here
