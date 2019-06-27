@@ -175,17 +175,17 @@ class transitions:
 
 
         ## the only case in which "auto_timer" would still be running
-        ## is if the autostart timer was started from the POS
+        ## is #if the autostart timer was started from the POS
         ## but then the client clicked the button to start early
         ## since the buttonListener can't stop a timer that was started
         ## from the POS. We take care of it in this function
         ## since this function is the endpoint of *both* ways of turning
         ## on
 
-        if (AUTO_TIMER_STARTED or STARTED_FROM_BUTTON):
-            global AUTO_TIMER_STARTED
-            AUTO_TIMER_STARTED = 0
-            transitions.stopTimer("auto_timer")
+      #  if (AUTO_TIMER_STARTED or STARTED_FROM_BUTTON):
+         #   global AUTO_TIMER_STARTED
+        #    AUTO_TIMER_STARTED = 0
+        #    transitions.stopTimer("auto_timer")
 
     ## END AFTER TIMEOUT FUNCTION
 
@@ -198,7 +198,9 @@ class transitions:
         states.updateLocalState(currentState)
         states.updateServerState()
 
-        transitions.afterAutostart(treatmentDuration, cooldownDuration, autoStartDuration)
+        BUTTON_STARTED_FROM_BED = 0
+
+        transitions.afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED)
 
     ## END AUTOSTART FUNCTION ##
 
