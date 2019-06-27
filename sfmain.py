@@ -112,37 +112,31 @@ def startTest():
     currentState = states.checkLocalState()
     str_state = states_dict[currentState]
 
-    if currentState == (1 or 2 or 3):
-        return "ERROR. The bed is currently in state: {}".format(str_state)
+    if currentState == 1: # if you're waiting to start
 
-    else:
+        print("Test started from POS.")
 
-        # read treatment durations
+        dur_file = open("txt/durations.txt", "r").read().splitlines()
+        treatmentDuration = int(dur_file[0])
+        cooldownDuration = int(dur_file[1])
+        autostartDuration = int(dur_file[2])
 
-        DURATIONS_EXIST = stat("txt/durations.txt").st_size
+        print("Autostart timer interrupted from TEST on POS.")
+        BUTTON_STARTED_FROM_BED = 1
 
-        if(DURATIONS_EXIST):
+        transitions.afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED)
 
-            dur_file = open("txt/durations.txt", "r").read().splitlines()
-            autostartDuration = int(dur_file[2])
+        return("Test started from POS.")
 
-            global BED_STARTED_FROM_POS
-            BED_STARTED_FROM_POS = 1
+    elif currentState == (2 or 3 or 4): # if you're on
 
-            # State change protocol
-            currentState = 1
-            states.updateLocalState(currentState)
-            states.updateServerState()
+        print("Error. Test called while bed is in state {}.".format(str_state))
+        return "Error. Test called while bed is in state {}.".format(str_state)
 
-            global autostart_timer
-            autostart_timer = threading.Timer(autostartDuration, transitions.afterTimeout)
-
-            autostart_timer.start()
-
-            return "Autostart timer started to begin treatment."
-
-        else:
-            return "Please input durations in the POS."
+    else: # elif state 0
+    
+        print("Test call needs durations to be input from the durations route.")
+        return "Test call needs durations to be input from the durations route."
 
 
 @app.route('/bedoff')
@@ -164,8 +158,6 @@ def bedoff():
         currentState = 0
         states.updateLocalState(currentState)
         states.updateServerState()
-
-        ## MAYBE, clear the durations file ..
 
         return "Autostart was interrupted. Back to state 0."
 
@@ -191,13 +183,6 @@ def bedoff():
 
     elif currentState == 3: # cooldown
 
-        #transitions.afterCool()
-        #currentState = states.checkLocalState()
-        #str_state = states_dict[currentState]
-
-        #return "Cooldown was interrupted. Bed is now in state: {}".format(str_state)
-
-        # can't interrupt cooldown (anymore)
         return "The bed is in cooldown. Please wait."
 
     elif currentState == 4: # Cleaning
@@ -213,41 +198,46 @@ def bedoff():
         return "Bed off."
 
 
-@app.route('/durations', methods=['GET']) #<int:treatmentDuration>/<int:cooldownDuration>')
+@app.route('/durations', methods=['GET'])
 def durations():
 
     treatment_duration = request.args.get('treatmentDuration', default=None)
     cooldown_duration = request.args.get('cooldownDuration', default=None)
     autostart_duration = request.args.get('autostartDuration', default=None)
 
-    treatmentDuration = int(treatment_duration)
-    cooldownDuration = int(cooldown_duration)
-    autostartDuration = int(autostart_duration)
+    currentState = states.checkLocalState()
+    str_state = states_dict[currentState]
 
-    # Convert Minutes to Seconds, Uncomment this for Production
-    #TREATMENT_DURATION = 60 * TREATMENT_DURATION
+    if currentState == 1: # waiting to autostart
+        print("Error. Bed is currently timing to autostart. If you'd like to reset the durations, turn off the bed, then call this route again.")
+        return "Error. Bed is currently timing to autostart. If you'd like to reset the durations, turn off the bed, then call this route again."
 
-    dur_file = open("txt/durations.txt", "w")
-    dur_file.write(treatment_duration)
-    dur_file.write("\n")
-    dur_file.write(cooldown_duration)
-    dur_file.write("\n")
-    dur_file.write(autostart_duration)
-    dur_file.close()
+    elif currentState == (2 or 3 or 4): # already on, or cooldown, or cleaning
+        return "Error. Bed is in state {}.".format(str_state)
 
-    print("Treatment duration recorded as {} seconds.".format(treatmentDuration))
-    print("Cooldown duration recorded as {} seconds.".format(cooldownDuration))
-    print("Autostart duration recorded as {} seconds.".format(autostartDuration))
+    else: # bed was available/off
 
-    ## Here, start autostart timer
+        treatmentDuration = int(treatment_duration)
+        cooldownDuration = int(cooldown_duration)
+        autostartDuration = int(autostart_duration)
 
-    transitions.autoStart(treatmentDuration, cooldownDuration, autostartDuration)
+        dur_file = open("txt/durations.txt", "w")
+        dur_file.write(treatment_duration)
+        dur_file.write("\n")
+        dur_file.write(cooldown_duration)
+        dur_file.write("\n")
+        dur_file.write(autostart_duration)
+        dur_file.close()
 
-    return jsonify({'treatment': treatmentDuration,
-                    'cooldown': cooldownDuration,
-                    'autostart': autostartDuration})
+        print("Treatment duration recorded as {} seconds.".format(treatmentDuration))
+        print("Cooldown duration recorded as {} seconds.".format(cooldownDuration))
+        print("Autostart duration recorded as {} seconds.".format(autostartDuration))
 
+        transitions.autoStart(treatmentDuration, cooldownDuration, autostartDuration)
 
+        return jsonify({'treatment': treatmentDuration,
+                        'cooldown': cooldownDuration,
+                        'autostart': autostartDuration})
 
 if __name__ == "__main__":
 

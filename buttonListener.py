@@ -59,8 +59,6 @@ while True:
         time.sleep(2) # allows room for state to be changed from POS
 
         currentState = states.checkLocalState()
-        #global STARTED_FROM_BUTTON
-        #STARTED_FROM_BUTTON = 0
 
         value = shield.analog.one.read()
 
@@ -79,7 +77,7 @@ while True:
                     cooldownDuration = int(dur_file[1])
                     autostartDuration = int(dur_file[2])
 
-                    print("auto timer interrupted from BUTTON.")
+                    print("Autostart timer interrupted from BUTTON.")
                     BUTTON_STARTED_FROM_BED = 1
 
                     transitions.afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED)

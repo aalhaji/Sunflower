@@ -9,11 +9,7 @@ import dataKeeper
 from internet_on import internet_on
 
 global auto_timer
-global AUTO_TIMER_STARTED
-AUTO_TIMER_STARTED = 0
 global on_timer
-global ON_TIMER_STARTED
-ON_TIMER_STARTED = 0
 global cooldown_timer
 
 class states:
@@ -101,13 +97,8 @@ class transitions:
         ## the case in which the "on_timer" is on is if you hit
         ## route bedoff() from POS during treatment
 
-        if (ON_TIMER_STARTED):
-            global ON_TIMER_STARTED
-            ON_TIMER_STARTED = 0
+        if (on_timer):
             transitions.stopTimer("on_timer")
-
-        if (auto_timer):
-            transitions.stopTimer("auto_timer")
 
         # Record Off time
 
@@ -159,10 +150,7 @@ class transitions:
     def afterAutostart(treatmentDuration, cooldownDuration, autostartDuration, BUTTON_STARTED_FROM_BED):
 
         global auto_timer
-    #    global AUTO_TIMER_STARTED
-    #    STARTED_FROM_BUTTON = 0
         auto_timer = threading.Timer(autostartDuration, transitions.turnOn, args=[treatmentDuration, cooldownDuration])
-        #AUTO_TIMER_STARTED = 1
         auto_timer.start()
 
         if (BUTTON_STARTED_FROM_BED):
@@ -176,14 +164,8 @@ class transitions:
         ## is #if the autostart timer was started from the POS
         ## but then the client clicked the button to start early
         ## since the buttonListener can't stop a timer that was started
-        ## from the POS. We take care of it in this function
-        ## since this function is the endpoint of *both* ways of turning
-        ## on
+        ## from the POS.
 
-      #  if (AUTO_TIMER_STARTED or STARTED_FROM_BUTTON):
-         #   global AUTO_TIMER_STARTED
-        #    AUTO_TIMER_STARTED = 0
-        #    transitions.stopTimer("auto_timer")
 
     ## END AFTER TIMEOUT FUNCTION
 
@@ -229,5 +211,5 @@ class transitions:
             ON_TIMER_STARTED = 1
             on_timer.start()
 
-        else:
+        else: # do nothing
             print("auto timer timed out after the bed has been turned on. doing nothing.")
