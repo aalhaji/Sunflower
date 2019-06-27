@@ -56,11 +56,11 @@ while True:
 
     while True:
 
-        time.sleep(1) # allows room for state to be changed from POS
+        time.sleep(2) # allows room for state to be changed from POS
 
         currentState = states.checkLocalState()
-        global STARTED_FROM_BUTTON
-        STARTED_FROM_BUTTON = 0
+        #global STARTED_FROM_BUTTON
+        #STARTED_FROM_BUTTON = 0
 
         value = shield.analog.one.read()
 
