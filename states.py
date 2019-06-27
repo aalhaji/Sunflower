@@ -167,11 +167,6 @@ class transitions:
             transitions.stopTimer("auto_timer")
             transitions.turnOn(treatmentDuration, cooldownDuration)
 
-        else:
-            # just turn on
-            print("timed out. starting now.")
-            transitions.turnOn(treatmentDuration, cooldownDuration)
-
 
 
         ## the only case in which "auto_timer" would still be running
