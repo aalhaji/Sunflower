@@ -106,6 +106,9 @@ class transitions:
             ON_TIMER_STARTED = 0
             transitions.stopTimer("on_timer")
 
+        if (auto_timer):
+            transitions.stopTimer("auto_timer")
+
         # Record Off time
 
         dateToday = time.strftime("%d %b %Y", time.localtime())
