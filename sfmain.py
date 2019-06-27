@@ -128,7 +128,7 @@ def startTest():
 
         return("Test started from POS.")
 
-    elif currentState == (2 or 3 or 4): # if you're on
+    elif (currentState == 2) or (currentState == 3) or (currentState == 4): # if you're on
 
         print("Error. Test called while bed is in state {}.".format(str_state))
         return "Error. Test called while bed is in state {}.".format(str_state)
