@@ -205,19 +205,29 @@ class transitions:
     def turnOn(treatmentDuration, cooldownDuration):
         # turn ON
 
-        shield.relay.one.on()
-        print("RELAY TURNED ON.")
+        # check the state, if it's already been turned on: do nothing
+        # if it hasn't, then turn on
 
-        startTimeSec = time.time()
-        startTime = time.strftime("%H:%M:%S", time.localtime())
+        currentState = states.checkLocalState()
 
-        # CHANGE TO STATE 2
-        currentState = 2
-        states.updateLocalState(currentState)
-        states.updateServerState()
+        if currentState == 1: # you were waiting to turn on
 
-        global on_timer
-        global ON_TIMER_STARTED
-        on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
-        ON_TIMER_STARTED = 1
-        on_timer.start()
+            shield.relay.one.on()
+            print("RELAY TURNED ON.")
+
+            startTimeSec = time.time()
+            startTime = time.strftime("%H:%M:%S", time.localtime())
+
+            # CHANGE TO STATE 2
+            currentState = 2
+            states.updateLocalState(currentState)
+            states.updateServerState()
+
+            global on_timer
+            global ON_TIMER_STARTED
+            on_timer = threading.Timer(treatmentDuration, transitions.afterOn, args=[startTimeSec, startTime, cooldownDuration])
+            ON_TIMER_STARTED = 1
+            on_timer.start()
+
+        else:
+            print("auto timer timed out after the bed has been turned on. doing nothing.")
