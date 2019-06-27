@@ -134,7 +134,7 @@ def startTest():
         return "Error. Test called while bed is in state {}.".format(str_state)
 
     else: # elif state 0
-    
+
         print("Test call needs durations to be input from the durations route.")
         return "Test call needs durations to be input from the durations route."
 
@@ -212,7 +212,7 @@ def durations():
         print("Error. Bed is currently timing to autostart. If you'd like to reset the durations, turn off the bed, then call this route again.")
         return "Error. Bed is currently timing to autostart. If you'd like to reset the durations, turn off the bed, then call this route again."
 
-    elif currentState == (2 or 3 or 4): # already on, or cooldown, or cleaning
+    elif (currentState == 2) or (currentState == 3) or (currentState == 4): # already on, or cooldown, or cleaning
         return "Error. Bed is in state {}.".format(str_state)
 
     else: # bed was available/off
