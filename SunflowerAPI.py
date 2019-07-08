@@ -223,7 +223,7 @@ class Devices:
     def createDevice(name, uuid, store):
 
         while True:
-            body = {"name":name, "uuid":uuid, "store":store}
+            body = {"name":name, "device_type": "sunbed", "uuid":uuid, "store":store}
             resp = requests.post(Login.API_URL_BASE+'devices', data=body, headers={"Authorization":Access.bearer, "Content-Type":'application/x-www-form-urlencoded'})
 
             if resp.status_code == 200 or 201:
